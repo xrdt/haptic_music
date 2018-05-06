@@ -1,0 +1,5 @@
+js/dist/*
+js/docs/*
+js/examples/*
+js/LICENSE.txt
+node_modules/*

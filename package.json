@@ -1,0 +1,14 @@
+{
+  "name": "hapticmusic",
+  "version": "1.0.0",
+  "description": "Haptic music app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "paper": "^0.11.5"
+  }
+}

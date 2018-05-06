@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="892d2e95-25e6-4cf8-ae05-e846817fea76" name="Default" comment="Got sound files to play on keyboard press, audio plays asynchronously">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/css/general.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/hapticMusic.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/LICENSE.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/node/canvas.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/node/extend.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/node/self.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/node/xml.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/paper-core.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/paper-core.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/paper-full.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/dist/paper-full.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/assets/css/docs.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/assets/js/codemirror.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/assets/js/docs.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/assets/js/jquery.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/assets/js/paper.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Color.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/CompoundPath.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Curve.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/CurveLocation.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Event.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Gradient.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/GradientStop.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Group.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/HitResult.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Item.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Key.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/KeyEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Layer.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Line.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Matrix.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/MouseEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/PaperScope.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/PaperScript.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/PathItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Point.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/PointText.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Project.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Rectangle.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Segment.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Shape.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Size.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Style.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/SymbolDefinition.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/SymbolItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/TextItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/Tool.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/ToolEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/View.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/global.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/classes/index.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/docs/index.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/AnimatedStar.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/BooleanOperations.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/CandyCrash.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/Extruded.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/Lines.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/Smoothing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/Space.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Animated/SpaceUsingShapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Games/Paperoids.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Circle Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Compound Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Empty Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Group Transform.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Random Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Rect and Attribute Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Rotated Primitives.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Selection.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Transform Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/JSON/Transform Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/AnimatedStar.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/BooleanOperations.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/JSONtoPDF.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/Raster.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/RasterRemote.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/SvgExport.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/SvgImport.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/Tadpoles.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/Tadpoles.pjs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/in.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Node.js/in.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/BouncingBalls.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/Chain.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/DivisionRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/FutureSplash.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/HitTesting.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/InteractiveTiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/MetaBalls.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/NyanRainbow.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/PathIntersections.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/Qbertify.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/RadialRainbows.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/RoundedRectangles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/SatieLikedToDraw.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/Simplify.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/SpiralRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/Tadpoles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Paperjs.org/Voronoi.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Rasters/PhyllotaxisRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Rasters/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Rasters/RotationRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Circle Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Clipping.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Compound Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Empty Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Group Transform.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Random Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Rect and Attribute Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Rotated Primitives.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Transform Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Export/Transform Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Arcs.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Butterfly.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Circle and Ellipse Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Clipping.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/From File.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Gradient.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Inkscape Pivot.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Inkscape.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/MoreGradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Multiple Paths Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Multiple Paths Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Nested Groups Test.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Polybezier.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Rect Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Transform Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/SVG Import/Viewbox.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/Arcs.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/BlendModes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/BooleanOperations.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/CompoundPath.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/CurveTimeParameterization.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/HslColor.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/PathStructure.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/Resize.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/RoundRectangle.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/StrokeBounds.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Scripts/StrokeScaling.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/BezierTool.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Circles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Clouds.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/DrippingBrush.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/FancyBrush.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Grid.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/MultiLines.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/MultipleTools.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/PathEditing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/SquareRounded.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Stars.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Vektor.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/Wave.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Tools/WormFarm.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Worker/Main.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/Worker/Worker.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/examples/css/style.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/test.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/main.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/AUTHORS.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/CHANGELOG.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/LICENSE.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/README.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/css/docs.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/codemirror.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/docs.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/jquery.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/assets/js/paper.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Color.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CompoundPath.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Curve.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/CurveLocation.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Event.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Gradient.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/GradientStop.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Group.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/HitResult.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Item.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Key.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/KeyEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Layer.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Line.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Matrix.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/MouseEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScope.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PaperScript.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PathItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Point.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/PointText.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Project.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Rectangle.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Segment.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Shape.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Size.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Style.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolDefinition.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/SymbolItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/TextItem.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/Tool.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/ToolEvent.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/View.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/global.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/classes/index.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/docs/index.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/canvas.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/extend.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/self.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/node/xml.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-core.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paper-full.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/dist/paperjs.zip" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/AnimatedStar.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/BooleanOperations.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/CandyCrash.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/Extruded.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/Lines.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/Smoothing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/Space.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Animated/SpaceUsingShapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Games/Paperoids.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Circle Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Compound Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Empty Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Group Transform.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Random Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Rect and Attribute Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Rotated Primitives.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Selection.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Transform Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/JSON/Transform Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/AnimatedStar.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/BooleanOperations.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/JSONtoPDF.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/Raster.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/RasterRemote.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/SvgExport.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/SvgImport.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/Tadpoles.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/Tadpoles.pjs" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/in.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Node.js/in.svg" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/BouncingBalls.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/Chain.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/DivisionRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/FutureSplash.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/HitTesting.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/InteractiveTiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/MetaBalls.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/NyanRainbow.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/PathIntersections.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/Qbertify.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/RadialRainbows.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/RoundedRectangles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/SatieLikedToDraw.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/Simplify.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/SpiralRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/Tadpoles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Paperjs.org/Voronoi.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Rasters/PhyllotaxisRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Rasters/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Rasters/RotationRaster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Circle Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Clipping.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Compound Path.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Empty Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Group Transform.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Random Path Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Raster.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Rect and Attribute Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Rotated Primitives.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Transform Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Export/Transform Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Arcs.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Butterfly.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Circle and Ellipse Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Clipping.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/From File.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Gradient.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Gradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Inkscape Pivot.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Inkscape.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Line Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/MoreGradients.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Multiple Paths Test 1.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Multiple Paths Test 2.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Nested Groups Test.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Polybezier.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Rect Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Symbols.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Text Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Tiger.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Transform Testing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/SVG Import/Viewbox.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/Arcs.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/BlendModes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/BooleanOperations.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/CompoundPath.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/CurveTimeParameterization.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/HslColor.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/PathStructure.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/Resize.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/RoundRectangle.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/Shapes.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/StrokeBounds.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Scripts/StrokeScaling.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/BezierTool.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Circles.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Clouds.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/DrippingBrush.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/FancyBrush.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Grid.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/MultiLines.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/MultipleTools.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/PathEditing.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/SquareRounded.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Stars.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Vektor.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/Wave.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Tools/WormFarm.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Worker/Main.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/Worker/Worker.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/examples/css/style.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/node_modules/paper/package.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/package-lock.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/cannon.wav" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/cannonBig.wav" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/drums1.mp4" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/machineGun.wav" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/strings1.mp4" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/strings2.mp4" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/synth1.mp4" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/xylophone1.mp4" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/audio/xylophone2.mp4" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/main.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="44" column="4" lean-forward="false" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
+              <folding>
+                <element signature="n#style#0;n#audio#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#audio#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="general.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/general.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" column="15" lean-forward="false" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-399">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/js/test.js" />
+        <option value="$PROJECT_DIR$/css/general" />
+        <option value="$PROJECT_DIR$/css/general.css" />
+        <option value="$PROJECT_DIR$/main.html" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="64" />
+    <option name="y" value="-11" />
+    <option name="width" value="1857" />
+    <option name="height" value="1092" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+              <item name="paper-core.js" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+              <item name="paper-full.js" type="620a8d5e:NestingTreeNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hapticMusic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hapticMusic" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="audio" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="last_opened_file_path" value="$USER_HOME$/classes/cs123/nanodb-full" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="892d2e95-25e6-4cf8-ae05-e846817fea76" name="Default" comment="" />
+      <created>1525037215063</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1525037215063</updated>
+      <workItem from="1525037217835" duration="2406000" />
+      <workItem from="1525068607691" duration="394000" />
+      <workItem from="1525581270207" duration="6134000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="8934000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.50193477" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946378" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.49806523" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25538972" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Learn" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Got sound files to play on keyboard press, rapidly pressing keys works" />
+    <MESSAGE value="Got sound files to play on keyboard press, audio plays asynchronously" />
+    <option name="LAST_COMMIT_MESSAGE" value="Got sound files to play on keyboard press, audio plays asynchronously" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#audio#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#style#0;n#audio#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/paper/dist/paper-full.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-31209">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/dist/paper-core.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/dist/paper-full.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-399">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/general.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="15" lean-forward="false" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/dist/paper-core.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="44" column="4" lean-forward="false" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
+          <folding>
+            <element signature="n#style#0;n#audio#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#4;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#5;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#6;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#audio#7;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

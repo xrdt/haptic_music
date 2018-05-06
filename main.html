@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/general.css"/>
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="js/dist/paper-full.js"></script>
+    <!-- Define inlined PaperScript associate it with myCanvas -->
+    <script type="text/paperscript" canvas = "myCanvas">
+    paper.install(window);
+        // Create a centered text item at the center of the view:
+var text = new PointText({
+	point: view.center,
+	content: 'Click here to focus and then press some keys.',
+	justification: 'center',
+	fontSize: 15
+});
+
+function onKeyDown(event) {
+	// When a key is pressed, set the content of the text item:
+	text.content = 'The ' + event.key + ' key was pressed!';
+}
+
+function onKeyUp(event) {
+	// When a key is released, set the content of the text item:
+	text.content = 'The ' + event.key + ' key was released!';
+	if (event.key == 'a') {
+      var cannonUrl = "resources/audio/cannon.wav";
+	  var audio = new Audio(cannonUrl);
+	  audio.play();
+    }
+	if (event.key == 'd') {
+      var cannonBig = "resources/audio/cannonBig.wav";
+	  var audio = new Audio(cannonBig);
+	  audio.play();
+    }
+	if (event.key == 's') {
+      var drums1 = "resources/audio/drums1.mp4";
+	  var audio = new Audio(drums1);
+	  audio.play();
+    }
+	if (event.key == 'f') {
+      var strings1 = "resources/audio/strings1.mp4";
+	  var audio = new Audio(strings1);
+	  audio.play();
+    }
+	if (event.key == 'r') {
+      var strings2Url = "resources/audio/strings2.mp4";
+	  var audio = new Audio(strings2Url);
+	  audio.play();
+    }
+	if (event.key == 'g') {
+      var synth1 = "resources/audio/synth1.mp4";
+	  var audio = new Audio(synth1);
+	  audio.play();
+    }
+	if (event.key == 'h') {
+      var xylophone1 = "resources/audio/xylophone1.mp4";
+	  var audio = new Audio(xylophone1);
+	  audio.play();
+    }
+	if (event.key == 'j') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+    }
+}
+
+    </script>
+</head>
+<body id = "test">
+  <canvas id="myCanvas" resize = "true"></canvas>
+  <audio id="cannon" controls style="display:none">
+      <source src="resources/audio/cannon.wav" type="audio/wav">
+  </audio>
+  <audio id="cannonBig" controls style="display:none">
+      <source src="resources/audio/cannonBig.wav" type="audio/wav">
+  </audio>
+  <audio id="drums1" controls style="display:none">
+      <source src="resources/audio/drums1.mp4" type="audio/mp4">
+  </audio>
+  <audio id="strings1" controls style="display:none">
+      <source src="resources/audio/strings1.mp4" type="audio/mp4">
+  </audio>
+  <audio id="strings2" controls style="display:none">
+      <source src="resources/audio/strings2.mp4" type="audio/mp4">
+  </audio>
+  <audio id="synth1" controls style="display:none">
+      <source src="resources/audio/synth1.mp4" type="audio/mp4">
+  </audio>
+  <audio id="xylophone1" controls style="display:none">
+      <source src="resources/audio/xylophone1.mp4" type="audio/mp4">
+  </audio>
+  <audio id="xylophone2" controls style="display:none">
+      <source src="resources/audio/xylophone2.mp4" type="audio/mp4">
+  </audio>
+</body>
+</html>
+
