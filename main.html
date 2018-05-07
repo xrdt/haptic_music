@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/general.css"/>
-    <!-- Load the Paper.js library -->
-    <script type="text/javascript" src="js/dist/paper-full.js"></script>
-    <!-- Define inlined PaperScript associate it with myCanvas -->
-    <script type="text/paperscript" canvas = "myCanvas">
-    paper.install(window);
-        // Create a centered text item at the center of the view:
+<link rel="stylesheet" type="text/css" href="css/general.css"/>
+<script type="text/javascript" src="js/dist/paper-full.js"></script>
+<script type="text/paperscript" canvas = "myCanvas">
+var Objects = [];
+// TODO change to dynamic resizing
+function rect_rotate() {
+    this.group = new Group();
+    this.key = 'a'
+    this.initTime = null;
+    this.updateTime = null;
+}
+
+function circle_stationary() {
+    this.group = new Group();
+    this.key = 'd'
+    this.initTime = null;
+    this.updateTime = null;
+}
+
+function falling_circle() {
+  this.group = new Group();
+  this.key = 's';
+  this.initTime = null;
+  this.updateTime = null;
+}
+
+paper.install(window);
+
+// Create a centered text item at the center of the view:
 var text = new PointText({
 	point: view.center,
 	content: 'Click here to focus and then press some keys.',
@@ -15,28 +37,75 @@ var text = new PointText({
 	fontSize: 15
 });
 
-function onKeyDown(event) {
+function onKeyUp(event) {
 	// When a key is pressed, set the content of the text item:
-	text.content = 'The ' + event.key + ' key was pressed!';
+	text.content = 'The ' + event.key + ' key was released!';
 }
 
-function onKeyUp(event) {
+
+function onFrame(event) {
+    for (var ix = 0; ix < Objects.length; ix++) {
+        var child = Objects[ix];
+        child.updateTime = performance.now();
+        if (child.key == 's') {
+            if (child.group.hasChildren()) {
+                child.group.firstChild.position.y += 10;
+                child.group.firstChild.position.x += 10;
+            }
+            if (child.updateTime - child.initTime >= 1000) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            }
+        } else {
+            if (child.updateTime - child.initTime >= 1000) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            } else if (child.group.hasChildren()) {
+                child.group.firstChild.rotate(3);
+            }
+        }
+    }
+}
+
+
+function onKeyDown(event) {
 	// When a key is released, set the content of the text item:
-	text.content = 'The ' + event.key + ' key was released!';
+	text.content = 'The ' + event.key + ' key was pressed!';
+
 	if (event.key == 'a') {
       var cannonUrl = "resources/audio/cannon.wav";
 	  var audio = new Audio(cannonUrl);
 	  audio.play();
+
+      var rotate_rect = new rect_rotate();
+      rotate_rect.group.addChild(new Path.Rectangle([30, 30], [90, 40]));
+      rotate_rect.group.firstChild.strokeColor = 'red';
+      rotate_rect.initTime = performance.now();
+      Objects.push(rotate_rect);
     }
 	if (event.key == 'd') {
       var cannonBig = "resources/audio/cannonBig.wav";
 	  var audio = new Audio(cannonBig);
 	  audio.play();
+
+      var standing_circle = new circle_stationary();
+      standing_circle.group.addChild(new Path.Circle([30, 30], 30));
+      standing_circle.group.firstChild.strokeColor = 'green';
+      standing_circle.initTime = performance.now();
+      Objects.push(standing_circle);
     }
 	if (event.key == 's') {
       var drums1 = "resources/audio/drums1.mp4";
 	  var audio = new Audio(drums1);
 	  audio.play();
+
+      var falling = new falling_circle();
+      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+      falling.group.firstChild.position = [0, 0];
+      falling.group.firstChild.strokeColor = 'blue';
+      falling.group.firstChild.fillColor = 'black';
+      falling.initTime = performance.now();
+      Objects.push(falling);
     }
 	if (event.key == 'f') {
       var strings1 = "resources/audio/strings1.mp4";
@@ -63,12 +132,17 @@ function onKeyUp(event) {
 	  var audio = new Audio(xylophone2);
 	  audio.play();
     }
+    if (event.key == 'space') {
+        var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        var canvasLayer = document.getElementById("myCanvas");
+        canvasLayer.style.background = color;
+    }
 }
 
-    </script>
+</script>
 </head>
-<body id = "test">
-  <canvas id="myCanvas" resize = "true"></canvas>
+<body id= test" style="height:100%;margin:0;overflow:hidden;">
+  <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
   <audio id="cannon" controls style="display:none">
       <source src="resources/audio/cannon.wav" type="audio/wav">
   </audio>
@@ -95,4 +169,3 @@ function onKeyUp(event) {
   </audio>
 </body>
 </html>
-
