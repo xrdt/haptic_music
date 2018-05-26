@@ -3,7 +3,16 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/general.css"/>
 <script type="text/javascript" src="js/dist/paper-full.js"></script>
+<!--
 <script type="text/javascript" src="js/fireworks.js/script/fireworks.js"></script>
+<script type="text/javascript" src="js/firework_basic.js"></script>
+<script type="text/javascript" src="js/ripple_basic.js"></script>
+<script type="text/javascript" src="js/wormhole.js"></script>
+-->
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenMax.min.js"></script>
 <script type="text/paperscript" canvas = "myCanvas">
 var Objects = [];
 // TODO change to dynamic resizing
@@ -33,6 +42,468 @@ function fireworks() {
   this.key = 's';
   this.initTime = null;
   this.updateTime = null;
+}
+
+function HexBasic(position, targetRadius, color) {
+    var subs = 3;
+
+    this.radius = targetRadius;
+    this.sides = randomIndex([8, 10, 12]);
+    this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+    this.paths = [];
+
+    for (var i = 0; i < subs; i++) {
+        var h = new Path.RegularPolygon(position, this.sides, 1);
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:randomRange(0.4, 0.6),
+                alpha:1
+            });
+        }
+
+        h.strokeWidth = 24;
+        h.shadowBlur = 0;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 125;
+}
+HexBasic.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                to = this.targetHex.segments[i].point;
+
+                tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
+                tl.to(h, duration, {strokeWidth:0, ease:ease}, offset);
+            }
+
+            offset += 0.2;
+
+        }, this);
+
+        return tl;
+    }
+};
+
+function LineBasic(start, angle, length, color) {
+    this.start = start;
+    this.end = new Point();
+
+    this.end.setAngle(angle);
+    this.end.setLength(length);
+    this.end += this.start;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 250;
+}
+LineBasic.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+                this.path.remove();
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        // tl.from(end, duration, {x:start.x, y:start.y, ease:ease.easeIn});
+        tl.to(start, duration, {x:end.x, y:end.y}, '-=0.5');
+
+        return tl;
+    }
+};
+
+function createFireworkBasic() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+        angle = 270,
+        length = view.size.height * 0.5,
+        //size = view.size.height * .2,
+        size = view.size.height * .06,
+        color = getRandomColor();
+
+    var trail = new LineBasic(startPoint, angle, length, color),
+        hex = new HexBasic(trail.end, size, color);
+
+    //tl.add(trail.animate());
+    //tl.add('trailDone');
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+
+        var point = hex.targetHex.segments[i].point,
+            localPoint = point - hex.targetHex.position;
+
+        var spark = new LineBasic(trail.end, localPoint.angle, size * 1.5, color);
+
+        tl.add(spark.animate(), 'trailDone');
+    }
+
+    return tl;
+}
+
+function HexRipple(position, targetRadius, color) {
+    var subs = 3;
+
+    this.radius = targetRadius;
+    this.sides = randomIndex([4, 6, 8]);
+    this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+    this.paths = [];
+
+    for (var i = 0; i < subs; i++) {
+        var h = new Path.RegularPolygon(position, this.sides, 0);
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:.2,
+                alpha:1
+            });
+        }
+
+        h.strokeWidth = 36;
+        h.shadowBlur = 32;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 200;
+}
+HexRipple.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                to = this.targetHex.segments[i].point;
+
+                tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
+                tl.to(h, duration, {strokeWidth:0, ease:ease}, offset);
+            }
+
+            offset += 0.2;
+
+        }, this);
+
+        return tl;
+    }
+};
+
+function createRippleBasic() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width*(Math.random()*.75), view.size.height*(Math.random()*.75)),
+        size = view.size.height*.20,
+        color = getRandomColor();
+
+    var hex = new HexRipple(startPoint, size, color);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+        var point = hex.targetHex.segments[i].point,
+            localPoint = point - hex.targetHex.position;
+    }
+
+    return tl;
+}
+
+function HexWormhole(position, targetRadius, color) {
+    var subs = 3;
+
+    this.radius = targetRadius;
+    this.sides = randomIndex([8, 10, 12]);
+
+  this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+    this.paths = [];
+
+    for (var i = 0; i < subs; i++) {
+        var h = new Path.RegularPolygon(position, this.sides, 0);
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:randomRange(0.6, 0.8),
+                alpha:1
+            });
+        }
+
+        h.strokeWidth = 24;
+        h.shadowBlur = 64;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 200;
+}
+HexWormhole.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                to = this.targetHex.segments[i].point*50/100;
+
+                tl.to(from, duration*3, {x:to.x, y:to.y, ease:ease}, offset);
+                tl.to(h, duration*3, {strokeWidth:0, ease:ease}, offset);
+            }
+
+            offset += 0.2;
+
+        }, this);
+
+        return tl;
+    }
+};
+
+function LineWormhole(start, angle, length, color) {
+    this.start = start;
+    this.end = new Point();
+
+    this.end.setAngle(angle);
+    this.end.setLength(length);
+    this.end += this.start;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 500;
+}
+LineWormhole.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+                this.path.remove();
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point*50/100;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        console.log("*****");
+        console.log(this.path.segments[1].point);
+        console.log(this.path.segments[1].point*50/100);
+        console.log("*****");
+        tl.from(end, duration*0.25, {x:end.x, y:end.y, ease:ease.easeInOut});
+        tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+        return tl;
+    }
+};
+
+function createWormhole() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+        angle = 270,
+        length = view.size.height * 0.5,
+        size = randomRange(32, 64),
+        color = getRandomColor();
+
+    var trail = new LineWormhole(startPoint, angle, length, color),
+        hex = new HexWormhole(trail.end, size, color);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+
+        var point = hex.targetHex.segments[i].point,
+            localPoint = point - hex.targetHex.position;
+
+        var spark = new LineWormhole(trail.end, localPoint.angle, size * 2, color);
+
+        tl.add(spark.animate(), 'trailDone');
+    }
+
+    return tl;
+}
+
+function Tron(position, color)
+{
+  this.position = position;
+  this.color = color;
+  this.thickness = randomIndex([3, 4, 5]);
+  for(var i = 0; i < ?; i++)
+  {
+    //
+  }
+  //
+}
+
+function LineTron(start, angle, length, color) {
+    this.start = start;
+    this.end = new Point();
+
+    this.end.setAngle(angle);
+    this.end.setLength(length);
+    this.end += this.start;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 500;
+}
+LineTron.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+                this.path.remove();
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point*50/100;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        tl.from(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
+        tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+        return tl;
+    }
+};
+
+function createTron() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+        angle = 270,
+        length = view.size.height * 0.5,
+        size = randomRange(32, 64),
+        color = getRandomColor();
+
+    var trail = new LineTron(startPoint, angle, length, color),
+        hex = new HexTron(trail.end, size, color);
+
+    //tl.add(trail.animate());
+    //tl.add('trailDone');
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+        var point = hex.targetHex.segments[i].point,
+            localPoint = point - hex.targetHex.position;
+
+        var spark = new LineTron(trail.end, localPoint.angle, size * 2, color);
+
+        tl.add(spark.animate(), 'trailDone');
+    }
+
+    return tl;
 }
 
 paper.install(window);
@@ -119,16 +590,19 @@ function onKeyDown(event) {
       var strings1 = "resources/audio/strings1.mp4";
 	  var audio = new Audio(strings1);
 	  audio.play();
+	  createFireworkBasic();
     }
 	if (event.key == 'r') {
       var strings2Url = "resources/audio/strings2.mp4";
 	  var audio = new Audio(strings2Url);
 	  audio.play();
+	  createWormhole();
     }
 	if (event.key == 'g') {
       var synth1 = "resources/audio/synth1.mp4";
 	  var audio = new Audio(synth1);
 	  audio.play();
+	  createTron();
     }
 	if (event.key == 'h') {
       var xylophone1 = "resources/audio/xylophone1.mp4";
@@ -139,12 +613,31 @@ function onKeyDown(event) {
       var xylophone2 = "resources/audio/xylophone2.mp4";
 	  var audio = new Audio(xylophone2);
 	  audio.play();
+	  createRippleBasic();
     }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         var canvasLayer = document.getElementById("myCanvas");
         canvasLayer.style.background = color;
     }
+}
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
 }
 
 </script>
