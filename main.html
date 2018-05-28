@@ -420,90 +420,82 @@ function createWormhole() {
     return tl;
 }
 
-function Tron(position, color)
-{
-  this.position = position;
-  this.color = color;
-  this.thickness = randomIndex([3, 4, 5]);
-  for(var i = 0; i < ?; i++)
-  {
-    //
+function LineSparks(start, angle, length, color) {
+  this.start = start;
+  this.end = new Point();
+
+  this.end.setAngle(angle);
+  this.end.setLength(length);
+  this.end += this.start;
+
+  this.path = new Path();
+  this.path.add(this.start, this.end);
+  this.color = this.path.strokeColor = color;
+  this.path.visible = false;
+  this.path.strokeWidth = 2;
+  this.path.strokeCap = 'round';
+  this.path.shadowBlur = 32;
+  this.path.shadowColor = this.color;
+
+  this.speed = 250;
+}
+
+LineSparks.prototype = {
+  animate:function() {
+      var tl = new TimelineMax({
+          onStart:function() {
+              this.path.visible = true;
+          },
+          onStartScope:this,
+          onComplete:function() {
+              this.path.remove();
+          },
+          onCompleteScope:this
+      });
+
+      var start = this.path.segments[0].point,
+          end = this.path.segments[1].point;
+
+      var duration = this.path.length / this.speed,
+          ease = Cubic;
+
+      tl.from(end, duration*0.05, {x:start.x, y:start.y, ease:ease.easeInOut});
+      tl.to(start, duration*0.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+      return tl;
   }
-  //
-}
-
-function LineTron(start, angle, length, color) {
-    this.start = start;
-    this.end = new Point();
-
-    this.end.setAngle(angle);
-    this.end.setLength(length);
-    this.end += this.start;
-
-    this.path = new Path();
-    this.path.add(this.start, this.end);
-    this.color = this.path.strokeColor = color;
-    this.path.visible = false;
-    this.path.strokeWidth = 2;
-    this.path.strokeCap = 'round';
-    this.path.shadowBlur = 32;
-    this.path.shadowColor = this.color;
-
-    this.speed = 500;
-}
-LineTron.prototype = {
-    animate:function() {
-        var tl = new TimelineMax({
-            onStart:function() {
-                this.path.visible = true;
-            },
-            onStartScope:this,
-            onComplete:function() {
-                this.path.remove();
-            },
-            onCompleteScope:this
-        });
-
-        var start = this.path.segments[0].point,
-            end = this.path.segments[1].point*50/100;
-
-        var duration = this.path.length / this.speed,
-            ease = Cubic;
-
-        tl.from(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
-        tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
-
-        return tl;
-    }
 };
 
-function createTron() {
-    var tl = new TimelineMax();
+function createSparksBottom() {
+  var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
-        angle = 270,
-        length = view.size.height * 0.5,
-        size = randomRange(32, 64),
-        color = getRandomColor();
+  var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
+    angle = 180,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
 
-    var trail = new LineTron(startPoint, angle, length, color),
-        hex = new HexTron(trail.end, size, color);
+  var trail1 = new LineSparks(startPoint, angle, length, color);
 
-    //tl.add(trail.animate());
-    //tl.add('trailDone');
+  tl.add(trail1.animate());
+  tl.add('trailDone');
 
-    tl.add(hex.animate(), 'trailDone');
+  return tl;
+}
 
-    for (var i = 0; i < hex.sides; i++) {
-        var point = hex.targetHex.segments[i].point,
-            localPoint = point - hex.targetHex.position;
+function createSparksTop() {
+  var tl = new TimelineMax();
 
-        var spark = new LineTron(trail.end, localPoint.angle, size * 2, color);
+  var startPoint = new Point(-1, view.size.height * Math.random() * .5),
+    angle = 0,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
 
-        tl.add(spark.animate(), 'trailDone');
-    }
+  var trail2 = new LineSparks(startPoint, angle, length, color);
 
-    return tl;
+  tl.add(trail2.animate());
+  tl.add('trailDone');
+
+  return tl;
 }
 
 paper.install(window);
@@ -593,21 +585,26 @@ function onKeyDown(event) {
 	  createFireworkBasic();
     }
 	if (event.key == 'r') {
-      var strings2Url = "resources/audio/strings2.mp4";
-	  var audio = new Audio(strings2Url);
+      var synth1 = "resources/audio/synth1.mp4";
+	  var audio = new Audio(synth1);
 	  audio.play();
 	  createWormhole();
     }
 	if (event.key == 'g') {
-      var synth1 = "resources/audio/synth1.mp4";
-	  var audio = new Audio(synth1);
+      var strings2Url = "resources/audio/strings2.mp4";
+	  var audio = new Audio(strings2Url);
 	  audio.play();
-	  createTron();
     }
 	if (event.key == 'h') {
-      var xylophone1 = "resources/audio/xylophone1.mp4";
-	  var audio = new Audio(xylophone1);
-	  audio.play();
+      var static_3 = "resources/audio/static_3.m4a";
+	  var audio = new Audio(static_3);
+      audio.play();
+      var sparksTop = setInterval(createSparksTop, 10);
+      var sparksBottom = setInterval(createSparksBottom, 10);
+
+      setTimeout(function() {clearInterval(sparksTop);}, 3000);
+      setTimeout(function() {clearInterval(sparksBottom);}, 3000);
+
     }
 	if (event.key == 'j') {
       var xylophone2 = "resources/audio/xylophone2.mp4";

@@ -45,8 +45,8 @@
           var duration = this.path.length / this.speed,
               ease = Cubic;
 
-          tl.from(end, duration*0, {x:start.x, y:start.y, ease:ease.easeInOut});
-          tl.to(start, duration*.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+          tl.from(end, duration*0.05, {x:start.x, y:start.y, ease:ease.easeInOut});
+          tl.to(start, duration*0.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
           return tl;
       }
@@ -55,9 +55,9 @@
   function createSparks() {
       var tl = new TimelineMax();
 
-      var startPoint = new Point(view.size.width * Math.random() * .9 + .05, view.size.height * Math.random()),
-        angle = randomIndex([0, 180]),
-        length = view.size.width * Math.random() * 0.8 + .4,
+      var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
+        angle = 180,
+        length = view.size.width + 1.5,
         color = getRandomColor();
 
       var trail = new Line(startPoint, angle, length, color);
@@ -65,7 +65,17 @@
       tl.add(trail.animate());
       tl.add('trailDone');
 
+      var startPoint = new Point(-1, view.size.height * Math.random() * .5),
+        angle = 0,
+        length = view.size.width + 1.5,
+        color = getRandomColor();
+
       var trail = new Line(startPoint, angle, length, color);
+
+      tl.add(trail.animate());
+      tl.add('trailDone');
+
+      /*var trail = new Line(startPoint, angle, length, color);
 
       tl.add(trail.animate());
       tl.add('trailDone');
@@ -78,7 +88,7 @@
       var trail = new Line(startPoint, angle, length, color);
 
       tl.add(trail.animate());
-      tl.add('trailDone');
+      tl.add('trailDone');*/
 
       return tl;
   }
