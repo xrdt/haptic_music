@@ -6,82 +6,12 @@
     ////////////
     // CLASSES
     ////////////
-    function Hex(position, targetRadius, color) {
-        var subs = 1;
+    
 
-        this.position = position;
-        this.radius = targetRadius;
-        this.sides = randomIndex([8, 10, 12]);
-        this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
-        this.paths = [];
-
-        for (var i = 0; i < subs; i++) {
-            var h = new Path.RegularPolygon(position, this.sides, 0);
-
-            if (i === 0) {
-                h.strokeColor = color;
-            }
-            else {
-                h.strokeColor = new Color({
-                    hue:color.hue,
-                    saturation:color.saturation,
-                    lightness:randomRange(0.4, 0.6),
-                    alpha:1
-                });
-            }
-
-            h.strokeWidth = 24;
-            h.shadowBlur = 64;
-            h.shadowColor = h.strokeColor;
-
-            this.paths.push(h);
-        }
-
-        this.color = this.paths[subs - 1].strokeColor;
-
-        this.speed = 125;
-    }
-Hex.prototype = {
-    animate:function() {
-        var tl = new TimelineMax({
-            onComplete:function() {
-                this.paths.forEach(function(p) {
-                    p.remove();
-                });
-            },
-            onCompleteScope:this
-        });
-
-        var duration = this.radius / this.speed,
-            offset = 0,
-            ease = Cubic.easeOut;
-
-        this.paths.forEach(function(h) {
-            var from, to;
-
-            for (var i = 0; i < h.segments.length; i++) {
-                from = h.segments[i].point;
-                to = this.targetHex.segments[i].point;
-
-                tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
-                tl.to(h, duration*50, {strokeWidth:0, ease:ease}, offset);
-            }
-
-            offset += 0.2;
-
-        }, this);
-
-        return tl;
-    }
-};
-
-function Line(start, angle, length, color) {
+function Line(start, end, color, waitingTime) {
     this.start = start;
-    this.end = new Point();
-
-    this.end.setAngle(angle);
-    this.end.setLength(length);
-    this.end += this.start;
+    this.end = end;
+    this.waitingTime = waitingTime;
 
     this.path = new Path();
     this.path.add(this.start, this.end);
@@ -102,7 +32,6 @@ Line.prototype = {
             },
             onStartScope:this,
             onComplete:function() {
-                this.path.remove();
             },
             onCompleteScope:this
         });
@@ -113,58 +42,74 @@ Line.prototype = {
         var duration = this.path.length / this.speed,
             ease = Cubic;
 
-        tl.from(end, duration*50, {x:start.x, y:start.y, ease:ease.easeInOut});
-        tl.to(start, duration * 0.75, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+        tl.from(end, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeInOut});
+        tl.to(start, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeOut}, '-=0.5');
 
         return tl;
     }
 };
 
-function createConstellation() {
-    var tl = new TimelineMax();
+      
 
-    var hexPoints = [];
-
-    for(var i = 0; i < 5; i++){
-        var startPoint = new Point(view.size.width * Math.random(), view.size.height),
-            angle = 270,
-            //length = view.size.height * 0.5,
-            length = view.size.height*randomRange(30, 70)/100,
-            size = randomRange(64, 64),
-            color = getRandomColor();
-
-        var trail = new Line(startPoint, angle, length, color),
-            hexPoint = new Hex(trail.end, size, color);
-        hexPoints.push(hexPoint);
+function createConstellation(startPositions) {
+    for(var j = 0; j < 7; j++){
+      var circle = new Path.Circle(startPositions[j], 5);
+      circle.fillColor = getRandomColor();
+    }
+}
+function createLineConstellation(tl1, startPositions){
+  var tl = tl1;
+  var trails = [];
+  
+  var color = getRandomColor();
+  var waitingTime = 0;
+  for(var i = 0; i < 7; i++)
+  {
+    var startPoint = startPositions[i];
+    if (i<6)
+    {
+      var endPoint = startPositions[i+1];
+    }
+    else
+    {
+      var endPoint = startPositions[3];
     }
 
-    //tl.add(trail.animate());
-    //tl.add('trailDone');
-    for(var j = 0; j < 2; j++){
-        var hex = hexPoints[j];
-        tl.add(hex.animate(), 'trailDone');
-
-        /*
-        for (var i = 0; i < hex.sides; i++) {
-
-            var point = hex.targetHex.segments[i].point,
-                localPoint = point - hex.targetHex.position;
-
-          var spark = new Line(hex.position, localPoint.angle, size * 2, color);
-
-          tl.add(spark.animate(), 'trailDone');
-        }
-        */
-        var point = hex.targetHex.segments[i].point,
-            localPoint = point - hexPoints[j+1].position;
-
-        var spark = new Line(hex.position, 180+localPoint.angle, size * 2, color);
-        console.log(localPoint.angle);
-
-        tl.add(spark.animate(), 'trailDone');
+    var path = new Path();
+    path.add(startPoint, endPoint);
+    
+    var duration = path.length / 250;
+    waitingTime += duration;
+  }
+  
+  for(var i = 0; i< 7;i++){
+    var startPoint = startPositions[i];
+    if (i<6)
+    {
+      var endPoint = startPositions[i+1];
+    }
+    else
+    {
+      var endPoint = startPositions[3];
     }
 
-    return tl;
+    var path = new Path();
+    path.add(startPoint, endPoint);
+    if (i != 0)
+    {
+      var duration = path.length / 250;
+      waitingTime -= duration;
+    }
+    
+    var trail = new Line(startPoint, endPoint, color, waitingTime);
+    trails.push(trail);
+  }
+  
+  for(var j = 0; j < 7; j++){
+      tl.add(trails[j].animate());
+      tl.add('trailDone');
+  }
+  return [tl, trails];
 }
 
 ////////////
@@ -172,8 +117,32 @@ function createConstellation() {
 ////////////
 
 function onFrame(e) {
-    if (e.count % (180*50) === 0) {
-        createConstellation();
+    if (e.count % (240) === 0) {
+        var startPositions = [];
+    var p1 = new Point(150, 150);
+    var p2 = new Point(150+100, 150-50);
+    var p3 = new Point(150+200, 150+0);
+    var p4 = new Point(150+300, 150+0);
+    var p5 = new Point(150+350, 150+200);
+    var p6 = new Point(150+550, 150+200);
+    var p7 = new Point(150+600, 150+0);
+    startPositions.push(p1);
+    startPositions.push(p2);
+    startPositions.push(p3);
+    startPositions.push(p4);
+    startPositions.push(p5);
+    startPositions.push(p6);
+    startPositions.push(p7);
+      
+        var tl = new TimelineMax();
+        createConstellation(startPositions);
+        var varias = createLineConstellation(tl, startPositions);
+        var tll = varias[0];
+        var trails = varias[1];
+        setTimeout(function(){
+          for(var i = 0; i < 7; i++){
+            trails[i].path.remove();
+          }}, tll.duration()*1000);
     }
 }
 
