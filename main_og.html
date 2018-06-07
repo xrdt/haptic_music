@@ -382,10 +382,7 @@ LineWormhole.prototype = {
         var duration = this.path.length / this.speed,
             ease = Cubic;
 
-        console.log("*****");
-        console.log(this.path.segments[1].point);
-        console.log(this.path.segments[1].point*50/100);
-        console.log("*****");
+        console.log(end);
         tl.from(end, duration*0.25, {x:end.x, y:end.y, ease:ease.easeInOut});
         tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
@@ -498,10 +495,9 @@ function createSparksTop() {
   return tl;
 }
 
-function LineConstellation(start, end, color, waitingTime) {
+function LineConstellation(start, end, color) {
     this.start = start;
     this.end = end;
-    this.waitingTime = waitingTime;
 
     this.path = new Path();
     this.path.add(this.start, this.end);
@@ -553,7 +549,6 @@ function createLineConstellation(tl1, startPositions){
   var trails = [];
 
   var color = getRandomColor();
-  var waitingTime = 0;
   for(var i = 0; i < 7; i++)
   {
     var startPoint = startPositions[i];
@@ -570,7 +565,6 @@ function createLineConstellation(tl1, startPositions){
     path.add(startPoint, endPoint);
 
     var duration = path.length / 250;
-    waitingTime += duration;
   }
 
   for(var i = 0; i< 7;i++){
@@ -584,16 +578,8 @@ function createLineConstellation(tl1, startPositions){
       var endPoint = startPositions[3];
     }
 
-    var path = new Path();
-    path.add(startPoint, endPoint);
-    if (i != 0)
-    {
-      var duration = path.length / 250;
-      waitingTime -= duration;
-    }
-
     var trail = new LineConstellation(startPoint,
-        endPoint, color, waitingTime);
+        endPoint, color);
     trails.push(trail);
   }
 

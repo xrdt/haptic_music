@@ -3,7 +3,12 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/general.css"/>
 <script type="text/javascript" src="js/dist/paper-full.js"></script>
-
+<!--
+<script type="text/javascript" src="js/fireworks.js/script/fireworks.js"></script>
+<script type="text/javascript" src="js/firework_basic.js"></script>
+<script type="text/javascript" src="js/ripple_basic.js"></script>
+<script type="text/javascript" src="js/wormhole.js"></script>
+-->
 <script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
@@ -42,12 +47,13 @@ function fireworks() {
 // Factory for polygons
 function Polygon(position, radius, color, sides,
                  lightness_in, strokeWidth,
-                 shadowBlur, speed, scale) {
+                 shadowBlur, speed, scale, to_scale, h_0) {
     // sides is an array of integers
     var subs = 3;
 
     // Some functions require a scaling factor for
     // animation duration
+    this.to_scale = to_scale;
     this.scale = scale;
     this.radius = radius;
     this.sides = randomIndex(sides);
@@ -55,7 +61,7 @@ function Polygon(position, radius, color, sides,
     this.paths = [];
 
     for (var i = 0; i < subs; i++) {
-        var h = new Path.RegularPolygon(position, this.sides, 1);
+        var h = new Path.RegularPolygon(position, this.sides, h_0);
 
         if (i === 0) {
             h.strokeColor = color;
@@ -101,7 +107,7 @@ Polygon.prototype = {
 
             for (var i = 0; i < h.segments.length; i++) {
                 from = h.segments[i].point;
-                to = this.targetHex.segments[i].point;
+                to = this.polygon.segments[i].point*this.to_scale;
 
                 tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:ease}, offset);
                 tl.to(h, duration*this.scale, {strokeWidth:0, ease:ease}, offset);
@@ -114,15 +120,16 @@ Polygon.prototype = {
         return tl;
     }
 };
-
 // Factory for lines
-function Line(start, angle, length, color,
+function Line(start, endpoint, angle, length, color,
               speed, from, easeFrom, easeTo,
-              scale_to=1, scale_from=1, end_scale=1,
-              waitingTime=0) {
+              scale_to, scale_from, end_scale,
+              isWormhole, isConstellation) {
     this.start = start;
+    this.endpoint = endpoint;
     this.end = new Point();
-    this.waitingTime = waitingTime;
+    this.isWormhole = isWormhole;
+    this.isConstellation = isConstellation;
 
     this.end.setAngle(angle);
     this.end.setLength(length);
@@ -135,7 +142,13 @@ function Line(start, angle, length, color,
     this.end_scale = end_scale;
 
     this.path = new Path();
-    this.path.add(this.start, this.end);
+    if (this.isConstellation)
+    {
+        this.path.add(this.start, this.endpoint);
+    }
+    {
+        this.path.add(this.start, this.end);
+    }
     this.color = this.path.strokeColor = color;
     this.path.visible = false;
     this.path.strokeWidth = 2;
@@ -156,21 +169,37 @@ Line.prototype = {
             },
             onStartScope:this,
             onComplete:function() {
-                this.path.remove();
+                if(!this.isConstellation)
+                {
+                    this.path.remove();
+                }
             },
             onCompleteScope:this
         });
 
-        var start = this.path.segments[0].point,
-            end = this.path.segments[1].point*this.end_scale;
+        var startPoint = this.path.segments[0].point,
+            endPoint = this.path.segments[1].point*this.end_scale;
 
-        var duration = this.path.length / this.speed,
+        var duration = this.path.length / this.speed;
 
-        if (this.from == True) {
-            tl.from(end, duration*this.scale_from, {x:start.x, y:start.y, ease:this.easeFrom});
+        if (this.from == true && !this.isWormhole) {
+            tl.from(endPoint, duration*this.scale_from, {x:startPoint.x, y:startPoint.y, ease:this.easeFrom});
+        }
+        if (this.isWormhole)
+        {
+            console.log("in");
+            tl.from(endPoint, duration*this.scale_from, {x:endPoint.x, y:endPoint.y, ease:this.easeFrom});
         }
 
-        tl.to(start, duration*this.scale_to, {x:end.x, y:end.y, ease:this.easeTo}, '-=0.5');
+        if (this.isConstellation)
+        {
+            console.log("in");
+            tl.to(startPoint, duration*this.scale_to, {x:startPoint.x, y:startPoint.y, ease:this.easeTo}, '-=0.5');
+        }
+        else
+        {
+            tl.to(startPoint, duration*this.scale_to, {x:endPoint.x, y:endPoint.y, ease:this.easeTo}, '-=0.5');
+        }
 
         return tl;
     }
@@ -185,12 +214,10 @@ function createFireworkBasic() {
         size = view.size.height * .06,
         color = getRandomColor();
 
-    var sides = array[8, 10, 12];
-    var trail = new Line(startPoint, angle, length,
-                         color, 250, False, null,
-                         null),
-        hex = new Polygon(trail.end, size, color,
-                          sides, .5, 24, 0, 125, 1);
+    var ease = Cubic;
+    var trail = new Line(startPoint, 0, angle, length, color,
+                         250, false, null, null, 1, 0, 1, false, false),
+        hex = new Polygon(trail.end, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -199,8 +226,7 @@ function createFireworkBasic() {
         var point = hex.polygon.segments[i].point,
             localPoint = point - hex.polygon.position;
 
-        ease = Cubic;
-        var spark = new Line(trail.end, localPoint.angle, size * 1.5, color, 250, False);
+        var spark = new Line(trail.end, 0, localPoint.angle, size * 1.5, color, 250, false, null, null, 1, 0, 1, false, false);
 
         tl.add(spark.animate(), 'trailDone');
     }
@@ -215,9 +241,7 @@ function createRippleBasic() {
         size = view.size.height*.20,
         color = getRandomColor();
 
-    var sides = [4, 6, 8];
-    var hex = new Polygon(startPoint, size, color,
-                          sides, .2, 36, 32, 200, 1);
+    var hex = new Polygon(startPoint, size, color, [4, 6, 8], .2, 36, 32, 200, 1, 1, 0);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -229,7 +253,6 @@ function createRippleBasic() {
     return tl;
 }
 
-
 function createWormhole() {
     var tl = new TimelineMax();
 
@@ -239,10 +262,9 @@ function createWormhole() {
         size = randomRange(32, 64),
         color = getRandomColor();
 
-    var sides = [8, 10, 12];
-    var trail = new LineWormhole(startPoint, angle, length, color),
-        hex = new Polygon(trail.end, size, color,
-                          sides, .7, 24, 64, 200, 3);
+    var ease = Cubic;
+    var trail = new Line(startPoint, 0, angle, length, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 50/100, true, false),
+        hex = new Polygon(trail.end, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -251,8 +273,7 @@ function createWormhole() {
         var point = hex.polygon.segments[i].point,
             localPoint = point - hex.polygon.position;
 
-        ease = Cubic;
-        var spark = new Line(trail.end, localPoint.angle, size * 2, color, 500, True, ease.easeInOut, ease.easeOut, 3, .25, .5);
+        var spark = new Line(trail.end, 0, localPoint.angle, size * 2, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 0.5, true, false);
 
         tl.add(spark.animate(), 'trailDone');
     }
@@ -268,8 +289,8 @@ function createSparksBottom() {
     length = view.size.width + 1.5,
     color = getRandomColor();
 
-    ease = Cubic;
-  var trail1 = new Line(startPoint, angle, length, color, 250, True, ease.easeInOut, ease.easeOut, .1, .05);
+    var ease = Cubic;
+  var trail1 = new Line(startPoint, 0, angle, length, color, 250, true, ease.easeInOut, ease.easeOut, .1, .05, 1, false, false);
 
   tl.add(trail1.animate());
   tl.add('trailDone');
@@ -285,8 +306,8 @@ function createSparksTop() {
     length = view.size.width + 1.5,
     color = getRandomColor();
 
-    ease = Cubic;
-  var trail2 = new Line(startPoint, angle, length, color, 250, True, ease.easeInOut, ease.easeOut, .1, .05);
+    var ease = Cubic;
+  var trail2 = new Line(startPoint, 0, angle, length, color, 250, true, ease.easeInOut, ease.easeOut, .1, .05, 1, false, false);
 
   tl.add(trail2.animate());
   tl.add('trailDone');
@@ -304,29 +325,24 @@ function createConstellation(startPositions) {
   return circles;
 }
 
+// Change to be dynamic
 function createLineConstellation(tl1, startPositions){
   var tl = tl1;
   var trails = [];
 
   var color = getRandomColor();
-  var waitingTime = 0;
   for(var i = 0; i < 7; i++)
   {
     var startPoint = startPositions[i];
+    var endPoint;
     if (i<6)
     {
-      var endPoint = startPositions[i+1];
+      endPoint = startPositions[i+1];
     }
     else
     {
-      var endPoint = startPositions[3];
+      endPoint = startPositions[3];
     }
-
-    var path = new Path();
-    path.add(startPoint, endPoint);
-
-    var duration = path.length / 250;
-    waitingTime += duration;
   }
 
   for(var i = 0; i< 7;i++){
@@ -340,17 +356,9 @@ function createLineConstellation(tl1, startPositions){
       var endPoint = startPositions[3];
     }
 
-    var path = new Path();
-    path.add(startPoint, endPoint);
-    if (i != 0)
-    {
-      var duration = path.length / 250;
-      waitingTime -= duration;
-    }
-
-    ease = Cubic;
+    var ease = Cubic;
     var trail = new Line(startPoint,
-        endPoint, color, 250, True, ease.easeInOut, ease.easeOut, .5, .5, {waitingTime:waitingTime});
+        endPoint, 0, 0, color, 250, true, ease.easeInOut, ease.easeOut, .5, .5, 1, false, true);
     trails.push(trail);
   }
 
@@ -360,6 +368,12 @@ function createLineConstellation(tl1, startPositions){
   }
   return [tl, trails];
 }
+
+////////////
+// UPDATE
+////////////
+
+
 
 paper.install(window);
 
@@ -530,29 +544,5 @@ function randomRange(min, max, floor) {
 </head>
 <body id= test" style="height:100%;margin:0;overflow:hidden;">
   <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
-  <audio id="cannon" controls style="display:none">
-      <source src="resources/audio/cannon.wav" type="audio/wav">
-  </audio>
-  <audio id="cannonBig" controls style="display:none">
-      <source src="resources/audio/cannonBig.wav" type="audio/wav">
-  </audio>
-  <audio id="drums1" controls style="display:none">
-      <source src="resources/audio/drums1.mp4" type="audio/mp4">
-  </audio>
-  <audio id="strings1" controls style="display:none">
-      <source src="resources/audio/strings1.mp4" type="audio/mp4">
-  </audio>
-  <audio id="strings2" controls style="display:none">
-      <source src="resources/audio/strings2.mp4" type="audio/mp4">
-  </audio>
-  <audio id="synth1" controls style="display:none">
-      <source src="resources/audio/synth1.mp4" type="audio/mp4">
-  </audio>
-  <audio id="xylophone1" controls style="display:none">
-      <source src="resources/audio/xylophone1.mp4" type="audio/mp4">
-  </audio>
-  <audio id="xylophone2" controls style="display:none">
-      <source src="resources/audio/xylophone2.mp4" type="audio/mp4">
-  </audio>
 </body>
 </html>
