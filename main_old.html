@@ -3,7 +3,12 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/general.css"/>
 <script type="text/javascript" src="js/dist/paper-full.js"></script>
-
+<!--
+<script type="text/javascript" src="js/fireworks.js/script/fireworks.js"></script>
+<script type="text/javascript" src="js/firework_basic.js"></script>
+<script type="text/javascript" src="js/ripple_basic.js"></script>
+<script type="text/javascript" src="js/wormhole.js"></script>
+-->
 <script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
@@ -42,12 +47,13 @@ function fireworks() {
 // Factory for polygons
 function Polygon(position, radius, color, sides,
                  lightness_in, strokeWidth,
-                 shadowBlur, speed, scale) {
+                 shadowBlur, speed, scale, to_scale) {
     // sides is an array of integers
     var subs = 3;
 
     // Some functions require a scaling factor for
     // animation duration
+    this.to_scale = to_scale;
     this.scale = scale;
     this.radius = radius;
     this.sides = randomIndex(sides);
@@ -101,7 +107,7 @@ Polygon.prototype = {
 
             for (var i = 0; i < h.segments.length; i++) {
                 from = h.segments[i].point;
-                to = this.targetHex.segments[i].point;
+                to = this.polygon.segments[i].point*this.to_scale;
 
                 tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:ease}, offset);
                 tl.to(h, duration*this.scale, {strokeWidth:0, ease:ease}, offset);
@@ -115,24 +121,13 @@ Polygon.prototype = {
     }
 };
 
-// Factory for lines
-function Line(start, angle, length, color,
-              speed, from, easeFrom, easeTo,
-              scale_to=1, scale_from=1, end_scale=1,
-              waitingTime=0) {
+function LineBasic(start, angle, length, color) {
     this.start = start;
     this.end = new Point();
-    this.waitingTime = waitingTime;
 
     this.end.setAngle(angle);
     this.end.setLength(length);
     this.end += this.start;
-
-    this.easeFrom = easeFrom;
-    this.easeTo = easeTo;
-    this.scale_to = scale_to;
-    this.scale_from = scale_from;
-    this.end_scale = end_scale;
 
     this.path = new Path();
     this.path.add(this.start, this.end);
@@ -143,12 +138,9 @@ function Line(start, angle, length, color,
     this.path.shadowBlur = 32;
     this.path.shadowColor = this.color;
 
-    this.speed = speed;
-
-    this.from = from;
+    this.speed = 250;
 }
-
-Line.prototype = {
+LineBasic.prototype = {
     animate:function() {
         var tl = new TimelineMax({
             onStart:function() {
@@ -162,15 +154,13 @@ Line.prototype = {
         });
 
         var start = this.path.segments[0].point,
-            end = this.path.segments[1].point*this.end_scale;
+            end = this.path.segments[1].point;
 
         var duration = this.path.length / this.speed,
+            ease = Cubic;
 
-        if (this.from == True) {
-            tl.from(end, duration*this.scale_from, {x:start.x, y:start.y, ease:this.easeFrom});
-        }
-
-        tl.to(start, duration*this.scale_to, {x:end.x, y:end.y, ease:this.easeTo}, '-=0.5');
+        // tl.from(end, duration, {x:start.x, y:start.y, ease:ease.easeIn});
+        tl.to(start, duration, {x:end.x, y:end.y}, '-=0.5');
 
         return tl;
     }
@@ -182,25 +172,24 @@ function createFireworkBasic() {
     var startPoint = new Point(view.size.width * Math.random(), view.size.height),
         angle = 270,
         length = view.size.height * 0.5,
+        //size = view.size.height * .2,
         size = view.size.height * .06,
         color = getRandomColor();
 
-    var sides = array[8, 10, 12];
-    var trail = new Line(startPoint, angle, length,
-                         color, 250, False, null,
-                         null),
-        hex = new Polygon(trail.end, size, color,
-                          sides, .5, 24, 0, 125, 1);
+    var trail = new LineBasic(startPoint, angle, length, color),
+        hex = new Polygon(trail.end, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1);
+
+    //tl.add(trail.animate());
+    //tl.add('trailDone');
 
     tl.add(hex.animate(), 'trailDone');
 
     for (var i = 0; i < hex.sides; i++) {
 
         var point = hex.polygon.segments[i].point,
-            localPoint = point - hex.polygon.position;
+            localPoint = point - hex.targetHex.position;
 
-        ease = Cubic;
-        var spark = new Line(trail.end, localPoint.angle, size * 1.5, color, 250, False);
+        var spark = new LineBasic(trail.end, localPoint.angle, size * 1.5, color);
 
         tl.add(spark.animate(), 'trailDone');
     }
@@ -215,20 +204,63 @@ function createRippleBasic() {
         size = view.size.height*.20,
         color = getRandomColor();
 
-    var sides = [4, 6, 8];
-    var hex = new Polygon(startPoint, size, color,
-                          sides, .2, 36, 32, 200, 1);
+    var hex = new Polygon(startPoint, size, color, [4, 6, 8], .2, 36, 32, 200, 1, 1);
 
     tl.add(hex.animate(), 'trailDone');
 
     for (var i = 0; i < hex.sides; i++) {
         var point = hex.polygon.segments[i].point,
-            localPoint = point - hex.polygon.position;
+            localPoint = point - hex.targetHex.position;
     }
 
     return tl;
 }
 
+function LineWormhole(start, angle, length, color) {
+    this.start = start;
+    this.end = new Point();
+
+    this.end.setAngle(angle);
+    this.end.setLength(length);
+    this.end += this.start;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 500;
+}
+
+LineWormhole.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+                this.path.remove();
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point*50/100;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        tl.from(end, duration*0.25, {x:end.x, y:end.y, ease:ease.easeInOut});
+        tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+        return tl;
+    }
+};
 
 function createWormhole() {
     var tl = new TimelineMax();
@@ -239,10 +271,8 @@ function createWormhole() {
         size = randomRange(32, 64),
         color = getRandomColor();
 
-    var sides = [8, 10, 12];
     var trail = new LineWormhole(startPoint, angle, length, color),
-        hex = new Polygon(trail.end, size, color,
-                          sides, .7, 24, 64, 200, 3);
+        hex = new Polygon(trail.end, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -251,14 +281,59 @@ function createWormhole() {
         var point = hex.polygon.segments[i].point,
             localPoint = point - hex.polygon.position;
 
-        ease = Cubic;
-        var spark = new Line(trail.end, localPoint.angle, size * 2, color, 500, True, ease.easeInOut, ease.easeOut, 3, .25, .5);
+        var spark = new LineWormhole(trail.end, localPoint.angle, size * 2, color);
 
         tl.add(spark.animate(), 'trailDone');
     }
 
     return tl;
 }
+
+function LineSparks(start, angle, length, color) {
+  this.start = start;
+  this.end = new Point();
+
+  this.end.setAngle(angle);
+  this.end.setLength(length);
+  this.end += this.start;
+
+  this.path = new Path();
+  this.path.add(this.start, this.end);
+  this.color = this.path.strokeColor = color;
+  this.path.visible = false;
+  this.path.strokeWidth = 2;
+  this.path.strokeCap = 'round';
+  this.path.shadowBlur = 32;
+  this.path.shadowColor = this.color;
+
+  this.speed = 250;
+}
+
+LineSparks.prototype = {
+  animate:function() {
+      var tl = new TimelineMax({
+          onStart:function() {
+              this.path.visible = true;
+          },
+          onStartScope:this,
+          onComplete:function() {
+              this.path.remove();
+          },
+          onCompleteScope:this
+      });
+
+      var start = this.path.segments[0].point,
+          end = this.path.segments[1].point;
+
+      var duration = this.path.length / this.speed,
+          ease = Cubic;
+
+      tl.from(end, duration*0.05, {x:start.x, y:start.y, ease:ease.easeInOut});
+      tl.to(start, duration*0.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+      return tl;
+  }
+};
 
 function createSparksBottom() {
   var tl = new TimelineMax();
@@ -268,8 +343,7 @@ function createSparksBottom() {
     length = view.size.width + 1.5,
     color = getRandomColor();
 
-    ease = Cubic;
-  var trail1 = new Line(startPoint, angle, length, color, 250, True, ease.easeInOut, ease.easeOut, .1, .05);
+  var trail1 = new LineSparks(startPoint, angle, length, color);
 
   tl.add(trail1.animate());
   tl.add('trailDone');
@@ -285,14 +359,54 @@ function createSparksTop() {
     length = view.size.width + 1.5,
     color = getRandomColor();
 
-    ease = Cubic;
-  var trail2 = new Line(startPoint, angle, length, color, 250, True, ease.easeInOut, ease.easeOut, .1, .05);
+  var trail2 = new LineSparks(startPoint, angle, length, color);
 
   tl.add(trail2.animate());
   tl.add('trailDone');
 
   return tl;
 }
+
+function LineConstellation(start, end, color, waitingTime) {
+    this.start = start;
+    this.end = end;
+    this.waitingTime = waitingTime;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 250;
+}
+LineConstellation.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        tl.from(end, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeInOut});
+        tl.to(start, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeOut}, '-=0.5');
+
+        return tl;
+    }
+};
 
 function createConstellation(startPositions) {
   var circles = [];
@@ -303,7 +417,6 @@ function createConstellation(startPositions) {
   }
   return circles;
 }
-
 function createLineConstellation(tl1, startPositions){
   var tl = tl1;
   var trails = [];
@@ -348,9 +461,8 @@ function createLineConstellation(tl1, startPositions){
       waitingTime -= duration;
     }
 
-    ease = Cubic;
-    var trail = new Line(startPoint,
-        endPoint, color, 250, True, ease.easeInOut, ease.easeOut, .5, .5, {waitingTime:waitingTime});
+    var trail = new LineConstellation(startPoint,
+        endPoint, color, waitingTime);
     trails.push(trail);
   }
 
@@ -360,6 +472,12 @@ function createLineConstellation(tl1, startPositions){
   }
   return [tl, trails];
 }
+
+////////////
+// UPDATE
+////////////
+
+
 
 paper.install(window);
 
