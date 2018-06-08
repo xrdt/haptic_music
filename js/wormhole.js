@@ -12,7 +12,7 @@
       this.radius = targetRadius;
       //this.sides = randomIndex([4, 6, 8, 10, 12]);
       this.sides = randomIndex([8, 10, 12]);
-  
+
     this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
       this.paths = [];
 

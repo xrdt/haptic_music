@@ -193,14 +193,14 @@ Line.prototype = {
             tl.from(endPoint, duration*this.scale_from, {x:endPoint.x, y:endPoint.y, ease:this.easeFrom});
         }
 
-        /*if (this.isConstellation)
+        if (this.isConstellation)
         {
             tl.to(startPoint, duration*this.scale_to, {x:startPoint.x, y:startPoint.y, ease:this.easeTo}, '-=0.5');
         }
         else
-        {*/
+        {
             tl.to(startPoint, duration*this.scale_to, {x:endPoint.x, y:endPoint.y, ease:this.easeTo}, '-=0.5');
-        //}
+        }
 
         return tl;
     }

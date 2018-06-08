@@ -6,7 +6,7 @@
     ////////////
     // CLASSES
     ////////////
-    
+
 
 function Line(start, end, color, waitingTime) {
     this.start = start;
@@ -49,8 +49,6 @@ Line.prototype = {
     }
 };
 
-      
-
 function createConstellation(startPositions) {
     for(var j = 0; j < 7; j++){
       var circle = new Path.Circle(startPositions[j], 5);
@@ -60,7 +58,7 @@ function createConstellation(startPositions) {
 function createLineConstellation(tl1, startPositions){
   var tl = tl1;
   var trails = [];
-  
+
   var color = getRandomColor();
   var waitingTime = 0;
   for(var i = 0; i < 7; i++)
@@ -77,11 +75,11 @@ function createLineConstellation(tl1, startPositions){
 
     var path = new Path();
     path.add(startPoint, endPoint);
-    
+
     var duration = path.length / 250;
     waitingTime += duration;
   }
-  
+
   for(var i = 0; i< 7;i++){
     var startPoint = startPositions[i];
     if (i<6)
@@ -100,11 +98,11 @@ function createLineConstellation(tl1, startPositions){
       var duration = path.length / 250;
       waitingTime -= duration;
     }
-    
+
     var trail = new Line(startPoint, endPoint, color, waitingTime);
     trails.push(trail);
   }
-  
+
   for(var j = 0; j < 7; j++){
       tl.add(trails[j].animate());
       tl.add('trailDone');
@@ -133,7 +131,7 @@ function onFrame(e) {
     startPositions.push(p5);
     startPositions.push(p6);
     startPositions.push(p7);
-      
+
         var tl = new TimelineMax();
         createConstellation(startPositions);
         var varias = createLineConstellation(tl, startPositions);
