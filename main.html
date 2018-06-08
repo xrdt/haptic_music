@@ -175,8 +175,13 @@ Line.prototype = {
             onCompleteScope:this
         });
 
-        var startPoint = this.path.segments[0].point,
-            endPoint = this.path.segments[1].point*this.end_scale;
+        var startPoint = this.path.segments[0].point;
+
+        if (this.isConstellation) {
+            endPoint = this.path.segments[1].point;
+        } else {
+            endPoint = this.path.segments[1].point * this.end_scale;
+        }
 
         var duration = this.path.length / this.speed;
 
@@ -188,14 +193,14 @@ Line.prototype = {
             tl.from(endPoint, duration*this.scale_from, {x:endPoint.x, y:endPoint.y, ease:this.easeFrom});
         }
 
-        if (this.isConstellation)
+        /*if (this.isConstellation)
         {
             tl.to(startPoint, duration*this.scale_to, {x:startPoint.x, y:startPoint.y, ease:this.easeTo}, '-=0.5');
         }
         else
-        {
+        {*/
             tl.to(startPoint, duration*this.scale_to, {x:endPoint.x, y:endPoint.y, ease:this.easeTo}, '-=0.5');
-        }
+        //}
 
         return tl;
     }

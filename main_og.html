@@ -382,7 +382,6 @@ LineWormhole.prototype = {
         var duration = this.path.length / this.speed,
             ease = Cubic;
 
-        console.log(end);
         tl.from(end, duration*0.25, {x:end.x, y:end.y, ease:ease.easeInOut});
         tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
@@ -529,7 +528,7 @@ LineConstellation.prototype = {
             ease = Cubic;
 
         tl.from(end, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeInOut});
-        tl.to(start, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeOut}, '-=0.5');
+        tl.to(start, duration * 0.5, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
         return tl;
     }
