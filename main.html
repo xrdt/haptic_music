@@ -37,12 +37,20 @@ function falling_circle() {
   this.updateTime = null;
 }
 
-function fireworks() {
+function fallingShapes() {
   this.group = new Group();
-  this.key = 's';
+  this.key = 'k';
   this.initTime = null;
   this.updateTime = null;
 }
+
+function risingShapes() {
+  this.group = new Group();
+  this.key = 'k';
+  this.initTime = null;
+  this.updateTime = null;
+}
+
 
 // Factory for polygons
 function Polygon(position, radius, color, sides,
@@ -514,6 +522,19 @@ function onKeyDown(event) {
 	  var audio = new Audio(xylophone2);
 	  audio.play();
 	  createRippleBasic();
+    }
+    if (event.key == 'k') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+	  var falling = new falling_circle();
+      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+      falling.group.firstChild.position = [0, 0];
+      falling.group.firstChild.strokeColor = 'blue';
+      falling.group.firstChild.fillColor = 'black';
+      falling.initTime = performance.now();
+      Objects.push(falling);
     }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
