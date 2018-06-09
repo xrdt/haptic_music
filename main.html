@@ -53,11 +53,11 @@ function risingShapes() {
 
 
 // Factory for polygons
-function Polygon(position, radius, color, sides,
+function Polygon(position, end, radius, color, sides,
                  lightness_in, strokeWidth,
-                 shadowBlur, speed, scale, to_scale, h_0) {
+                 shadowBlur, speed, scale, to_scale, h_0, subs) {
     // sides is an array of integers
-    var subs = 3;
+    var subs = subs;
 
     // Some functions require a scaling factor for
     // animation duration
@@ -65,11 +65,27 @@ function Polygon(position, radius, color, sides,
     this.scale = scale;
     this.radius = radius;
     this.sides = randomIndex(sides);
-    this.polygon = new Path.RegularPolygon(position, this.sides, radius);
+    if (this.sides > 0)
+    {
+      this.polygon = new Path.RegularPolygon(position, this.sides, radius);
+    }
+    else
+    {
+      this.polygon = new Path.Circle(position, radius);
+    }
     this.paths = [];
+    this.end = end;
 
     for (var i = 0; i < subs; i++) {
-        var h = new Path.RegularPolygon(position, this.sides, h_0);
+        if (this.sides > 0)
+        {
+            var h = new Path.RegularPolygon(position, this.sides, h_0);
+        }
+        else
+        {
+            console.log(radius);
+            var h = new Path.Circle(position, radius);
+        }
 
         if (i === 0) {
             h.strokeColor = color;
@@ -115,10 +131,19 @@ Polygon.prototype = {
 
             for (var i = 0; i < h.segments.length; i++) {
                 from = h.segments[i].point;
-                to = this.polygon.segments[i].point*this.to_scale;
-
-                tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:ease}, offset);
-                tl.to(h, duration*this.scale, {strokeWidth:0, ease:ease}, offset);
+                if (this.end === 0)
+                {
+                  to = this.polygon.segments[i].point*this.to_scale;
+                  tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:ease}, offset);
+                  tl.to(h, duration*this.scale, {strokeWidth:0, ease:ease}, offset);
+                }
+                else
+                {
+                  to = this.polygon.segments[i].point + this.end;
+                  tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:null}, offset);
+                  tl.to(h, duration*this.scale, {strokeWidth:16, ease:null}, offset);
+                  console.log("hello");
+                }
             }
 
             offset += 0.2;
@@ -226,7 +251,7 @@ function createFireworkBasic() {
     var ease = Cubic;
     var trail = new Line(startPoint, 0, angle, length, color,
                          250, false, null, null, 1, 0, 1, false, false),
-        hex = new Polygon(trail.end, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1);
+        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1, 3);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -250,7 +275,7 @@ function createRippleBasic() {
         size = view.size.height*.20,
         color = getRandomColor();
 
-    var hex = new Polygon(startPoint, size, color, [4, 6, 8], .2, 36, 32, 200, 1, 1, 0);
+    var hex = new Polygon(startPoint, 0, size, color, [4, 6, 8], .2, 36, 32, 200, 1, 1, 0, 3);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -273,7 +298,7 @@ function createWormhole() {
 
     var ease = Cubic;
     var trail = new Line(startPoint, 0, angle, length, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 50/100, true, false),
-        hex = new Polygon(trail.end, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0);
+        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0, 3);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -375,6 +400,30 @@ function createLineConstellation(tl1, startPositions){
       tl.add('trailDone');
   }
   return [tl, trails];
+}
+
+function createWarringShapes(start, angle, sides, up) {
+  var tl = new TimelineMax();
+
+  var startPoint = start,
+      angle = angle,
+      length = view.size.height * 0.5,
+      size = randomRange(8, 8),
+      color = getRandomColor();
+  if (up)
+  {
+    var end = new Point(-view.size.width/4*3,-view.size.height);
+  }
+  else
+  {
+    var end = new Point(view.size.width/4*3,view.size.height);
+  }
+
+  var hex = new Polygon(startPoint, end, 8, color, [0], 0.7, 16, 64, 62.5, 16, 0, 0, 1);
+
+  tl.add(hex.animate(), 'trailDone');
+
+    return tl;
 }
 
 ////////////
@@ -528,13 +577,37 @@ function onKeyDown(event) {
 	  var audio = new Audio(xylophone2);
 	  audio.play();
 
-	  var falling = new falling_circle();
-      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
-      falling.group.firstChild.position = [0, 0];
-      falling.group.firstChild.strokeColor = 'blue';
-      falling.group.firstChild.fillColor = 'black';
-      falling.initTime = performance.now();
-      Objects.push(falling);
+      var start,
+        possibleSides = [0,3,4],
+        sides = randomIndex(possibleSides),
+        angle = Math.atan2(view.size.height, view.size.width),
+        indexer = 5,
+        modifier = 75,
+        begin = new Point(0, -modifier*5);
+      for (var x = 0; x < indexer; x++)
+      {
+        for (var y = 0; y < indexer-x; y++)
+        {
+          // start = new Point(view.size.width/2 * Math.random()+view.size.width/4, -y*50);
+          start = new Point(-x*modifier - modifier*y*Math.sin(Math.PI/2+angle), -y * modifier - modifier * Math.sin(-Math.PI/4+angle) * x);
+          //start = new Point(-x*modifier, -y * modifier);
+          //console.log(modifier*Math.sin(angle));
+          createWarringShapes(start, angle, sides, false);
+        }
+      }
+
+      var index = possibleSides.indexOf(sides);
+      possibleSides.splice(index,1);
+      sides = randomIndex(possibleSides);
+      for (var x = 0; x < indexer; x++)
+      {
+        for (var y = 0; y < indexer-x; y++)
+        {
+          //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
+          start = new Point(view.size.width + x*modifier+modifier*y*Math.sin(angle), view.size.height + y*modifier-modifier * Math.sin(angle) * x);
+          createWarringShapes(start, angle, sides, true);
+        }
+      }
     }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
