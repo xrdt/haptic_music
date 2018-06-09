@@ -23,6 +23,7 @@
 
         this.speed = 125;
     }
+
 Line.prototype = {
     animate:function() {
         var tl = new TimelineMax({
@@ -62,7 +63,6 @@ function createTron(){
     path.push(startPoint);
     path = tronPath(startPoint, angle, path, 0);
 
-
     for (var x = path.length-1; x > 0; x--)
     {
         var trail = new Line(path[x], path[x-1], color, waitingTime);
@@ -84,22 +84,22 @@ function tronPath(start, angleOld, path, counter)
         path = path,
         count = counter,
         waitingTime = 0;
+
     while (Math.abs(angle - angleOld) == 180)
     {
         angle = randomIndex([0, 90, 180, 270]);
     }
+
     end.setAngle(angle);
     end.setLength(length);
     end += startPoint;
-    //console.log("done");
     path.push(end);
-    if (!(end.x >= view.size.width || end.y >= view.size.height || end.x <= 0 || end.y <=0) && count < 100)
-    {
 
+    if (!(end.x > view.size.width - 1 || end.y > view.size.height - 1 || end.x < 1 || end.y < 1) && count < 100)
+    {
         console.log(path);
 
         path.push.apply(tronPath(end, angle, path, count + 1));
-        //console.log(path);
     }
 
     return path;
@@ -118,7 +118,7 @@ function onFrame(e) {
         setTimeout(function(){
             for(var i = 0; i < trails.length; i++){
                 trails[i].path.remove();
-            }}, tll.duration()*1000+500);
+            }}, 5000);
     }
 
 }

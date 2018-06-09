@@ -6,23 +6,15 @@
     ////////////
     // CLASSES
     ////////////
-    function Hex(start, end, targetRadius, sides, color) {
+    function Hex(start, end, targetRadius, color) {
         var subs = 1;
         this.end = end;
 
         this.radius = targetRadius;
-        this.sides = sides;
         this.paths = [];
 
         for (var i = 0; i < subs; i++) {
-            if (this.sides > 0)
-            {
-                var h = new Path.RegularPolygon(start, this.sides, targetRadius);
-            }
-            else
-            {
-                var h = new Path.Circle(start, targetRadius);
-            }
+            var h = new Path.Circle(start, targetRadius);
 
             if (i === 0) {
                 h.strokeColor = color;
@@ -47,6 +39,7 @@
 
         this.speed = 62.5;
     }
+
 Hex.prototype = {
     animate:function() {
         var tl = new TimelineMax({
@@ -81,61 +74,61 @@ Hex.prototype = {
     }
 };
 
-function createFirework(start, sides, up) {
+function createBomb(start) {
     var tl = new TimelineMax();
 
     var startPoint = start,
         angle = 270,
         length = view.size.height * 0.5,
-        size = randomRange(8, 8),
+        size = 8,
         color = getRandomColor();
-    if (up)
-    {
-        var end = new Point(-600,-view.size.height);
-    }
-    else
-    {
-        var end = new Point(600,view.size.height);
-    }
 
-    var hex = new Hex(startPoint, end, size, sides, color);
+    var end = new Point(0, view.size.height / 2);
+
+    var hex = new Hex(startPoint, end, size, color);
 
     tl.add(hex.animate(), 'trailDone');
 
-    return tl;
+    return [tl, start+end];
 }
 
 ////////////
 // UPDATE
 ////////////
 
-function onFrame(e) {
-    if (e.count % 200 === 0) {
-        var start, possibleSides, sides;
-        possibleSides = [0,3,4],
-            sides = randomIndex(possibleSides);
-        for (var x = 0; x < 10; x++)
-        {
-            for (var y = 0; y < 3; y++)
-            {
-                // start = new Point(view.size.width/2 * Math.random()+view.size.width/4, -y*50);
-                start = new Point(x*50, -y * 50);
-                createFirework(start, sides, false);
-            }
-        }
+function Circle(start, radius, color) {
+  var circle = new Path.Circle(start, radius);
+  circle.fillColor = color;
+  return circle;
+}
 
-        var index = possibleSides.indexOf(sides);
-        possibleSides.splice(index,1);
-        sides = randomIndex(possibleSides);
-        for (var x = 0; x < 10; x++)
-        {
-            for (var y = 0; y < 3; y++)
-            {
-                //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
-                start = new Point(view.size.width - x*50, view.size.height + y*50);
-                createFirework(start, sides, true);
-            }
-        }
+function createRippleBomb(position) {
+    var startPoint = position,
+        color = getRandomColor();
+
+    var ripple = new Shape.Circle(startPoint, 10);
+    ripple.fillColor = color;
+
+    var circumference = 100;
+    var tl = new TimelineMax();
+    tl.to(ripple, .5, {radius: '100'}, 0);
+    return [tl, ripple];
+}
+
+function newRipple(a, b, c) {
+  Circle(a, b, c);
+}
+
+function onFrame(e) {
+    if (e.count % 120 === 0) {
+      var start, possibleSides, sides;
+          possibleSides = [0,3,4],
+          sides = randomIndex(possibleSides);
+      start = new Point(view.size.width / 2, 100);
+      var timeline = createRippleBomb(start);
+      setTimeout(function() {
+        timeline[1].remove();
+      }, timeline[0].duration()*1000 + 300);
     }
 }
 
