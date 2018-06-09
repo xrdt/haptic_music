@@ -83,7 +83,7 @@ function Polygon(position, end, radius, color, sides,
         }
         else
         {
-            console.log(radius);
+            //console.log(radius);
             var h = new Path.Circle(position, radius);
         }
 
@@ -142,7 +142,6 @@ Polygon.prototype = {
                   to = this.polygon.segments[i].point + this.end;
                   tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:null}, offset);
                   tl.to(h, duration*this.scale, {strokeWidth:16, ease:null}, offset);
-                  console.log("hello");
                 }
             }
 
@@ -157,8 +156,9 @@ Polygon.prototype = {
 function Line(start, endpoint, angle, length, color,
               speed, from, easeFrom, easeTo,
               scale_to, scale_from, end_scale,
-              isWormhole, isConstellation) {
+              isWormhole, isConstellation, isTron) {
     this.start = start;
+    this.isTron = isTron;
     this.endpoint = endpoint;
     this.end = new Point();
     this.isWormhole = isWormhole;
@@ -175,7 +175,7 @@ function Line(start, endpoint, angle, length, color,
     this.end_scale = end_scale;
 
     this.path = new Path();
-    if (this.isConstellation) {
+    if (this.isConstellation || this.isTron) {
         this.path.add(this.start, this.endpoint);
     } else {
         this.path.add(this.start, this.end);
@@ -200,7 +200,7 @@ Line.prototype = {
             },
             onStartScope:this,
             onComplete:function() {
-                if(!this.isConstellation)
+                if(!this.isConstellation && !this.isTron)
                 {
                     this.path.remove();
                 }
@@ -210,9 +210,10 @@ Line.prototype = {
 
         var startPoint = this.path.segments[0].point;
 
-        if (this.isConstellation) {
+        if (this.isConstellation || this.isTron) {
             endPoint = this.path.segments[1].point;
         } else {
+            console.log(this.end_scale);
             endPoint = this.path.segments[1].point * this.end_scale;
         }
 
@@ -226,7 +227,7 @@ Line.prototype = {
             tl.from(endPoint, duration*this.scale_from, {x:endPoint.x, y:endPoint.y, ease:this.easeFrom});
         }
 
-        if (this.isConstellation)
+        if (this.isConstellation || this.isTron)
         {
             tl.to(startPoint, duration*this.scale_to, {x:startPoint.x, y:startPoint.y, ease:this.easeTo}, '-=0.5');
         }
@@ -234,6 +235,7 @@ Line.prototype = {
         {
             tl.to(startPoint, duration*this.scale_to, {x:endPoint.x, y:endPoint.y, ease:this.easeTo}, '-=0.5');
         }
+        //console.log(inter);
 
         return tl;
     }
@@ -400,6 +402,65 @@ function createLineConstellation(tl1, startPositions){
       tl.add('trailDone');
   }
   return [tl, trails];
+}
+
+function tronPath(start, angleOld, path, counter)
+{
+    var startPoint = start,
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        end = new Point(),
+        path = path,
+        count = counter,
+        waitingTime = 0;
+
+    while (Math.abs(angle - angleOld) == 180)
+    {
+        angle = randomIndex([0, 90, 180, 270]);
+    }
+
+    end.setAngle(angle);
+    end.setLength(length);
+    end += startPoint;
+    path.push(end);
+
+    if (!(end.x > view.size.width - 1 || end.y > view.size.height - 1 || end.x < 1 || end.y < 1) && count < 100)
+    {
+        //console.log(path);
+
+        path.push.apply(tronPath(end, angle, path, count + 1));
+    }
+
+    return path;
+
+}
+
+function createTron(){
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, view.size.height/2),
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        waitingTime = 0;
+
+    var path = [];
+    var trails = [];
+    path.push(startPoint);
+    path = tronPath(startPoint, angle, path, 0);
+
+    var ease = Cubic;
+    for (var x = path.length-1; x > 0; x--)
+    {
+        var trail = new Line(path[x], path[x-1], 0, 0, color, 125, true, ease.easeInOut, ease.easeOut, 0.125, 0.125, 1, false, false, true);
+        //console.log(trail);
+        trails.push(trail);
+        tl.add(trail.animate());
+        tl.add('trailDone');
+    }
+
+    return [tl, trails];
 }
 
 function createWarringShapes(start, angle, sides, up) {
@@ -609,16 +670,33 @@ function onKeyDown(event) {
         }
       }
     }
+    if (event.key == 't') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+      var varias;
+      var trails = [];
+      var dur = 100000000;
+      for (var x = 0; x < 5; x++)
+	  {
+	    varias = createTron();
+	    if (dur > varias[0].duration())
+	    {
+	      dur = varias[0].duration();
+	    }
+	    trails = trails.concat(varias[1]);
+	  }
+        setTimeout(function(){
+            for(var i = 0; i < trails.length; i++){
+                trails[i].path.remove();
+            }}, dur * 1000 + 500);
+	}
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         var canvasLayer = document.getElementById("myCanvas");
         canvasLayer.style.background = color;
     }
-    if (event.key == 'k') {
-      var xylophone2 = "resources/audio/xylophone2.mp4";
-	  var audio = new Audio(xylophone2);
-	  audio.play();
-	}
 }
 
 function getRandomColor() {
