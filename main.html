@@ -614,6 +614,11 @@ function onKeyDown(event) {
         var canvasLayer = document.getElementById("myCanvas");
         canvasLayer.style.background = color;
     }
+    if (event.key == 'k') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+	}
 }
 
 function getRandomColor() {
