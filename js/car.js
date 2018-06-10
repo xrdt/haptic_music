@@ -14,38 +14,95 @@
         this.wheelLeft = new Path.Circle(position, targetRadius);
         this.wheelRight = new Path.Circle(position + new Point(100, 0), targetRadius);
         this.body = [];
-
+        var angle = -30 * Math.PI/180;
+        
+        /*
+        this.rotMatrix = [[Math.cos(angle), -Math.sin(angle)],
+                         [Math.sin(angle), Math.cos(angle)]];
+        */
+        
         var p1 = position + new Point(-50, 0),
             p2 = position + new Point(150, 0),
-            p3 = position + new Point(150, 20),
-            p4 = position + new Point(100, 20),
-            p5 = position + new Point(70, 30),
-            p6 = position + new Point(30, 30),
-            p7 = position + new Point(0, 20),
-            p8 = position + new Point(-50, 20),
-            this.paths = [new Path(p1, p2),
+            p3 = position + new Point(150, -20),
+            p4 = position + new Point(100, -30),
+            p5 = position + new Point(70, -45),
+            p6 = position + new Point(30, -45),
+            p7 = position + new Point(0, -30),
+            p8 = position + new Point(-50, -20),
+            centerOfMass = position + new Point(50, -15);
+        
+        this.centerOfMass = centerOfMass;
+        
+        this.paths = [new Path.Line(p1, p2),
             new Path.Line(p2, p3),
             new Path.Line(p3, p4),
             new Path.Line(p4, p5),
-            new Path.Line(p6, p6),
-            new Path.Line(p7, p7),
+            new Path.Line(p5, p6),
+            new Path.Line(p6, p7),
             new Path.Line(p7, p8),
-            new Path.Line(p8, p1)];
+            new Path.Line(p8, p1),
+            new Path.Circle(position, targetRadius),
+            new Path.Circle(position + new Point(100, 0), targetRadius)];
+        //console.log(p1);
 
         for (var x = 0; x < this.paths.length; x++)
         {
             this.paths[x].strokeColor = color;
 
-            this.paths[x].strokeWidth = 24;
+            this.paths[x].strokeWidth = 10;
             this.paths[x].shadowBlur = 64;
-            this.paths[x].shadowColor = h.strokeColor;
+            this.paths[x].shadowColor = color;
         }
+        
+        for (var x = 0; x < this.paths.length; x++)
+        {
+          var path = this.paths[x];
+          for (var y = 0; y < path.segments.length; y++)
+          {
+            //
+            var coordCenter = path.segments[y].point-centerOfMass;
+            var xCoord = coordCenter.x,
+                yCoord = coordCenter.y;
+            
+            xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+            yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+            path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass;
+          }
+          /*
+          if (x < this.paths.length - 2)
+          {
+            var coordCenter1 = this.paths[x].segments[0].point-centerOfMass;
+            var coordCenter2 = this.paths[x].segments[1].point-centerOfMass;
+            var xCoord1 = coordCenter1.x,
+                yCoord1 = coordCenter1.y,
+                xCoord2 = coordCenter2.x,
+                yCoord2 = coordCenter2.y;
+            
+            xCoord1 = Math.cos(angle)*xCoord1 - Math.sin(angle)*yCoord1;
+            yCoord1 = Math.sin(angle)*xCoord1 + Math.cos(angle)*yCoord1;
+            xCoord2 = Math.cos(angle)*xCoord2 - Math.sin(angle)*yCoord2;
+            yCoord2 = Math.sin(angle)*xCoord2 + Math.cos(angle)*yCoord2;
+            this.paths[x].segments[0].point = new Point(xCoord1, yCoord1) + centerOfMass;
+            this.paths[x].segments[1].point = new Point(xCoord2, yCoord2) + centerOfMass;
+          }
+          else
+          {
+            //
+            console.log(this.paths[x].segments);
+          }
+          */
+        }
+        
+        //console.log(this.paths[0].segments[0].point);
+        
+        //this.paths[this.paths.length-1].fillColor = color;
+        //this.paths[this.paths.length-2].fillColor = color;
 
         this.color = this.paths[subs - 1].strokeColor;
 
-        this.speed = 125;
+        this.speed = 62.5;
     }
-Hex.prototype = {
+Car.prototype = {
     animate:function() {
         var tl = new TimelineMax({
             onComplete:function() {
@@ -61,64 +118,44 @@ Hex.prototype = {
             ease = Cubic.easeOut;
 
         this.paths.forEach(function(h) {
-            var from, to;
+            var from, to, final;
 
             for (var i = 0; i < h.segments.length; i++) {
+                //from = h.segments[i].point;
                 from = h.segments[i].point;
-                to = h.segments[i].point + new Point(50,0);
+                to = from + new Point(100,-100)-this.centerOfMass;
+                final = from + new Point(200,0)-this.centerOfMass;
+                var xCoord = to.x,
+                    yCoord = to.y,
+                    angle = 30 * Math.PI/180;
+                
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                to = new Point(xCoord, yCoord) + this.centerOfMass;
 
-                tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
-                tl.to(h, duration, {strokeWidth:0, ease:ease}, offset);
+                
+                tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease}, offset);
+                var dur = tl.duration();
+                
+                var xCoord1 = final.x,
+                    yCoord1 = final.y,
+                    angle1 = 60 * Math.PI/180;
+                
+                xCoord1 = Math.cos(angle1)*xCoord1 - Math.sin(angle1)*yCoord1;
+                yCoord1 = Math.sin(angle1)*xCoord1 + Math.cos(angle1)*yCoord1;
+                //console.log("********");
+                //console.log(to);
+                final = new Point(xCoord1, yCoord1) + this.centerOfMass;
+                //console.log(final);
+                //console.log("########");
+                tl.to(to, duration*4, {x:final.x*2, y:final.y, ease:ease}, dur);
+                
+                tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
             }
 
-            offset += 0.2;
+            offset += 0;
 
         }, this);
-
-        return tl;
-    }
-};
-
-function Line(start, angle, length, color) {
-    this.start = start;
-    this.end = new Point();
-
-    this.end.setAngle(angle);
-    this.end.setLength(length);
-    this.end += this.start;
-
-    this.path = new Path();
-    this.path.add(this.start, this.end);
-    this.color = this.path.strokeColor = color;
-    this.path.visible = false;
-    this.path.strokeWidth = 2;
-    this.path.strokeCap = 'round';
-    this.path.shadowBlur = 32;
-    this.path.shadowColor = this.color;
-
-    this.speed = 250;
-}
-Line.prototype = {
-    animate:function() {
-        var tl = new TimelineMax({
-            onStart:function() {
-                this.path.visible = true;
-            },
-            onStartScope:this,
-            onComplete:function() {
-                this.path.remove();
-            },
-            onCompleteScope:this
-        });
-
-        var start = this.path.segments[0].point,
-            end = this.path.segments[1].point;
-
-        var duration = this.path.length / this.speed,
-            ease = Cubic;
-
-        tl.from(end, duration, {x:start.x, y:start.y, ease:ease.easeInOut});
-        tl.to(start, duration * 0.75, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
         return tl;
     }
@@ -127,20 +164,18 @@ Line.prototype = {
 function createFirework() {
     var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
-        angle = 270,
-        length = view.size.height * 0.5,
-        size = randomRange(64, 396),
+    var startPoint = new Point(view.size.width /2, view.size.height/2),
+        size = 15,
         color = getRandomColor();
 
-    var trail = new Line(startPoint, angle, length, color),
-        hex = new Hex(trail.end, size, color);
+    var hex = new Car(startPoint, size, color);
 
-    tl.add(trail.animate());
-    tl.add('trailDone');
+    //tl.add(trail.animate());
+    //tl.add('trailDone');
 
     tl.add(hex.animate(), 'trailDone');
 
+    /*
     for (var i = 0; i < hex.sides; i++) {
 
         var point = hex.targetHex.segments[i].point,
@@ -150,6 +185,7 @@ function createFirework() {
 
         tl.add(spark.animate(), 'trailDone');
     }
+    */
 
     return tl;
 }
@@ -159,7 +195,7 @@ function createFirework() {
 ////////////
 
 function onFrame(e) {
-    if (e.count % 60 === 0) {
+    if (e.count % 120 === 0) {
         createFirework();
     }
 }

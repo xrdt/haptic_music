@@ -126,9 +126,9 @@ Bomb.prototype = {
             {
               radius = view.size.width/8*3;
             }
-            tl.to(h, duration*32, {radius:radius, ease:ease}, off);
+            tl.to(h, duration*16, {radius:radius, ease:ease}, off);
             var offs = tl.duration()-offset*2;
-            tl.to(h, duration*32, {radius:0, ease:ease}, offs);
+            tl.to(h, duration*16, {radius:0, ease:ease}, offs);
 
         }, this);
 
