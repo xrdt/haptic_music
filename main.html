@@ -15,6 +15,8 @@
 <script type="text/javascript" src="js/greensock-js/src/minified/TweenMax.min.js"></script>
 <script type="text/paperscript" canvas = "myCanvas">
 var Objects = [];
+var keyPressed = false;
+var bombs = [];
 // TODO change to dynamic resizing
 function rect_rotate() {
     this.group = new Group();
@@ -51,6 +53,88 @@ function risingShapes() {
   this.updateTime = null;
 }
 
+// Bomb class
+function Bomb(position, targetRadius, color) {
+    var subs = 1;
+
+    this.radius = targetRadius;
+    this.paths = [];
+
+    for (var i = 0; i < subs; i++) {
+        var h = new Shape.Circle(position, this.radius*0.25);
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:.2,
+                alpha:1
+            });
+        }
+
+        //h.strokeWidth = 36;
+        h.strokeWidth = 8;
+        h.shadowBlur = 64;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 200;
+}
+Bomb.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            //from = h.segments[i].point;
+            //to = this.targetHex.segments[i].point;
+            var to = new Point(0, view.size.height/2);
+            h.position+=to;
+            //console.log(h.position.x);
+
+            tl.to(h, duration*8, {radius:this.radius, ease:ease}, offset);
+            //tl.to(h.position, duration*8, {y:to.y, ease:ease}, 0);
+            tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
+            offset += 0.2;
+            var off = tl.duration()-offset*2;
+            tl.to(h, duration*8, {strokeWidth:30, ease:ease}, off);
+            var radius;
+            if (view.size.height<view.size.width)
+            {
+              radius = view.size.height/8*3;
+            }
+            else
+            {
+              radius = view.size.width/8*3;
+            }
+            tl.to(h, duration*32, {radius:radius, ease:ease}, off);
+            var offs = tl.duration()-offset*2;
+            tl.to(h, duration*32, {radius:0, ease:ease}, offs);
+
+        }, this);
+
+        return tl;
+    }
+};
 
 // Factory for polygons
 function Polygon(position, end, radius, color, sides,
@@ -213,7 +297,6 @@ Line.prototype = {
         if (this.isConstellation || this.isTron) {
             endPoint = this.path.segments[1].point;
         } else {
-            console.log(this.end_scale);
             endPoint = this.path.segments[1].point * this.end_scale;
         }
 
@@ -484,7 +567,21 @@ function createWarringShapes(start, angle, sides, up) {
 
   tl.add(hex.animate(), 'trailDone');
 
-    return tl;
+  return tl;
+}
+
+function createBomb2() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, 0),
+        size = view.size.height*.10,
+        color = getRandomColorBomb();
+
+    var bomb = new Bomb(startPoint, size, color);
+
+    tl.add(bomb.animate(), 'trailDone');
+
+    return [tl, bomb];
 }
 
 ////////////
@@ -500,12 +597,13 @@ var text = new PointText({
 	point: view.center,
 	content: 'Click here to focus and then press some keys.',
 	justification: 'center',
+	fillColor: 'white',
 	fontSize: 15
 });
 
 function onKeyUp(event) {
 	// When a key is pressed, set the content of the text item:
-	text.content = 'The ' + event.key + ' key was released!';
+	//text.content = 'The ' + event.key + ' key was released!';
 }
 
 
@@ -531,12 +629,27 @@ function onFrame(event) {
             }
         }
     }
+    if (event.count % 60 === 0 && !keyPressed) {
+        var bomb = createBomb2();
+        bombs = bombs.concat(bomb[1].paths);
+    }
+    else if (keyPressed && bombs.length > 0)
+    {
+      for(var x = 0; x < bombs.length; x++)
+      {
+        bombs[x].remove();
+      }
+      text.remove();
+      bombs = [];
+    }
 }
 
 
 function onKeyDown(event) {
 	// When a key is released, set the content of the text item:
-	text.content = 'The ' + event.key + ' key was pressed!';
+	text.fillColor = 'black';
+	//text.content = 'The ' + event.key + ' key was pressed!';
+	keyPressed = true;
 
 	if (event.key == 'a') {
       var cannonUrl = "resources/audio/cannon.wav";
@@ -702,6 +815,14 @@ function onKeyDown(event) {
 function getRandomColor() {
     return new Color({
         hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function getRandomColorBomb() {
+    return new Color({
+        hue:randomRange(0, 360),
         saturation:0.75,
         lightness:0.5
     })

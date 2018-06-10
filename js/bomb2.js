@@ -31,7 +31,7 @@
 
             //h.strokeWidth = 36;
             h.strokeWidth = 8;
-            h.shadowBlur = 32;
+            h.shadowBlur = 64;
             h.shadowColor = h.strokeColor;
 
             this.paths.push(h);
@@ -82,7 +82,7 @@ Hex.prototype = {
     }
 };
 
-function createRippleBasic() {
+function createBomb2() {
     var tl = new TimelineMax();
 
     var startPoint = new Point(view.size.width/2, 0),
@@ -107,7 +107,7 @@ function createRippleBasic() {
 
 function onFrame(e) {
     if (e.count % 60 === 0) {
-        createRippleBasic();
+        createBomb2();
     }
 }
 
