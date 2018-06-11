@@ -1,3 +1,4 @@
+
 <canvas resize="true" id="canvas"></canvas>
 
     <!-- I wrote the code in paperscript, but could not find a way to use in codepen, so the js code is up here. -->
@@ -15,12 +16,12 @@
         this.wheelRight = new Path.Circle(position + new Point(100, 0), targetRadius);
         this.body = [];
         var angle = -30 * Math.PI/180;
-        
+
         /*
         this.rotMatrix = [[Math.cos(angle), -Math.sin(angle)],
                          [Math.sin(angle), Math.cos(angle)]];
         */
-        
+
         var p1 = position + new Point(-50, 0),
             p2 = position + new Point(150, 0),
             p3 = position + new Point(150, -20),
@@ -30,9 +31,9 @@
             p7 = position + new Point(0, -30),
             p8 = position + new Point(-50, -20),
             centerOfMass = position + new Point(50, -15);
-        
+
         this.centerOfMass = centerOfMass;
-        
+
         this.paths = [new Path.Line(p1, p2),
             new Path.Line(p2, p3),
             new Path.Line(p3, p4),
@@ -43,6 +44,20 @@
             new Path.Line(p8, p1),
             new Path.Circle(position, targetRadius),
             new Path.Circle(position + new Point(100, 0), targetRadius)];
+        var mod = new Point(100, -200);
+        this.paths2 = [];
+        /*
+        this.paths2 = [new Path.Line(p1+mod, p2+mod),
+            new Path.Line(p2+mod, p3+mod),
+            new Path.Line(p3+mod, p4+mod),
+            new Path.Line(p4+mod, p5+mod),
+            new Path.Line(p5+mod, p6+mod),
+            new Path.Line(p6+mod, p7+mod),
+            new Path.Line(p7+mod, p8+mod),
+            new Path.Line(p8+mod, p1+mod),
+            new Path.Circle(position+mod, targetRadius),
+            new Path.Circle(position +mod+ new Point(100, 0), targetRadius)];
+        */
         //console.log(p1);
 
         for (var x = 0; x < this.paths.length; x++)
@@ -53,50 +68,40 @@
             this.paths[x].shadowBlur = 64;
             this.paths[x].shadowColor = color;
         }
-        
+
         for (var x = 0; x < this.paths.length; x++)
         {
-          var path = this.paths[x];
-          for (var y = 0; y < path.segments.length; y++)
-          {
-            //
-            var coordCenter = path.segments[y].point-centerOfMass;
-            var xCoord = coordCenter.x,
-                yCoord = coordCenter.y;
-            
-            xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
-            yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
-            path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass;
-          }
-          /*
-          if (x < this.paths.length - 2)
-          {
-            var coordCenter1 = this.paths[x].segments[0].point-centerOfMass;
-            var coordCenter2 = this.paths[x].segments[1].point-centerOfMass;
-            var xCoord1 = coordCenter1.x,
-                yCoord1 = coordCenter1.y,
-                xCoord2 = coordCenter2.x,
-                yCoord2 = coordCenter2.y;
-            
-            xCoord1 = Math.cos(angle)*xCoord1 - Math.sin(angle)*yCoord1;
-            yCoord1 = Math.sin(angle)*xCoord1 + Math.cos(angle)*yCoord1;
-            xCoord2 = Math.cos(angle)*xCoord2 - Math.sin(angle)*yCoord2;
-            yCoord2 = Math.sin(angle)*xCoord2 + Math.cos(angle)*yCoord2;
-            this.paths[x].segments[0].point = new Point(xCoord1, yCoord1) + centerOfMass;
-            this.paths[x].segments[1].point = new Point(xCoord2, yCoord2) + centerOfMass;
-          }
-          else
-          {
-            //
-            console.log(this.paths[x].segments);
-          }
-          */
+            var path = this.paths[x];
+            for (var y = 0; y < path.segments.length; y++)
+            {
+                //
+                var coordCenter = path.segments[y].point-centerOfMass;
+                var xCoord = coordCenter.x,
+                    yCoord = coordCenter.y;
+
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass;
+            }
+            this.paths2.push(path);
         }
-        
-        //console.log(this.paths[0].segments[0].point);
-        
-        //this.paths[this.paths.length-1].fillColor = color;
-        //this.paths[this.paths.length-2].fillColor = color;
+
+
+        for (var x = 0; x < this.paths2.length; x++)
+        {
+            var path = this.paths2[x];
+            for (var y = 0; y < path.segments.length; y++)
+            {
+                //
+                var coordCenter = path.segments[y].point - centerOfMass;
+                var xCoord = coordCenter.x,
+                    yCoord = coordCenter.y;
+
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass + mod;
+            }
+        }
 
         this.color = this.paths[subs - 1].strokeColor;
 
@@ -117,45 +122,92 @@ Car.prototype = {
             offset = 0,
             ease = Cubic.easeOut;
 
+        for (var x = 0; x < this.paths.length; x++)
+        {
+            var from, to, final, from2;
+            var h = this.paths[x];
+            var l = this.paths2[x];
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                to = h.segments[i].point -this.centerOfMass;
+                from2 = l.segments[i].point;
+
+                var xCoord = to.x,
+                    yCoord = to.y,
+                    angle = 30 * Math.PI/180;
+
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                to = new Point(xCoord, yCoord) + new Point(100,-200) + this.centerOfMass;
+
+
+                tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease}, offset);
+                var dur = duration*4;
+                final = to-this.centerOfMass-new Point(100,-200);
+
+                xCoord = final.x,
+                    yCoord = final.y,
+                    angle = 60 * Math.PI/180;
+
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                final = new Point(xCoord, yCoord) + new Point(300, -500) + this.centerOfMass;
+                tl.to(from2, duration*4, {x:final.x, y:to.y, ease:ease}, dur);
+            }
+        }
+
+        /*
         this.paths.forEach(function(h) {
             var from, to, final;
 
             for (var i = 0; i < h.segments.length; i++) {
-                //from = h.segments[i].point;
                 from = h.segments[i].point;
-                to = from + new Point(100,-100)-this.centerOfMass;
-                final = from + new Point(200,0)-this.centerOfMass;
+                to = h.segments[i].point + new Point(100,-200)-this.centerOfMass;
+
                 var xCoord = to.x,
                     yCoord = to.y,
                     angle = 30 * Math.PI/180;
-                
+
                 xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
                 yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
                 to = new Point(xCoord, yCoord) + this.centerOfMass;
 
-                
+
                 tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease}, offset);
                 var dur = tl.duration();
-                
-                var xCoord1 = final.x,
-                    yCoord1 = final.y,
-                    angle1 = 60 * Math.PI/180;
-                
-                xCoord1 = Math.cos(angle1)*xCoord1 - Math.sin(angle1)*yCoord1;
-                yCoord1 = Math.sin(angle1)*xCoord1 + Math.cos(angle1)*yCoord1;
-                //console.log("********");
-                //console.log(to);
-                final = new Point(xCoord1, yCoord1) + this.centerOfMass;
-                //console.log(final);
-                //console.log("########");
-                tl.to(to, duration*4, {x:final.x*2, y:final.y, ease:ease}, dur);
-                
-                tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
+                final = to + new Point(100,-100)-this.centerOfMass;
+
+                xCoord = final.x,
+                    yCoord = final.y,
+                    angle = 60 * Math.PI/180;
+
+                xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+                yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+                final = new Point(xCoord, yCoord) + this.centerOfMass;
+
+
+
+
+
+                //tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease}, offset);
+
+                //console.log(to1.x);
+                //console.log(final.x);
+
+                //tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
             }
 
             offset += 0;
 
         }, this);
+        */
+
+
+
+
+        //tl.to(points, 5, {bezier:{type:"cubic", values:[{x:100, y:250}, {x:150, y:100}, {x:300, y:500}, {x:500, y:400}], autoRotate:["x","y","rotation", 0, true]}, ease:Power1.easeInOut});
+
 
         return tl;
     }
@@ -164,7 +216,7 @@ Car.prototype = {
 function createFirework() {
     var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width /2, view.size.height/2),
+    var startPoint = new Point(view.size.width /2, view.size.height/4*3),
         size = 15,
         color = getRandomColor();
 
