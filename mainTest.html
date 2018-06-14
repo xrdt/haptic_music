@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/general.css"/>
+<script type="text/javascript" src="js/dist/paper-full.js"></script>
+<!--
+<script type="text/javascript" src="js/fireworks.js/script/fireworks.js"></script>
+<script type="text/javascript" src="js/firework_basic.js"></script>
+<script type="text/javascript" src="js/ripple_basic.js"></script>
+<script type="text/javascript" src="js/wormhole.js"></script>
+-->
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenMax.min.js"></script>
+<!--
+<script type="text/javascript">
+  var globals = {};
+</script>
+-->
+<!--
+<script type = "text/javascript">
+  function loadCanvas(id) {
+    var canvas = document.createElement('canvas');
+    div = document.getElementById(id);
+    canvas.id = "CursorLayer";
+    canvas.width = 200;
+    canvas.height = 50;
+    canvas.style.zIndex = 8;
+    canvas.style.position = "absolute";
+    div.appendChild(canvas)
+  }
+</script>
+-->
+<script type = "text/paperscript" canvas = "canvas">
+  function Car(position, targetRadius, color) {
+    var subs = 1;
+
+    this.radius = targetRadius;
+    this.sides = randomIndex([4, 6, 8, 10, 12]);
+    this.wheelLeft = new Path.Circle(position, targetRadius);
+    this.wheelRight = new Path.Circle(position + new Point(100, 0), targetRadius);
+    this.body = [];
+    var angle = -0 * Math.PI/180;
+
+    var p1 = position + new Point(-50, 0),
+        p2 = position + new Point(150, 0),
+        p3 = position + new Point(150, -20),
+        p4 = position + new Point(100, -30),
+        p5 = position + new Point(70, -45),
+        p6 = position + new Point(30, -45),
+        p7 = position + new Point(0, -30),
+        p8 = position + new Point(-50, -20),
+        centerOfMass = position + new Point(50, -15);
+
+    this.centerOfMass = centerOfMass;
+
+    this.paths = [new Path.Line(p1, p2),
+        new Path.Line(p2, p3),
+        new Path.Line(p3, p4),
+        new Path.Line(p4, p5),
+        new Path.Line(p5, p6),
+        new Path.Line(p6, p7),
+        new Path.Line(p7, p8),
+        new Path.Line(p8, p1),
+        new Path.Circle(position, targetRadius),
+        new Path.Circle(position + new Point(100, 0), targetRadius)];
+    var mod = new Point(100, -200);
+    this.paths2 = [];
+
+    for (var x = 0; x < this.paths.length; x++)
+    {
+        this.paths[x].strokeColor = color;
+
+        this.paths[x].strokeCap = 'round';
+        this.paths[x].strokeWidth = 10;
+        this.paths[x].shadowBlur = 64;
+        this.paths[x].shadowColor = color;
+    }
+
+    for (var x = 0; x < this.paths.length; x++)
+    {
+        var path = this.paths[x];
+        for (var y = 0; y < path.segments.length; y++)
+        {
+            //
+            var coordCenter = path.segments[y].point-centerOfMass;
+            var xCoord = coordCenter.x,
+                yCoord = coordCenter.y;
+
+            xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
+            yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
+            path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass;
+        }
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 62.5;
+  }
+  Car.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        tl.to("#test", 5, {bezier:{type:"cubic", values:[{x:100, y:250}, {x:150, y:100}, {x:300, y:500}, {x:500, y:400}], autoRotate:["x","y","rotation", 0, true]}, ease:Power1.easeInOut});
+
+
+        return tl;
+    }
+  };
+  globals.Car = Car;
+</script>
+<script type="text/paperscript" canvas = "myCanvas">
+var globals = {};
+var Objects = [];
+var keyPressed = false;
+var bombs = [];
+// TODO change to dynamic resizing
+function rect_rotate() {
+    this.group = new Group();
+    this.key = 'a'
+    this.initTime = null;
+    this.updateTime = null;
+}
+
+function circle_stationary() {
+    this.group = new Group();
+    this.key = 'd'
+    this.initTime = null;
+    this.updateTime = null;
+}
+
+function falling_circle() {
+  this.group = new Group();
+  this.key = 's';
+  this.initTime = null;
+  this.updateTime = null;
+}
+
+function fallingShapes() {
+  this.group = new Group();
+  this.key = 'k';
+  this.initTime = null;
+  this.updateTime = null;
+}
+
+function risingShapes() {
+  this.group = new Group();
+  this.key = 'k';
+  this.initTime = null;
+  this.updateTime = null;
+}
+
+// Bomb class
+function Bomb(position, targetRadius, color) {
+    var subs = 1;
+
+    this.radius = targetRadius;
+    this.paths = [];
+
+    for (var i = 0; i < subs; i++) {
+        var h = new Shape.Circle(position, this.radius*0.25);
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:.2,
+                alpha:1
+            });
+        }
+
+        //h.strokeWidth = 36;
+        h.strokeWidth = 8;
+        h.shadowBlur = 64;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = 200;
+}
+Bomb.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            //from = h.segments[i].point;
+            //to = this.targetHex.segments[i].point;
+            var to = new Point(0, view.size.height/2);
+            h.position+=to;
+            //console.log(h.position.x);
+
+            tl.to(h, duration*8, {radius:this.radius, ease:ease}, offset);
+            //tl.to(h.position, duration*8, {y:to.y, ease:ease}, 0);
+            tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
+            offset += 0.2;
+            var off = tl.duration()-offset*2;
+            tl.to(h, duration*8, {strokeWidth:30, ease:ease}, off);
+            var radius;
+            if (view.size.height<view.size.width)
+            {
+              radius = view.size.height/8*3;
+            }
+            else
+            {
+              radius = view.size.width/8*3;
+            }
+            tl.to(h, duration*16, {radius:radius, ease:ease}, off);
+            var offs = tl.duration()-offset*2;
+            tl.to(h, duration*16, {radius:0, ease:ease}, offs);
+
+        }, this);
+
+        return tl;
+    }
+};
+
+
+
+// Factory for polygons
+function Polygon(position, end, radius, color, sides,
+                 lightness_in, strokeWidth,
+                 shadowBlur, speed, scale, to_scale, h_0, subs) {
+    // sides is an array of integers
+    var subs = subs;
+
+    // Some functions require a scaling factor for
+    // animation duration
+    this.to_scale = to_scale;
+    this.scale = scale;
+    this.radius = radius;
+    this.sides = randomIndex(sides);
+    if (this.sides > 0)
+    {
+      this.polygon = new Path.RegularPolygon(position, this.sides, radius);
+    }
+    else
+    {
+      this.polygon = new Path.Circle(position, radius);
+    }
+    this.paths = [];
+    this.end = end;
+
+    for (var i = 0; i < subs; i++) {
+        if (this.sides > 0)
+        {
+            var h = new Path.RegularPolygon(position, this.sides, h_0);
+        }
+        else
+        {
+            //console.log(radius);
+            var h = new Path.Circle(position, radius);
+        }
+
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:lightness_in,
+                alpha:1
+            });
+        }
+
+        h.strokeWidth = strokeWidth;
+        h.shadowBlur = shadowBlur;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+    }
+
+    this.color = this.paths[subs - 1].strokeColor;
+
+    this.speed = speed;
+}
+
+Polygon.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                if (this.end === 0)
+                {
+                  to = this.polygon.segments[i].point*this.to_scale;
+                  tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:ease}, offset);
+                  tl.to(h, duration*this.scale, {strokeWidth:0, ease:ease}, offset);
+                }
+                else
+                {
+                  to = this.polygon.segments[i].point + this.end;
+                  tl.to(from, duration*this.scale, {x:to.x, y:to.y, ease:null}, offset);
+                  tl.to(h, duration*this.scale, {strokeWidth:16, ease:null}, offset);
+                }
+            }
+
+            offset += 0.2;
+
+        }, this);
+
+        return tl;
+    }
+};
+// Factory for lines
+function Line(start, endpoint, angle, length, color,
+              speed, from, easeFrom, easeTo,
+              scale_to, scale_from, end_scale,
+              isWormhole, isConstellation, isTron) {
+    this.start = start;
+    this.isTron = isTron;
+    this.endpoint = endpoint;
+    this.end = new Point();
+    this.isWormhole = isWormhole;
+    this.isConstellation = isConstellation;
+
+    this.end.setAngle(angle);
+    this.end.setLength(length);
+    this.end += this.start;
+
+    this.easeFrom = easeFrom;
+    this.easeTo = easeTo;
+    this.scale_to = scale_to;
+    this.scale_from = scale_from;
+    this.end_scale = end_scale;
+
+    this.path = new Path();
+    if (this.isConstellation || this.isTron) {
+        this.path.add(this.start, this.endpoint);
+    } else {
+        this.path.add(this.start, this.end);
+    }
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = speed;
+
+    this.from = from;
+}
+
+Line.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+                if(!this.isConstellation && !this.isTron)
+                {
+                    this.path.remove();
+                }
+            },
+            onCompleteScope:this
+        });
+
+        var startPoint = this.path.segments[0].point;
+
+        if (this.isConstellation || this.isTron) {
+            endPoint = this.path.segments[1].point;
+        } else {
+            endPoint = this.path.segments[1].point * this.end_scale;
+        }
+
+        var duration = this.path.length / this.speed;
+
+        if (this.from == true && !this.isWormhole) {
+            tl.from(endPoint, duration*this.scale_from, {x:startPoint.x, y:startPoint.y, ease:this.easeFrom});
+        }
+        if (this.isWormhole)
+        {
+            tl.from(endPoint, duration*this.scale_from, {x:endPoint.x, y:endPoint.y, ease:this.easeFrom});
+        }
+
+        if (this.isConstellation || this.isTron)
+        {
+            tl.to(startPoint, duration*this.scale_to, {x:startPoint.x, y:startPoint.y, ease:this.easeTo}, '-=0.5');
+        }
+        else
+        {
+            tl.to(startPoint, duration*this.scale_to, {x:endPoint.x, y:endPoint.y, ease:this.easeTo}, '-=0.5');
+        }
+        //console.log(inter);
+
+        return tl;
+    }
+};
+
+function createFireworkBasic() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+        angle = 270,
+        length = view.size.height * 0.5,
+        size = view.size.height * .06,
+        color = getRandomColor();
+
+    var ease = Cubic;
+    var trail = new Line(startPoint, 0, angle, length, color,
+                         250, false, null, null, 1, 0, 1, false, false),
+        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1, 3);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+
+        var point = hex.polygon.segments[i].point,
+            localPoint = point - hex.polygon.position;
+
+        var spark = new Line(trail.end, 0, localPoint.angle, size * 1.5, color, 250, false, null, null, 1, 0, 1, false, false);
+
+        tl.add(spark.animate(), 'trailDone');
+    }
+
+    return tl;
+}
+
+function createRippleBasic() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width*(Math.random()*.75), view.size.height*(Math.random()*.75)),
+        size = view.size.height*.20,
+        color = getRandomColor();
+
+    var hex = new Polygon(startPoint, 0, size, color, [4, 6, 8], .2, 36, 32, 200, 1, 1, 0, 3);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+        var point = hex.polygon.segments[i].point,
+            localPoint = point - hex.polygon.position;
+    }
+
+    return tl;
+}
+
+function createWormhole() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+        angle = 270,
+        length = view.size.height * 0.5,
+        size = randomRange(32, 64),
+        color = getRandomColor();
+
+    var ease = Cubic;
+    var trail = new Line(startPoint, 0, angle, length, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 50/100, true, false),
+        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0, 3);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+
+        var point = hex.polygon.segments[i].point,
+            localPoint = point - hex.polygon.position;
+
+        var spark = new Line(trail.end, 0, localPoint.angle, size * 2, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 0.5, true, false);
+
+        tl.add(spark.animate(), 'trailDone');
+    }
+
+    return tl;
+}
+
+function createSparksBottom() {
+  var tl = new TimelineMax();
+
+  var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
+    angle = 180,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
+
+    var ease = Cubic;
+  var trail1 = new Line(startPoint, 0, angle, length, color, 250, true, ease.easeInOut, ease.easeOut, .1, .05, 1, false, false);
+
+  tl.add(trail1.animate());
+  tl.add('trailDone');
+
+  return tl;
+}
+
+function createSparksTop() {
+  var tl = new TimelineMax();
+
+  var startPoint = new Point(-1, view.size.height * Math.random() * .5),
+    angle = 0,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
+
+    var ease = Cubic;
+  var trail2 = new Line(startPoint, 0, angle, length, color, 250, true, ease.easeInOut, ease.easeOut, .1, .05, 1, false, false);
+
+  tl.add(trail2.animate());
+  tl.add('trailDone');
+
+  return tl;
+}
+
+function createConstellation(startPositions) {
+  var circles = [];
+  for(var j = 0; j < 7; j++){
+    var circle = new Path.Circle(startPositions[j], 5);
+    circle.fillColor = getRandomColor();
+    circles.push(circle);
+  }
+  return circles;
+}
+
+// Change to be dynamic
+function createLineConstellation(tl1, startPositions){
+  var tl = tl1;
+  var trails = [];
+
+  var color = getRandomColor();
+  for(var i = 0; i < 7; i++)
+  {
+    var startPoint = startPositions[i];
+    var endPoint;
+    if (i<6)
+    {
+      endPoint = startPositions[i+1];
+    }
+    else
+    {
+      endPoint = startPositions[3];
+    }
+  }
+
+  for(var i = 0; i< 7;i++){
+    var startPoint = startPositions[i];
+    if (i<6)
+    {
+      var endPoint = startPositions[i+1];
+    }
+    else
+    {
+      var endPoint = startPositions[3];
+    }
+
+    var ease = Cubic;
+    var trail = new Line(startPoint, endPoint, 0, 0, color, 250, true, ease.easeInOut, ease.easeOut, .5, .5, 1, false, true);
+    trails.push(trail);
+  }
+
+  for(var j = 0; j < 7; j++){
+      tl.add(trails[j].animate());
+      tl.add('trailDone');
+  }
+  return [tl, trails];
+}
+
+function tronPath(start, angleOld, path, counter)
+{
+    var startPoint = start,
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        end = new Point(),
+        path = path,
+        count = counter,
+        waitingTime = 0;
+
+    while (Math.abs(angle - angleOld) == 180)
+    {
+        angle = randomIndex([0, 90, 180, 270]);
+    }
+
+    end.setAngle(angle);
+    end.setLength(length);
+    end += startPoint;
+    path.push(end);
+
+    if (!(end.x > view.size.width - 1 || end.y > view.size.height - 1 || end.x < 1 || end.y < 1) && count < 100)
+    {
+        //console.log(path);
+
+        path.push.apply(tronPath(end, angle, path, count + 1));
+    }
+
+    return path;
+
+}
+
+function createTron(){
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, view.size.height/2),
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        waitingTime = 0;
+
+    var path = [];
+    var trails = [];
+    path.push(startPoint);
+    path = tronPath(startPoint, angle, path, 0);
+
+    var ease = Cubic;
+    for (var x = path.length-1; x > 0; x--)
+    {
+        var trail = new Line(path[x], path[x-1], 0, 0, color, 125, true, ease.easeInOut, ease.easeOut, 0.125, 0.125, 1, false, false, true);
+        //console.log(trail);
+        trails.push(trail);
+        tl.add(trail.animate());
+        tl.add('trailDone');
+    }
+
+    return [tl, trails];
+}
+
+function createWarringShapes(start, angle, sides, up) {
+  var tl = new TimelineMax();
+
+  var startPoint = start,
+      angle = angle,
+      length = view.size.height * 0.5,
+      size = randomRange(8, 8),
+      color = getRandomColor();
+  if (up)
+  {
+    var end = new Point(-view.size.width/4*3,-view.size.height);
+  }
+  else
+  {
+    var end = new Point(view.size.width/4*3,view.size.height);
+  }
+
+  var hex = new Polygon(startPoint, end, 8, color, [0], 0.7, 16, 64, 62.5, 16, 0, 0, 1);
+
+  tl.add(hex.animate(), 'trailDone');
+
+  return tl;
+}
+
+function createBomb2() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, 0),
+        size = view.size.height*.10,
+        color = getRandomColorBomb();
+
+    var bomb = new Bomb(startPoint, size, color);
+
+    tl.add(bomb.animate(), 'trailDone');
+
+    return [tl, bomb];
+}
+
+function createCar() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width /2, view.size.height/4*3),
+        size = 15,
+        color = getRandomColor();
+
+    var car = new globals.Car(startPoint, size, color);
+
+    tl.add(car.animate(), 'trailDone');
+
+    return tl;
+}
+
+////////////
+// UPDATE
+////////////
+
+
+
+paper.install(window);
+
+// Create a centered text item at the center of the view:
+var text = new PointText({
+	point: view.center,
+	content: 'Click here to focus and then press some keys.',
+	justification: 'center',
+	fillColor: 'white',
+	fontSize: 15
+});
+
+function onKeyUp(event) {
+	// When a key is pressed, set the content of the text item:
+	//text.content = 'The ' + event.key + ' key was released!';
+}
+
+
+function onFrame(event) {
+    for (var ix = 0; ix < Objects.length; ix++) {
+        var child = Objects[ix];
+        child.updateTime = performance.now();
+        if (child.key == 's') {
+            if (child.group.hasChildren()) {
+                child.group.firstChild.position.y += 10;
+                child.group.firstChild.position.x += 10;
+            }
+            if (child.updateTime - child.initTime >= 1000) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            }
+        } else {
+            if (child.updateTime - child.initTime >= 1000) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            } else if (child.group.hasChildren()) {
+                child.group.firstChild.rotate(3);
+            }
+        }
+    }
+    if (event.count % 60 === 0 && !keyPressed) {
+        var bomb = createBomb2();
+        bombs = bombs.concat(bomb[1].paths);
+    }
+    else if (keyPressed && bombs.length > 0)
+    {
+      for(var x = 0; x < bombs.length; x++)
+      {
+        bombs[x].remove();
+      }
+      text.remove();
+      bombs = [];
+    }
+}
+
+
+function onKeyDown(event) {
+	// When a key is released, set the content of the text item:
+	text.fillColor = 'black';
+	//text.content = 'The ' + event.key + ' key was pressed!';
+	keyPressed = true;
+
+	if (event.key == 'a') {
+      var cannonUrl = "resources/audio/cannon.wav";
+	  var audio = new Audio(cannonUrl);
+	  audio.play();
+
+      var rotate_rect = new rect_rotate();
+      rotate_rect.group.addChild(new Path.Rectangle([30, 30], [90, 40]));
+      rotate_rect.group.firstChild.strokeColor = 'red';
+      rotate_rect.initTime = performance.now();
+      Objects.push(rotate_rect);
+    }
+	if (event.key == 'd') {
+      var cannonBig = "resources/audio/cannonBig.wav";
+	  var audio = new Audio(cannonBig);
+	  audio.play();
+
+      var standing_circle = new circle_stationary();
+      standing_circle.group.addChild(new Path.Circle([30, 30], 30));
+      standing_circle.group.firstChild.strokeColor = 'green';
+      standing_circle.initTime = performance.now();
+      Objects.push(standing_circle);
+    }
+	if (event.key == 's') {
+      var drums1 = "resources/audio/drums1.mp4";
+	  var audio = new Audio(drums1);
+	  audio.play();
+
+      var falling = new falling_circle();
+      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+      falling.group.firstChild.position = [0, 0];
+      falling.group.firstChild.strokeColor = 'blue';
+      falling.group.firstChild.fillColor = 'black';
+      falling.initTime = performance.now();
+      Objects.push(falling);
+    }
+	if (event.key == 'f') {
+      var strings1 = "resources/audio/strings1.mp4";
+	  var audio = new Audio(strings1);
+	  audio.play();
+	  createFireworkBasic();
+    }
+	if (event.key == 'r') {
+      var synth1 = "resources/audio/synth1.mp4";
+	  var audio = new Audio(synth1);
+	  audio.play();
+	  createWormhole();
+    }
+	if (event.key == 'g') {
+      var strings2Url = "resources/audio/strings2.mp4";
+	  var audio = new Audio(strings2Url);
+	  audio.play();
+	  var startPositions = [];
+      var p1 = new Point(150, 150);
+      var p2 = new Point(150+100, 150-50);
+      var p3 = new Point(150+200, 150+0);
+      var p4 = new Point(150+300, 150+0);
+      var p5 = new Point(150+350, 150+200);
+      var p6 = new Point(150+550, 150+200);
+      var p7 = new Point(150+600, 150+0);
+      startPositions.push(p1);
+      startPositions.push(p2);
+      startPositions.push(p3);
+      startPositions.push(p4);
+      startPositions.push(p5);
+      startPositions.push(p6);
+      startPositions.push(p7);
+
+      var tl = new TimelineMax();
+      var circles = createConstellation(startPositions);
+      var varias = createLineConstellation(tl, startPositions);
+      var tll = varias[0];
+      var trails = varias[1];
+      setTimeout(function(){
+        for(var i = 0; i < 7; i++){
+          trails[i].path.remove();
+          circles[i].remove();
+        }}, tll.duration()*1000);
+    }
+	if (event.key == 'h') {
+      var static_3 = "resources/audio/static_3.m4a";
+	  var audio = new Audio(static_3);
+      audio.play();
+      var sparksTop = setInterval(createSparksTop, 10);
+      var sparksBottom = setInterval(createSparksBottom, 10);
+
+      setTimeout(function() {clearInterval(sparksTop);}, 3000);
+      setTimeout(function() {clearInterval(sparksBottom);}, 3000);
+
+    }
+	if (event.key == 'j') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+	  createRippleBasic();
+    }
+    if (event.key == 'k') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+      var start,
+        possibleSides = [0,3,4],
+        sides = randomIndex(possibleSides),
+        angle = Math.atan2(view.size.height, view.size.width),
+        indexer = 5,
+        modifier = 75,
+        begin = new Point(0, -modifier*5);
+      for (var x = 0; x < indexer; x++)
+      {
+        for (var y = 0; y < indexer-x; y++)
+        {
+          // start = new Point(view.size.width/2 * Math.random()+view.size.width/4, -y*50);
+          start = new Point(-x*modifier - modifier*y*Math.sin(Math.PI/2+angle), -y * modifier - modifier * Math.sin(-Math.PI/4+angle) * x);
+          //start = new Point(-x*modifier, -y * modifier);
+          //console.log(modifier*Math.sin(angle));
+          createWarringShapes(start, angle, sides, false);
+        }
+      }
+
+      var index = possibleSides.indexOf(sides);
+      possibleSides.splice(index,1);
+      sides = randomIndex(possibleSides);
+      for (var x = 0; x < indexer; x++)
+      {
+        for (var y = 0; y < indexer-x; y++)
+        {
+          //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
+          start = new Point(view.size.width + x*modifier+modifier*y*Math.sin(angle), view.size.height + y*modifier-modifier * Math.sin(angle) * x);
+          createWarringShapes(start, angle, sides, true);
+        }
+      }
+    }
+    if (event.key == 't') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+      var varias;
+      var trails = [];
+      var dur = 100000000;
+      for (var x = 0; x < 5; x++)
+	  {
+	    varias = createTron();
+	    if (dur > varias[0].duration())
+	    {
+	      dur = varias[0].duration();
+	    }
+	    trails = trails.concat(varias[1]);
+	  }
+        setTimeout(function(){
+            for(var i = 0; i < trails.length; i++){
+                trails[i].path.remove();
+            }}, dur * 1000 + 500);
+	}
+	if (event.key == 'c') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+	  createCar();
+    }
+    if (event.key == 'space') {
+        var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        var canvasLayer = document.getElementById("myCanvas");
+        canvasLayer.style.background = color;
+    }
+}
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function getRandomColorBomb() {
+    return new Color({
+        hue:randomRange(0, 360),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+
+</script>
+
+</head>
+<body id= test" style="height:100%;margin:0;overflow:hidden;">
+  <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
+  <div id = "test">
+    <canvas id="canvas" resize="true" style="width:200px;height:50px;"></canvas>
+  </div>
+</body>
+</html>
