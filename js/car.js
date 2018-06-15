@@ -44,9 +44,8 @@
             new Path.Line(p7, p8),
             new Path.Line(p8, p1),
             new Path.Circle(position, targetRadius),
-            new Path.Line(p9, p10),
-            new Path.Circle(position + new Point(100, 0), targetRadius),
-            new Path.Line(p10, p1)];
+            new Path.Circle(position + new Point(100, 0), targetRadius)
+            ];
 
         this.path = new CompoundPath({children: this.paths, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
 
