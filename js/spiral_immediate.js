@@ -18,17 +18,24 @@
 
 function onFrame(e) {
     if (e.count % 12000 === 0) {
-      var spiral = new Path({strokeColor: 'black', strokeWidth: 10,
-                             closed: false});
+      var spiral = new Path({closed: false});
+      var iterations = 100;
       var position = view.center;
+
       position = new Point(view.center.x, view.center.y);
       spiral.add(position);
-      for (var i = 0; i < 500; i++) {
+      for (var i = 0; i < iterations; i++) {
+        console.log('running');
         position = growSpiral(spiral, i, position);
       }
       spiral.smooth();
+
+      var outline = new Path.Circle(view.center, Math.sqrt(Math.pow(position.x - view.center.x, 2) + Math.pow(position.y - view.center.y, 2)));
+
+      var fullSpiral = new CompoundPath({children: [spiral, outline], strokeColor: 'red'});
+
       var tl = new TimelineMax();
-      tl.to(spiral, .5, {rotation: 360, repeat:-1, ease: Linear.easeNone});
+      tl.to(fullSpiral, .5, {rotation: -360, repeat:-1, ease: Linear.easeNone});
     }
 }
 
