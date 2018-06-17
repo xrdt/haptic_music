@@ -17,6 +17,27 @@
 var Objects = [];
 var keyPressed = false;
 var bombs = [];
+
+function bouncingBall() {
+  this.group = new Group();
+  this.key = 'l';
+  this.initTime = null;
+  this.updateTime = null;
+  this.strokeWidth = 10;
+
+  // The amount of points in the path:
+  this.points = 12;
+
+  // The distance between the points:
+  this.length = 25;
+  this.bounced = false;
+  this.g = 0.5;
+  this.mass = 1;
+  this.speed = 0;
+  this.force = this.g * this.mass * 3.5;
+  this.backSpeed = this.force * this.speed;
+}
+
 // TODO change to dynamic resizing
 function rect_rotate() {
     this.group = new Group();
@@ -52,6 +73,7 @@ function risingShapes() {
   this.initTime = null;
   this.updateTime = null;
 }
+
 
 // Bomb class
 function Bomb(position, targetRadius, color) {
@@ -620,7 +642,47 @@ function onFrame(event) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
             }
-        } else {
+        }
+        else if (child.key == 'l') {
+            if (child.group.hasChildren()) {
+                var ball = child.group.firstChild;
+                var points = child.points;
+                var length = child.length;
+
+                var path = child.group.children[1];
+                var fPoint = new Point(ball.position.x, ball.position.y);
+                path.firstSegment.point = fPoint;
+
+                for (var i = 0; i < points - 1; i++) {
+                  var segment = path.segments[i];
+                  var nextSegment = segment.next;
+
+                  if (nextSegment != path.lastSegment)
+                  {
+                    var vector = segment.point - nextSegment.point;
+                    vector.length = length;
+                    nextSegment.point = segment.point - vector;
+                  }
+                }
+                path.smooth({ type: 'continuous' });
+                if (ball.position.y <= (points) * length)
+                {
+                  child.speed += child.g;
+                  ball.position.y += child.speed;
+                }
+                else
+                {
+                  child.backSpeed = child.force * child.speed;
+                  child.speed -= child.backSpeed;
+                  ball.position.y += child.speed * 1.75;
+                }
+            }
+            if (child.updateTime - child.initTime >= 4000) {
+                child.group.removeChildren(0, 3);
+                Objects.splice(ix, 1);
+            }
+        }
+        else {
             if (child.updateTime - child.initTime >= 1000) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
@@ -804,6 +866,71 @@ function onKeyDown(event) {
             for(var i = 0; i < trails.length; i++){
                 trails[i].path.remove();
             }}, dur * 1000 + 500);
+	}
+	/*
+	if (event.key == 's') {
+      var drums1 = "resources/audio/drums1.mp4";
+	  var audio = new Audio(drums1);
+	  audio.play();
+
+      var falling = new falling_circle();
+      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+      falling.group.firstChild.position = [0, 0];
+      falling.group.firstChild.strokeColor = 'blue';
+      falling.group.firstChild.fillColor = 'black';
+      falling.initTime = performance.now();
+      Objects.push(falling);
+    }
+	*/
+    if (event.key == 'l') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+	  var bouncing = new bouncingBall();
+	  bouncing.group.addChild(new Path.Circle([0, 0], [10, 10]));
+	  var points = bouncing.points;
+	  var length = bouncing.length;
+	  var strokeWidth = bouncing.strokeWidth;
+
+	  var stringPath = new Path({
+        strokeColor: '#E4141B',
+        strokeWidth: strokeWidth,
+        strokeCap: 'round'
+      });
+      var start = new Point(view.size.width/2, 0);
+      stringPath.add(start);
+      for (var i = 1; i < points - 1; i++)
+      {
+        if (randomIndex([0, 1]) == 0)
+        {
+          var position = start + new Point(i*length, 0);
+          stringPath.add(position);
+        }
+        else
+        {
+          stringPath.add(start);
+        }
+      }
+      stringPath.add(start);
+
+      var floor = new Path({
+        strokeColor: '#E4141B',
+        strokeWidth: strokeWidth * 3,
+        strokeCap: 'round'
+      });
+      var p1 = new Point(view.size.width/8*3, points*length + 20),
+          p2 = new Point(view.size.width/8*5, points*length + 20);
+      floor.add(p1);
+      floor.add(p2);
+
+	  bouncing.group.addChild(stringPath);
+	  bouncing.group.addChild(floor);
+      bouncing.group.firstChild.position = [view.size.width/2, 0];
+      bouncing.group.firstChild.strokeColor = 'blue';
+      bouncing.group.firstChild.fillColor = 'black';
+      bouncing.initTime = performance.now();
+      Objects.push(bouncing);
 	}
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
