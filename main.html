@@ -18,6 +18,16 @@ var Objects = [];
 var keyPressed = false;
 var bombs = [];
 
+function loopingPlane() {
+  this.group = new Group();
+  this.key = 'p';
+  this.initTime = null;
+  this.updateTime = null;
+  this.strokeWidth = 5;
+
+  this.speedX = 10;
+  this.speedY = 0;
+}
 function bouncingBall() {
   this.group = new Group();
   this.key = 'l';
@@ -74,6 +84,95 @@ function risingShapes() {
   this.updateTime = null;
 }
 
+function createPlane(color, x, y) {
+  var startPositionsB1 = new Path(),
+      startPositionsB2 = new Path(),
+      startPositionsW1 = new Path(),
+      startPositionsW2 = new Path(),
+      startPositionsE1 = new Path();
+
+  var beginX = x,
+      beginY = y;
+  var p1 = new Point(beginX+10, beginY),
+      p2 = new Point(beginX+115, beginY),
+      p3, p4, p5, p6, p7, p8, p9,
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB1.add(p1);
+  startPositionsB1.add(p2);
+
+  p1 = new Point(beginX+140, beginY),
+      p2 = new Point(beginX+190, beginY),
+      p3 = new Point(beginX+220, beginY-10),
+      p4 = new Point(beginX+195, beginY-25),
+      p5 = new Point(beginX+30, beginY-25),
+      p6 = new Point(beginX+10, beginY-50),
+      p7 = new Point(beginX, beginY-50),
+      p8 = new Point(beginX, beginY-10),
+      p9 = new Point(beginX+10, beginY),
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB2.add(p1);
+  startPositionsB2.add(p2);
+  startPositionsB2.add(p3);
+  startPositionsB2.add(p4);
+  startPositionsB2.add(p5);
+  startPositionsB2.add(p6);
+  startPositionsB2.add(p7);
+  startPositionsB2.add(p8);
+  startPositionsB2.add(p9);
+
+  beginX += 115;
+  p1 = new Point(beginX+10, beginY-17),
+      p2 = new Point(beginX-15, beginY+30),
+      p3 = new Point(beginX-5, beginY+30),
+      p4 = new Point(beginX+40, beginY-17);
+  startPositionsW1.add(p1);
+  startPositionsW1.add(p2);
+  startPositionsW1.add(p3);
+  startPositionsW1.add(p4);
+  startPositionsW1.closed = 'true';
+
+  p1 = new Point(beginX+10, beginY-25),
+      p2 = new Point(beginX-25, beginY-40),
+      p3 = new Point(beginX-15, beginY-40),
+      p4 = new Point(beginX+40, beginY-25);
+  startPositionsW2.add(p1);
+  startPositionsW2.add(p2);
+  startPositionsW2.add(p3);
+  startPositionsW2.add(p4);
+  startPositionsW2.closed = 'true';
+
+  beginX -= 115;
+  p1 = new Point(beginX+15, beginY-15),
+      p2 = new Point(beginX+5, beginY-3),
+      p3 = new Point(beginX+15, beginY-3),
+      p4 = new Point(beginX+30, beginY-15);
+  startPositionsE1.add(p1);
+  startPositionsE1.add(p2);
+  startPositionsE1.add(p3);
+  startPositionsE1.add(p4);
+  startPositionsE1.closed = 'true';
+
+  var path = new CompoundPath({
+      children: [
+          startPositionsB1,
+          startPositionsB2,
+          startPositionsW1,
+          startPositionsW2,
+          startPositionsE1
+      ],
+      strokeColor:color,
+      strokeWidth:5,
+      shadowBlur:32,
+      shadowColor:color,
+      strokeCap:'round'
+  });
+
+  return path;
+}
 
 // Bomb class
 function Bomb(position, targetRadius, color) {
@@ -682,8 +781,51 @@ function onFrame(event) {
                 Objects.splice(ix, 1);
             }
         }
+        else if (child.key == 'p') {
+            if (child.group.hasChildren()) {
+            var diff = child.updateTime - child.initTime;
+              if (diff >= 500)
+              {
+                if (diff <= 1000 )
+                {
+                  child.speedY -= 0.30;
+                  child.speedX -= 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 1500)
+                {
+                  child.speedY += 0.30;
+                  child.speedX -= 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 2000)
+                {
+                  child.speedY += 0.30;
+                  child.speedX += 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 2500)
+                {
+                  child.speedY -= 0.30;
+                  child.speedX += 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+              }
+              else
+              {
+                child.speedX = 10;
+                child.speedY = 0;
+              }
+              child.group.firstChild.position.y += child.speedY;
+              child.group.firstChild.position.x += child.speedX;
+            }
+            if (child.updateTime - child.initTime >= 3500) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            }
+        }
         else {
-            if (child.updateTime - child.initTime >= 1000) {
+            if (child.updateTime - child.initTime >= 1500) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
             } else if (child.group.hasChildren()) {
@@ -867,21 +1009,7 @@ function onKeyDown(event) {
                 trails[i].path.remove();
             }}, dur * 1000 + 500);
 	}
-	/*
-	if (event.key == 's') {
-      var drums1 = "resources/audio/drums1.mp4";
-	  var audio = new Audio(drums1);
-	  audio.play();
 
-      var falling = new falling_circle();
-      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
-      falling.group.firstChild.position = [0, 0];
-      falling.group.firstChild.strokeColor = 'blue';
-      falling.group.firstChild.fillColor = 'black';
-      falling.initTime = performance.now();
-      Objects.push(falling);
-    }
-	*/
     if (event.key == 'l') {
       var xylophone2 = "resources/audio/xylophone2.mp4";
 	  var audio = new Audio(xylophone2);
@@ -932,6 +1060,34 @@ function onKeyDown(event) {
       bouncing.initTime = performance.now();
       Objects.push(bouncing);
 	}
+	/*
+    if (event.key == 's') {
+      var drums1 = "resources/audio/drums1.mp4";
+	  var audio = new Audio(drums1);
+	  audio.play();
+
+      var falling = new falling_circle();
+      falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+      falling.group.firstChild.position = [0, 0];
+      falling.group.firstChild.strokeColor = 'blue';
+      falling.group.firstChild.fillColor = 'black';
+      falling.initTime = performance.now();
+      Objects.push(falling);
+    }
+	*/
+	if (event.key == 'p') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+      var plane = new loopingPlane();
+      var color = getRandomColor();
+      var planePath = createPlane(color, 200, 500);
+
+      plane.group.addChild(planePath);
+      plane.initTime = performance.now();
+      Objects.push(plane);
+    }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         var canvasLayer = document.getElementById("myCanvas");

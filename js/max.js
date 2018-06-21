@@ -18,7 +18,8 @@
             startPositionsX = new Path(),
             startPositionsX2 = new Path(),
             startPositionsBoard = new Path(),
-            startPositionsBoard2 = new Path;
+            startPositionsBoard2 = new Path();
+        
         var beginX = x,
             beginY = y;
         var p1 = new Point(beginX, beginY+10),
@@ -45,30 +46,6 @@
         startPositionsM.add(p10);
         startPositionsM.closed = true;
         startPositionsM.smooth();
-
-        p1 = new Point(beginX-20, beginY + 20),
-            p2 = new Point(beginX+40, beginY-230),
-            p3 = new Point(beginX+175, beginY-120),
-            p4 = new Point(beginX+310, beginY-230),
-            p5 = new Point(beginX+370, beginY+20),
-            p6 = new Point(beginX+300, beginY+20),
-            p7 = new Point(beginX+275, beginY-110),
-            p8 = new Point(beginX+175, beginY-30),
-            p9 = new Point(beginX+75, beginY-110),
-            p10 = new Point(beginX+50, beginY+20);
-
-        startPositionsM2.add(p1);
-        startPositionsM2.add(p2);
-        startPositionsM2.add(p3);
-        startPositionsM2.add(p4);
-        startPositionsM2.add(p5);
-        startPositionsM2.add(p6);
-        startPositionsM2.add(p7);
-        startPositionsM2.add(p8);
-        startPositionsM2.add(p9);
-        startPositionsM2.add(p10);
-        startPositionsM2.closed = true;
-        startPositionsM2.smooth();
 
         //var begin = 300;
         var beginAX = beginX + 400;
@@ -99,20 +76,22 @@
         startPositionsAS.smooth();
 
         var beginXX = beginAX + 350;
+        beginY += 20;
         p1 = new Point(beginXX, beginY),
             p2 = new Point(beginXX+30, beginY),
             //p3 = new Point(beginXX+115, beginY-80),
             p4 = new Point(beginXX+125, beginY-80),
             p5 = new Point(beginXX+220, beginY),
             p6 = new Point(beginXX+250, beginY),
-            p7 = new Point(beginXX+145, beginY-100),
+            p7 = new Point(beginXX+155, beginY-100),
             p8 = new Point(beginXX+250, beginY-200),
             p9 = new Point(beginXX+220, beginY-200),
             //p10 = new Point(beginXX+135, beginY-120),
             p11 = new Point(beginXX+125, beginY-120),
             p12 = new Point(beginXX+30, beginY-200),
             p13 = new Point(beginXX, beginY-200),
-            p14 = new Point(beginXX+105, beginY-100);
+            p14 = new Point(beginXX+95, beginY-100);
+        
         startPositionsX.add(p1);
         startPositionsX.add(p2);
         //startPositionsX.add(p3);
@@ -150,16 +129,35 @@
         startPositionsBoard.add(p7);
         startPositionsBoard.add(p8);
         startPositionsBoard.closed = true;
-        //startPositionsBoard.smooth();
+        startPositionsBoard.smooth();
+        
+        p1 = new Point(beginSX, beginSY),
+            p2 = new Point(beginSX, beginSY-300),
+            p3 = new Point(beginSX + 20, beginSY-320),
+            p4 = new Point(beginSX + 1130, beginSY - 320),
+            p5 = new Point(beginSX + 1150, beginSY - 300),
+            p6 = new Point(beginSX + 1150, beginSY),
+            p7 = new Point(beginSX + 1130, beginSY + 20),
+            p8 = new Point(beginSX + 20, beginSY + 20);
+
+        startPositionsBoard2.add(p1);
+        startPositionsBoard2.add(p2);
+        startPositionsBoard2.add(p3);
+        startPositionsBoard2.add(p4);
+        startPositionsBoard2.add(p5);
+        startPositionsBoard2.add(p6);
+        startPositionsBoard2.add(p7);
+        startPositionsBoard2.add(p8);
+        startPositionsBoard2.closed = true;
 
         this.path = new CompoundPath({
             children: [
                 startPositionsM,
-                startPositionsM2,
                 startPositionsA,
                 startPositionsAS,
                 startPositionsX,
-                startPositionsBoard
+                startPositionsBoard,
+                startPositionsBoard2
             ],
             strokeColor:color,
             strokeWidth:5,
@@ -191,9 +189,9 @@ Pather.prototype = {
         offset += 0.01;
         tl.to(this.path, 0.05, {strokeWidth:5, ease:ease}, offset);
         offset += 0.05;
-        tl.to(this.path, 10, {strokeWidth:5, ease:ease}, offset);
+        tl.to(this.path, 1, {strokeWidth:5, ease:ease}, offset);
         offset += 1;
-        //tl.to(this.path, 0.01, {strokeWidth:0, ease:ease}, offset);
+        tl.to(this.path, 0.01, {strokeWidth:0, ease:ease}, offset);
 
 
         return tl;
@@ -216,7 +214,7 @@ function createLineConstellation(tl1, x, y){
 ////////////
 
 function onFrame(e) {
-    if (e.count % (2400) === 0) {
+    if (e.count % (240) === 0) {
 
 
         var tl = new TimelineMax();
