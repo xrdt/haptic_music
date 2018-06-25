@@ -28,6 +28,7 @@ function loopingPlane() {
   this.speedX = 10;
   this.speedY = 0;
 }
+
 function bouncingBall() {
   this.group = new Group();
   this.key = 'l';
@@ -84,95 +85,181 @@ function risingShapes() {
   this.updateTime = null;
 }
 
-function createPlane(color, x, y) {
-  var startPositionsB1 = new Path(),
-      startPositionsB2 = new Path(),
-      startPositionsW1 = new Path(),
-      startPositionsW2 = new Path(),
-      startPositionsE1 = new Path();
 
-  var beginX = x,
-      beginY = y;
-  var p1 = new Point(beginX+10, beginY),
-      p2 = new Point(beginX+115, beginY),
-      p3, p4, p5, p6, p7, p8, p9,
-      p10,
-      p11,
-      p12, p13, p14;
-  startPositionsB1.add(p1);
-  startPositionsB1.add(p2);
+// Car class
+function Car(position, targetRadius, color) {
+  var subs = 1;
 
-  p1 = new Point(beginX+140, beginY),
-      p2 = new Point(beginX+190, beginY),
-      p3 = new Point(beginX+220, beginY-10),
-      p4 = new Point(beginX+195, beginY-25),
-      p5 = new Point(beginX+30, beginY-25),
-      p6 = new Point(beginX+10, beginY-50),
-      p7 = new Point(beginX, beginY-50),
-      p8 = new Point(beginX, beginY-10),
-      p9 = new Point(beginX+10, beginY),
-      p10,
-      p11,
-      p12, p13, p14;
-  startPositionsB2.add(p1);
-  startPositionsB2.add(p2);
-  startPositionsB2.add(p3);
-  startPositionsB2.add(p4);
-  startPositionsB2.add(p5);
-  startPositionsB2.add(p6);
-  startPositionsB2.add(p7);
-  startPositionsB2.add(p8);
-  startPositionsB2.add(p9);
-
-  beginX += 115;
-  p1 = new Point(beginX+10, beginY-17),
-      p2 = new Point(beginX-15, beginY+30),
-      p3 = new Point(beginX-5, beginY+30),
-      p4 = new Point(beginX+40, beginY-17);
-  startPositionsW1.add(p1);
-  startPositionsW1.add(p2);
-  startPositionsW1.add(p3);
-  startPositionsW1.add(p4);
-  startPositionsW1.closed = 'true';
-
-  p1 = new Point(beginX+10, beginY-25),
-      p2 = new Point(beginX-25, beginY-40),
-      p3 = new Point(beginX-15, beginY-40),
-      p4 = new Point(beginX+40, beginY-25);
-  startPositionsW2.add(p1);
-  startPositionsW2.add(p2);
-  startPositionsW2.add(p3);
-  startPositionsW2.add(p4);
-  startPositionsW2.closed = 'true';
-
-  beginX -= 115;
-  p1 = new Point(beginX+15, beginY-15),
-      p2 = new Point(beginX+5, beginY-3),
-      p3 = new Point(beginX+15, beginY-3),
-      p4 = new Point(beginX+30, beginY-15);
-  startPositionsE1.add(p1);
-  startPositionsE1.add(p2);
-  startPositionsE1.add(p3);
-  startPositionsE1.add(p4);
-  startPositionsE1.closed = 'true';
-
-  var path = new CompoundPath({
-      children: [
-          startPositionsB1,
-          startPositionsB2,
-          startPositionsW1,
-          startPositionsW2,
-          startPositionsE1
-      ],
-      strokeColor:color,
-      strokeWidth:5,
-      shadowBlur:32,
-      shadowColor:color,
-      strokeCap:'round'
+  this.radius = targetRadius;
+  this.wheelLeft = new Path.Circle({
+      center:position,
+      radius:targetRadius,
+      closed:true
   });
+  this.wheelRight = new Path.Circle({
+      center:position + new Point(100, 0),
+      radius:targetRadius,
+      closed:true
+  });
+  this.body = [];
+  var angle = 0 * Math.PI/180;
 
-  return path;
+  var p1 = position + new Point(-50, 0),
+      p2 = position + new Point(150, 0),
+      p3 = position + new Point(150, -20),
+      p4 = position + new Point(100, -30),
+      p5 = position + new Point(70, -45),
+      p6 = position + new Point(30, -45),
+      p7 = position + new Point(0, -30),
+      p8 = position + new Point(-50, -20),
+      p9 = position + new Point(-15, 0),
+      p10 = position + new Point(85, 0),
+      centerOfMass = position + new Point(50, 0);
+
+  this.centerOfMass = centerOfMass;
+
+  this.paths = [new Path.Line(p1, p2),
+      new Path.Line(p2, p3),
+      new Path.Line(p3, p4),
+      new Path.Line(p4, p5),
+      new Path.Line(p5, p6),
+      new Path.Line(p6, p7),
+      new Path.Line(p7, p8),
+      new Path.Line(p8, p1),
+      new Path.Circle(position, targetRadius),
+      new Path.Line(p9, p10),
+      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Line(p10, p1)];
+
+  this.paths2 = [new Path.Line(p1, p2),
+      new Path.Line(p2, p3),
+      new Path.Line(p3, p4),
+      new Path.Line(p4, p5),
+      new Path.Line(p5, p6),
+      new Path.Line(p6, p7),
+      new Path.Line(p7, p8),
+      new Path.Line(p8, p1),
+      new Path.Circle(position, targetRadius),
+      new Path.Line(p9, p10),
+      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Line(p10, p1)];
+
+  var p1 = position + new Point(150, -25),
+      p2 = position + new Point(10, 50),
+      p3 = position + new Point(-30, 50),
+      p4 = position + new Point(-50, 15),
+      p5 = position + new Point(-30, -20),
+      p6 = position + new Point(110, -100);
+
+  this.paths3 = new Path();
+  this.paths3.add(p1);
+  this.paths3.add(p2);
+  this.paths3.add(p3);
+  this.paths3.add(p4);
+  this.paths3.add(p5);
+  this.paths3.add(p6);
+  this.paths3.closed = true;
+  this.paths3.fillColor = color;
+
+  this.path = new CompoundPath({children: this.paths, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
+  this.path2 = new CompoundPath({children: this.paths2, strokeColor:color, strokeCap:'round', strokeWidth: 0, shadowBlur: 64, shadowColor: color});
+  this.path3 = new CompoundPath({children: this.paths3, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
+  this.path4 = new Path({
+    segments:[[position.x + 200, position.y - 195],
+             [position.x + 600, position.y - 195]],
+             strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
+  });
+  this.path5 = new Path({
+    segments:[[position.x - 100, position.y + 50],
+             [position.x + 900, position.y + 50]],
+             strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
+  });
+  p1 = new Point(position.x - 30, position.y + 30),
+    p2 = new Point(position.x - 50, position.y + 30),
+    p3 = new Point(position.x - 70, position.y + 20),
+    p4 = new Point(position.x - 70, position.y + 10);
+  this.paths6 = [new Path.Line(p4, p3),
+    new Path.Line(p3, p2),
+    new Path.Line(p2, p1)];
+  for (var x = 0; x < this.paths6.length; x++)
+  {
+    this.paths6[x].strokeColor = color;
+    this.paths6[x].strokeCap = 'round';
+    this.paths6[x].strokeWidth = 5;
+    this.paths6[x].shadowBlur = 64;
+    this.paths6[x].shadowColor = color;
+    //this.paths6.visible = true;
+  }
+
+  this.speed = 62.5;
 }
+
+Car.prototype = {
+  animate:function() {
+    var tl = new TimelineMax({
+      onComplete:function() {
+        this.path.remove();
+        this.path2.remove();
+        this.paths3.remove();
+        this.path4.remove();
+        this.path5.remove();
+        this.paths6.forEach(function(p){
+          p.remove();
+        });
+      },
+      onCompleteScope:this
+    });
+
+    var duration = this.radius / this.speed,
+        offset = 0,
+        ease = Power0,
+        sparkOffset = 0.5;
+
+    for (var x = 0; x < this.paths6.length; x++)
+    {
+      var path = this.paths6[x];
+      tl.to(path, 0, {strokeWidth:0, ease:null}, sparkOffset);
+      sparkOffset+=0.5;
+    }
+    offset += sparkOffset-0.5;
+
+    //this.path.rotate(-30);
+    this.path.rotation = -30;
+    //tl.from(this.path, duration*4, {rotation:-30, ease:ease.easeOut}, offset);
+    //tl.from(this.path, duration*4, {rotation:0, ease:null}, offset);
+    tl.to(this.path, duration*4, {rotation:-30, ease:null}, offset);
+    tl.to(this.path, 0, {strokeWidth:false, ease:null}, duration*4 + offset);
+
+    for (var x = 0; x < this.path.children.length; x++)
+    {
+      var path = this.path.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+          to = path.segments[y].point + new Point(350, -150);
+        tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease.easeOut}, offset);
+      }
+    }
+
+    this.path2.translate(new Point(350, -150));
+    this.path2.rotate(30);
+    tl.to(this.path2, 0, {strokeWidth:5, ease:null}, duration*4 + offset);
+    tl.from(this.path2, duration*4, {rotation:-30, ease:ease.easeOut}, duration*4 + offset);
+
+    for (var x = 0; x < this.path2.children.length; x++)
+    {
+      var path = this.path2.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+          to1 = path.segments[y].point + new Point(350, 150);
+        tl.to(from, duration*4, {x:to1.x, y:to1.y, ease:ease.easeOut}, duration*4 + offset);
+      }
+    }
+
+    return tl;
+  }
+};
 
 // Bomb class
 function Bomb(position, targetRadius, color) {
@@ -692,17 +779,121 @@ function createWarringShapes(start, angle, sides, up) {
 }
 
 function createBomb2() {
-    var tl = new TimelineMax();
+  var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width/2, 0),
-        size = view.size.height*.10,
-        color = getRandomColorBomb();
+  var startPoint = new Point(view.size.width/2, 0),
+      size = view.size.height*.10,
+      color = getRandomColorBomb();
 
-    var bomb = new Bomb(startPoint, size, color);
+  var bomb = new Bomb(startPoint, size, color);
 
-    tl.add(bomb.animate(), 'trailDone');
+  tl.add(bomb.animate(), 'trailDone');
 
-    return [tl, bomb];
+  return [tl, bomb];
+}
+
+function createCar() {
+  var tl = new TimelineMax();
+
+  var startPoint = new Point(view.size.width/4, view.size.height/4*3),
+      size = 15,
+      color = getRandomColor();
+
+  var car = new Car(startPoint, size, color);
+
+  tl.add(car.animate(), 'trailDone');
+
+  return tl;
+}
+
+function createPlane(color, x, y) {
+  var startPositionsB1 = new Path(),
+      startPositionsB2 = new Path(),
+      startPositionsW1 = new Path(),
+      startPositionsW2 = new Path(),
+      startPositionsE1 = new Path();
+
+  var beginX = x,
+      beginY = y;
+  var p1 = new Point(beginX+10, beginY),
+      p2 = new Point(beginX+115, beginY),
+      p3, p4, p5, p6, p7, p8, p9,
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB1.add(p1);
+  startPositionsB1.add(p2);
+
+  p1 = new Point(beginX+140, beginY),
+      p2 = new Point(beginX+190, beginY),
+      p3 = new Point(beginX+220, beginY-10),
+      p4 = new Point(beginX+195, beginY-25),
+      p5 = new Point(beginX+30, beginY-25),
+      p6 = new Point(beginX+10, beginY-50),
+      p7 = new Point(beginX, beginY-50),
+      p8 = new Point(beginX, beginY-10),
+      p9 = new Point(beginX+10, beginY),
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB2.add(p1);
+  startPositionsB2.add(p2);
+  startPositionsB2.add(p3);
+  startPositionsB2.add(p4);
+  startPositionsB2.add(p5);
+  startPositionsB2.add(p6);
+  startPositionsB2.add(p7);
+  startPositionsB2.add(p8);
+  startPositionsB2.add(p9);
+
+  beginX += 115;
+  p1 = new Point(beginX+10, beginY-17),
+      p2 = new Point(beginX-15, beginY+30),
+      p3 = new Point(beginX-5, beginY+30),
+      p4 = new Point(beginX+40, beginY-17);
+  startPositionsW1.add(p1);
+  startPositionsW1.add(p2);
+  startPositionsW1.add(p3);
+  startPositionsW1.add(p4);
+  startPositionsW1.closed = 'true';
+
+  p1 = new Point(beginX+10, beginY-25),
+      p2 = new Point(beginX-25, beginY-40),
+      p3 = new Point(beginX-15, beginY-40),
+      p4 = new Point(beginX+40, beginY-25);
+  startPositionsW2.add(p1);
+  startPositionsW2.add(p2);
+  startPositionsW2.add(p3);
+  startPositionsW2.add(p4);
+  startPositionsW2.closed = 'true';
+
+  beginX -= 115;
+  p1 = new Point(beginX+15, beginY-15),
+      p2 = new Point(beginX+5, beginY-3),
+      p3 = new Point(beginX+15, beginY-3),
+      p4 = new Point(beginX+30, beginY-15);
+  startPositionsE1.add(p1);
+  startPositionsE1.add(p2);
+  startPositionsE1.add(p3);
+  startPositionsE1.add(p4);
+  startPositionsE1.closed = 'true';
+
+  var path = new CompoundPath({
+      children: [
+          startPositionsB1,
+          startPositionsB2,
+          startPositionsW1,
+          startPositionsW2,
+          startPositionsE1
+      ],
+      strokeColor:color,
+      strokeWidth:5,
+      shadowBlur:32,
+      shadowColor:color,
+      strokeCap:'round'
+  });
+
+  return path;
 }
 
 ////////////
@@ -810,11 +1001,6 @@ function onFrame(event) {
                   child.speedX += 0.30;
                   child.group.firstChild.rotate(-3.0);
                 }
-              }
-              else
-              {
-                child.speedX = 10;
-                child.speedY = 0;
               }
               child.group.firstChild.position.y += child.speedY;
               child.group.firstChild.position.x += child.speedX;
@@ -1087,6 +1273,13 @@ function onKeyDown(event) {
       plane.group.addChild(planePath);
       plane.initTime = performance.now();
       Objects.push(plane);
+    }
+    if (event.key == 'n') {
+      var xylophone2 = "resources/audio/xylophone2.mp4";
+	  var audio = new Audio(xylophone2);
+	  audio.play();
+
+      createCar();
     }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
