@@ -166,12 +166,12 @@ function Car(position, targetRadius, color) {
   this.path3 = new CompoundPath({children: this.paths3, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
   this.path4 = new Path({
     segments:[[position.x + 200, position.y - 195],
-             [position.x + 600, position.y - 195]],
+             [position.x + 800, position.y - 195]],
              strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
   });
   this.path5 = new Path({
     segments:[[position.x - 100, position.y + 50],
-             [position.x + 900, position.y + 50]],
+             [position.x + 1100, position.y + 50]],
              strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
   });
   p1 = new Point(position.x - 30, position.y + 30),
@@ -188,10 +188,12 @@ function Car(position, targetRadius, color) {
     this.paths6[x].strokeWidth = 5;
     this.paths6[x].shadowBlur = 64;
     this.paths6[x].shadowColor = color;
-    //this.paths6.visible = true;
   }
 
   this.speed = 62.5;
+
+  this.path.applyMatrix = false;
+  this.path2.applyMatrix = false;
 }
 
 Car.prototype = {
@@ -223,12 +225,9 @@ Car.prototype = {
     }
     offset += sparkOffset-0.5;
 
-    //this.path.rotate(-30);
-    this.path.rotation = -30;
-    //tl.from(this.path, duration*4, {rotation:-30, ease:ease.easeOut}, offset);
-    //tl.from(this.path, duration*4, {rotation:0, ease:null}, offset);
-    tl.to(this.path, duration*4, {rotation:-30, ease:null}, offset);
-    tl.to(this.path, 0, {strokeWidth:false, ease:null}, duration*4 + offset);
+    tl.from(this.path, duration*4, {rotation:-30, ease:ease.easeOut}, offset);
+    tl.to(this.path, duration*4, {rotation:0, ease:null}, offset);
+    tl.to(this.path, 0, {strokeWidth:0, ease:null}, duration*4 + offset);
 
     for (var x = 0; x < this.path.children.length; x++)
     {
@@ -236,15 +235,14 @@ Car.prototype = {
       for (var y = 0; y < path.segments.length; y++)
       {
         var from = path.segments[y].point,
-          to = path.segments[y].point + new Point(350, -150);
+          to = path.segments[y].point + new Point(520, -63);
         tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease.easeOut}, offset);
       }
     }
 
-    this.path2.translate(new Point(350, -150));
-    this.path2.rotate(30);
+    this.path2.translate(new Point(500, -150));
     tl.to(this.path2, 0, {strokeWidth:5, ease:null}, duration*4 + offset);
-    tl.from(this.path2, duration*4, {rotation:-30, ease:ease.easeOut}, duration*4 + offset);
+    tl.to(this.path2, duration*4, {rotation:30, ease:ease.easeOut}, duration*4 + offset);
 
     for (var x = 0; x < this.path2.children.length; x++)
     {
@@ -252,7 +250,7 @@ Car.prototype = {
       for (var y = 0; y < path.segments.length; y++)
       {
         var from = path.segments[y].point,
-          to1 = path.segments[y].point + new Point(350, 150);
+          to1 = path.segments[y].point + new Point(500, 23);
         tl.to(from, duration*4, {x:to1.x, y:to1.y, ease:ease.easeOut}, duration*4 + offset);
       }
     }
@@ -795,7 +793,7 @@ function createBomb2() {
 function createCar() {
   var tl = new TimelineMax();
 
-  var startPoint = new Point(view.size.width/4, view.size.height/4*3),
+  var startPoint = new Point(view.size.width/8, view.size.height/4*3),
       size = 15,
       color = getRandomColor();
 

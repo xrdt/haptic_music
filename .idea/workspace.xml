@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="892d2e95-25e6-4cf8-ae05-e846817fea76" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/main.html" afterPath="$PROJECT_DIR$/main.html" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -20,8 +19,8 @@
           <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/main.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="342">
-                  <caret line="229" column="43" lean-forward="false" selection-start-line="229" selection-start-column="43" selection-end-line="229" selection-end-column="43" />
+                <state relative-caret-position="648">
+                  <caret line="291" column="49" lean-forward="false" selection-start-line="291" selection-start-column="49" selection-end-line="291" selection-end-column="49" />
                   <folding />
                 </state>
               </provider>
@@ -93,11 +92,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="main.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/main.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="399">
-                  <caret line="787" column="2" lean-forward="false" selection-start-line="787" selection-start-column="2" selection-end-line="787" selection-end-column="2" />
+                <state relative-caret-position="201">
+                  <caret line="795" column="45" lean-forward="true" selection-start-line="795" selection-start-column="45" selection-end-line="795" selection-end-column="45" />
                   <folding />
                 </state>
               </provider>
@@ -113,7 +112,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="car.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="car.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/car.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="-1260">
@@ -466,7 +465,7 @@
       <workItem from="1529465445032" duration="5520000" />
       <workItem from="1529545738927" duration="5583000" />
       <workItem from="1529785407204" duration="616000" />
-      <workItem from="1529882462797" duration="7483000" />
+      <workItem from="1529882462797" duration="8583000" />
     </task>
     <task id="LOCAL-00001" summary="push to synchronize (added fireworks object and javascript zips)">
       <created>1526170658885</created>
@@ -479,7 +478,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112207000" />
+    <option name="totallyTimeSpent" value="113307000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1984" y="-11" width="1857" height="1092" extended-state="6" />
@@ -882,8 +881,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainTest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2070">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state relative-caret-position="12708">
+          <caret line="706" column="4" lean-forward="false" selection-start-line="706" selection-start-column="4" selection-end-line="706" selection-end-column="4" />
           <folding>
             <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
@@ -924,8 +923,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="229" column="43" lean-forward="false" selection-start-line="229" selection-start-column="43" selection-end-line="229" selection-end-column="43" />
+        <state relative-caret-position="201">
+          <caret line="795" column="45" lean-forward="true" selection-start-line="795" selection-start-column="45" selection-end-line="795" selection-end-column="45" />
           <folding />
         </state>
       </provider>
