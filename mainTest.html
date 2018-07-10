@@ -3,129 +3,49 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/general.css"/>
 <script type="text/javascript" src="js/dist/paper-full.js"></script>
-<!--
-<script type="text/javascript" src="js/fireworks.js/script/fireworks.js"></script>
-<script type="text/javascript" src="js/firework_basic.js"></script>
-<script type="text/javascript" src="js/ripple_basic.js"></script>
-<script type="text/javascript" src="js/wormhole.js"></script>
--->
 <script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
 <script type="text/javascript" src="js/greensock-js/src/minified/TweenMax.min.js"></script>
-<!--
-<script type="text/javascript">
-  var globals = {};
-</script>
--->
-<!--
-<script type = "text/javascript">
-  function loadCanvas(id) {
-    var canvas = document.createElement('canvas');
-    div = document.getElementById(id);
-    canvas.id = "CursorLayer";
-    canvas.width = 200;
-    canvas.height = 50;
-    canvas.style.zIndex = 8;
-    canvas.style.position = "absolute";
-    div.appendChild(canvas)
-  }
-</script>
--->
-<script type = "text/paperscript" canvas = "canvas">
-  function Car(position, targetRadius, color) {
-    var subs = 1;
-
-    this.radius = targetRadius;
-    this.sides = randomIndex([4, 6, 8, 10, 12]);
-    this.wheelLeft = new Path.Circle(position, targetRadius);
-    this.wheelRight = new Path.Circle(position + new Point(100, 0), targetRadius);
-    this.body = [];
-    var angle = -0 * Math.PI/180;
-
-    var p1 = position + new Point(-50, 0),
-        p2 = position + new Point(150, 0),
-        p3 = position + new Point(150, -20),
-        p4 = position + new Point(100, -30),
-        p5 = position + new Point(70, -45),
-        p6 = position + new Point(30, -45),
-        p7 = position + new Point(0, -30),
-        p8 = position + new Point(-50, -20),
-        centerOfMass = position + new Point(50, -15);
-
-    this.centerOfMass = centerOfMass;
-
-    this.paths = [new Path.Line(p1, p2),
-        new Path.Line(p2, p3),
-        new Path.Line(p3, p4),
-        new Path.Line(p4, p5),
-        new Path.Line(p5, p6),
-        new Path.Line(p6, p7),
-        new Path.Line(p7, p8),
-        new Path.Line(p8, p1),
-        new Path.Circle(position, targetRadius),
-        new Path.Circle(position + new Point(100, 0), targetRadius)];
-    var mod = new Point(100, -200);
-    this.paths2 = [];
-
-    for (var x = 0; x < this.paths.length; x++)
-    {
-        this.paths[x].strokeColor = color;
-
-        this.paths[x].strokeCap = 'round';
-        this.paths[x].strokeWidth = 10;
-        this.paths[x].shadowBlur = 64;
-        this.paths[x].shadowColor = color;
-    }
-
-    for (var x = 0; x < this.paths.length; x++)
-    {
-        var path = this.paths[x];
-        for (var y = 0; y < path.segments.length; y++)
-        {
-            //
-            var coordCenter = path.segments[y].point-centerOfMass;
-            var xCoord = coordCenter.x,
-                yCoord = coordCenter.y;
-
-            xCoord = Math.cos(angle)*xCoord - Math.sin(angle)*yCoord;
-            yCoord = Math.sin(angle)*xCoord + Math.cos(angle)*yCoord;
-            path.segments[y].point = new Point(xCoord, yCoord) + centerOfMass;
-        }
-    }
-
-    this.color = this.paths[subs - 1].strokeColor;
-
-    this.speed = 62.5;
-  }
-  Car.prototype = {
-    animate:function() {
-        var tl = new TimelineMax({
-            onComplete:function() {
-                this.paths.forEach(function(p) {
-                    p.remove();
-                });
-            },
-            onCompleteScope:this
-        });
-
-        var duration = this.radius / this.speed,
-            offset = 0,
-            ease = Cubic.easeOut;
-
-        tl.to("#test", 5, {bezier:{type:"cubic", values:[{x:100, y:250}, {x:150, y:100}, {x:300, y:500}, {x:500, y:400}], autoRotate:["x","y","rotation", 0, true]}, ease:Power1.easeInOut});
-
-
-        return tl;
-    }
-  };
-  globals.Car = Car;
-</script>
 <script type="text/paperscript" canvas = "myCanvas">
-var globals = {};
 var Objects = [];
 var keyPressed = false;
 var bombs = [];
+var doShowcase = false;
+var showStart;
+var timer = 0;
+
+function loopingPlane() {
+  this.group = new Group();
+  this.key = 'p';
+  this.initTime = null;
+  this.updateTime = null;
+  this.strokeWidth = 5;
+
+  this.speedX = 10;
+  this.speedY = 0;
+}
+
+function bouncingBall() {
+  this.group = new Group();
+  this.key = 'l';
+  this.initTime = null;
+  this.updateTime = null;
+  this.strokeWidth = 10;
+
+  // The amount of points in the path:
+  this.points = 12;
+
+  // The distance between the points:
+  this.length = 25;
+  this.bounced = false;
+  this.g = 0.5;
+  this.mass = 1;
+  this.speed = 0;
+  this.force = this.g * this.mass * 3.5;
+  this.backSpeed = this.force * this.speed;
+}
+
 // TODO change to dynamic resizing
 function rect_rotate() {
     this.group = new Group();
@@ -161,6 +81,180 @@ function risingShapes() {
   this.initTime = null;
   this.updateTime = null;
 }
+
+
+// Car class
+function Car(position, targetRadius, color) {
+  var subs = 1;
+
+  this.radius = targetRadius;
+  this.wheelLeft = new Path.Circle({
+      center:position,
+      radius:targetRadius,
+      closed:true
+  });
+  this.wheelRight = new Path.Circle({
+      center:position + new Point(100, 0),
+      radius:targetRadius,
+      closed:true
+  });
+  this.body = [];
+  var angle = 0 * Math.PI/180;
+
+  var p1 = position + new Point(-50, 0),
+      p2 = position + new Point(150, 0),
+      p3 = position + new Point(150, -20),
+      p4 = position + new Point(100, -30),
+      p5 = position + new Point(70, -45),
+      p6 = position + new Point(30, -45),
+      p7 = position + new Point(0, -30),
+      p8 = position + new Point(-50, -20),
+      p9 = position + new Point(-15, 0),
+      p10 = position + new Point(85, 0),
+      centerOfMass = position + new Point(50, 0);
+
+  this.centerOfMass = centerOfMass;
+
+  this.paths = [new Path.Line(p1, p2),
+      new Path.Line(p2, p3),
+      new Path.Line(p3, p4),
+      new Path.Line(p4, p5),
+      new Path.Line(p5, p6),
+      new Path.Line(p6, p7),
+      new Path.Line(p7, p8),
+      new Path.Line(p8, p1),
+      new Path.Circle(position, targetRadius),
+      new Path.Line(p9, p10),
+      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Line(p10, p1)];
+
+  this.paths2 = [new Path.Line(p1, p2),
+      new Path.Line(p2, p3),
+      new Path.Line(p3, p4),
+      new Path.Line(p4, p5),
+      new Path.Line(p5, p6),
+      new Path.Line(p6, p7),
+      new Path.Line(p7, p8),
+      new Path.Line(p8, p1),
+      new Path.Circle(position, targetRadius),
+      new Path.Line(p9, p10),
+      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Line(p10, p1)];
+
+  var p1 = position + new Point(150, -25),
+      p2 = position + new Point(10, 50),
+      p3 = position + new Point(-30, 50),
+      p4 = position + new Point(-50, 15),
+      p5 = position + new Point(-30, -20),
+      p6 = position + new Point(110, -100);
+
+  this.paths3 = new Path();
+  this.paths3.add(p1);
+  this.paths3.add(p2);
+  this.paths3.add(p3);
+  this.paths3.add(p4);
+  this.paths3.add(p5);
+  this.paths3.add(p6);
+  this.paths3.closed = true;
+  this.paths3.fillColor = color;
+
+  this.path = new CompoundPath({children: this.paths, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
+  this.path2 = new CompoundPath({children: this.paths2, strokeColor:color, strokeCap:'round', strokeWidth: 0, shadowBlur: 64, shadowColor: color});
+  this.path3 = new CompoundPath({children: this.paths3, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
+  this.path4 = new Path({
+    segments:[[position.x + 200, position.y - 195],
+             [position.x + 800, position.y - 195]],
+             strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
+  });
+  this.path5 = new Path({
+    segments:[[position.x - 100, position.y + 50],
+             [position.x + 1100, position.y + 50]],
+             strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
+  });
+  p1 = new Point(position.x - 30, position.y + 30),
+    p2 = new Point(position.x - 50, position.y + 30),
+    p3 = new Point(position.x - 70, position.y + 20),
+    p4 = new Point(position.x - 70, position.y + 10);
+  this.paths6 = [new Path.Line(p4, p3),
+    new Path.Line(p3, p2),
+    new Path.Line(p2, p1)];
+  for (var x = 0; x < this.paths6.length; x++)
+  {
+    this.paths6[x].strokeColor = color;
+    this.paths6[x].strokeCap = 'round';
+    this.paths6[x].strokeWidth = 5;
+    this.paths6[x].shadowBlur = 64;
+    this.paths6[x].shadowColor = color;
+  }
+
+  this.speed = 62.5;
+
+  this.path.applyMatrix = false;
+  this.path2.applyMatrix = false;
+}
+
+Car.prototype = {
+  animate:function() {
+    var tl = new TimelineMax({
+      onComplete:function() {
+        this.path.remove();
+        this.path2.remove();
+        this.paths3.remove();
+        this.path4.remove();
+        this.path5.remove();
+        this.paths6.forEach(function(p){
+          p.remove();
+        });
+      },
+      onCompleteScope:this
+    });
+
+    var duration = this.radius / this.speed,
+        offset = 0,
+        ease = Power0,
+        sparkOffset = 0.5;
+
+    for (var x = 0; x < this.paths6.length; x++)
+    {
+      var path = this.paths6[x];
+      tl.to(path, 0, {strokeWidth:0, ease:null}, sparkOffset);
+      sparkOffset+=0.5;
+    }
+    offset += sparkOffset-0.5;
+
+    tl.from(this.path, duration*4, {rotation:-30, ease:ease.easeOut}, offset);
+    tl.to(this.path, duration*4, {rotation:0, ease:null}, offset);
+    tl.to(this.path, 0, {strokeWidth:0, ease:null}, duration*4 + offset);
+
+    for (var x = 0; x < this.path.children.length; x++)
+    {
+      var path = this.path.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+          to = path.segments[y].point + new Point(520, -63);
+        tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease.easeOut}, offset);
+      }
+    }
+
+    this.path2.translate(new Point(500, -150));
+    tl.to(this.path2, 0, {strokeWidth:5, ease:null}, duration*4 + offset);
+    tl.to(this.path2, duration*4, {rotation:30, ease:ease.easeOut}, duration*4 + offset);
+
+    for (var x = 0; x < this.path2.children.length; x++)
+    {
+      var path = this.path2.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+          to1 = path.segments[y].point + new Point(500, 23);
+        tl.to(from, duration*4, {x:to1.x, y:to1.y, ease:ease.easeOut}, duration*4 + offset);
+      }
+    }
+
+    return tl;
+  }
+};
 
 // Bomb class
 function Bomb(position, targetRadius, color) {
@@ -244,8 +338,6 @@ Bomb.prototype = {
         return tl;
     }
 };
-
-
 
 // Factory for polygons
 function Polygon(position, end, radius, color, sides,
@@ -435,10 +527,10 @@ Line.prototype = {
     }
 };
 
-function createFireworkBasic() {
+function createFireworkBasic(startPoint) {
     var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+    var startPoint = startPoint,
         angle = 270,
         length = view.size.height * 0.5,
         size = view.size.height * .06,
@@ -464,10 +556,10 @@ function createFireworkBasic() {
     return tl;
 }
 
-function createRippleBasic() {
+function createRippleBasic(startPoint) {
     var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width*(Math.random()*.75), view.size.height*(Math.random()*.75)),
+    var startPoint = startPoint,
         size = view.size.height*.20,
         color = getRandomColor();
 
@@ -483,10 +575,10 @@ function createRippleBasic() {
     return tl;
 }
 
-function createWormhole() {
+function createWormhole(startPoint) {
     var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+    var startPoint = startPoint,
         angle = 270,
         length = view.size.height * 0.5,
         size = randomRange(32, 64),
@@ -682,33 +774,383 @@ function createWarringShapes(start, angle, sides, up) {
 }
 
 function createBomb2() {
-    var tl = new TimelineMax();
+  var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width/2, 0),
-        size = view.size.height*.10,
-        color = getRandomColorBomb();
+  var startPoint = new Point(view.size.width/2, 0),
+      size = view.size.height*.10,
+      color = getRandomColorBomb();
 
-    var bomb = new Bomb(startPoint, size, color);
+  var bomb = new Bomb(startPoint, size, color);
 
-    tl.add(bomb.animate(), 'trailDone');
+  tl.add(bomb.animate(), 'trailDone');
 
-    return [tl, bomb];
+  return [tl, bomb];
 }
 
-function createCar() {
-    var tl = new TimelineMax();
+function createCar(startPoint) {
+  var tl = new TimelineMax();
 
-    var startPoint = new Point(view.size.width /2, view.size.height/4*3),
-        size = 15,
-        color = getRandomColor();
+  var startPoint = startPoint,
+      size = 15,
+      color = getRandomColor();
 
-    var car = new globals.Car(startPoint, size, color);
+  var car = new Car(startPoint, size, color);
 
-    tl.add(car.animate(), 'trailDone');
+  tl.add(car.animate(), 'trailDone');
 
-    return tl;
+  return tl;
 }
 
+function createPlane(color, x, y) {
+  var startPositionsB1 = new Path(),
+      startPositionsB2 = new Path(),
+      startPositionsW1 = new Path(),
+      startPositionsW2 = new Path(),
+      startPositionsE1 = new Path();
+
+  var beginX = x,
+      beginY = y;
+  var p1 = new Point(beginX+10, beginY),
+      p2 = new Point(beginX+115, beginY),
+      p3, p4, p5, p6, p7, p8, p9,
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB1.add(p1);
+  startPositionsB1.add(p2);
+
+  p1 = new Point(beginX+140, beginY),
+      p2 = new Point(beginX+190, beginY),
+      p3 = new Point(beginX+220, beginY-10),
+      p4 = new Point(beginX+195, beginY-25),
+      p5 = new Point(beginX+30, beginY-25),
+      p6 = new Point(beginX+10, beginY-50),
+      p7 = new Point(beginX, beginY-50),
+      p8 = new Point(beginX, beginY-10),
+      p9 = new Point(beginX+10, beginY),
+      p10,
+      p11,
+      p12, p13, p14;
+  startPositionsB2.add(p1);
+  startPositionsB2.add(p2);
+  startPositionsB2.add(p3);
+  startPositionsB2.add(p4);
+  startPositionsB2.add(p5);
+  startPositionsB2.add(p6);
+  startPositionsB2.add(p7);
+  startPositionsB2.add(p8);
+  startPositionsB2.add(p9);
+
+  beginX += 115;
+  p1 = new Point(beginX+10, beginY-17),
+      p2 = new Point(beginX-15, beginY+30),
+      p3 = new Point(beginX-5, beginY+30),
+      p4 = new Point(beginX+40, beginY-17);
+  startPositionsW1.add(p1);
+  startPositionsW1.add(p2);
+  startPositionsW1.add(p3);
+  startPositionsW1.add(p4);
+  startPositionsW1.closed = 'true';
+
+  p1 = new Point(beginX+10, beginY-25),
+      p2 = new Point(beginX-25, beginY-40),
+      p3 = new Point(beginX-15, beginY-40),
+      p4 = new Point(beginX+40, beginY-25);
+  startPositionsW2.add(p1);
+  startPositionsW2.add(p2);
+  startPositionsW2.add(p3);
+  startPositionsW2.add(p4);
+  startPositionsW2.closed = 'true';
+
+  beginX -= 115;
+  p1 = new Point(beginX+15, beginY-15),
+      p2 = new Point(beginX+5, beginY-3),
+      p3 = new Point(beginX+15, beginY-3),
+      p4 = new Point(beginX+30, beginY-15);
+  startPositionsE1.add(p1);
+  startPositionsE1.add(p2);
+  startPositionsE1.add(p3);
+  startPositionsE1.add(p4);
+  startPositionsE1.closed = 'true';
+
+  var path = new CompoundPath({
+      children: [
+          startPositionsB1,
+          startPositionsB2,
+          startPositionsW1,
+          startPositionsW2,
+          startPositionsE1
+      ],
+      strokeColor:color,
+      strokeWidth:5,
+      shadowBlur:32,
+      shadowColor:color,
+      strokeCap:'round'
+  });
+
+  return path;
+}
+
+function aKey()
+{
+  var cannonUrl = "resources/audio/cannon.wav";
+  var audio = new Audio(cannonUrl);
+  audio.play();
+
+  var rotate_rect = new rect_rotate();
+  rotate_rect.group.addChild(new Path.Rectangle([30, 30], [90, 40]));
+  rotate_rect.group.firstChild.strokeColor = 'red';
+  rotate_rect.initTime = performance.now();
+  Objects.push(rotate_rect);
+}
+
+function sKey()
+{
+  var drums1 = "resources/audio/drums1.mp4";
+  var audio = new Audio(drums1);
+  audio.play();
+
+  var falling = new falling_circle();
+  falling.group.addChild(new Path.Circle([0, 0], [10, 10]));
+  falling.group.firstChild.position = [0, 0];
+  falling.group.firstChild.strokeColor = 'blue';
+  falling.group.firstChild.fillColor = 'black';
+  falling.initTime = performance.now();
+  Objects.push(falling);
+}
+
+function dKey()
+{
+  var cannonBig = "resources/audio/cannonBig.wav";
+  var audio = new Audio(cannonBig);
+  audio.play();
+
+  var standing_circle = new circle_stationary();
+  standing_circle.group.addChild(new Path.Circle([30, 30], 30));
+  standing_circle.group.firstChild.strokeColor = 'green';
+  standing_circle.initTime = performance.now();
+  Objects.push(standing_circle);
+}
+
+function fKey(startPoint = new Point(view.size.width * Math.random(), view.size.height))
+{
+  var strings1 = "resources/audio/strings1.mp4";
+  var audio = new Audio(strings1);
+  audio.play();
+
+
+  createFireworkBasic(startPoint);
+}
+
+function gKey()
+{
+  var strings2Url = "resources/audio/strings2.mp4";
+  var audio = new Audio(strings2Url);
+  audio.play();
+  var startPositions = [];
+  var p1 = new Point(150, 150);
+  var p2 = new Point(150+100, 150-50);
+  var p3 = new Point(150+200, 150+0);
+  var p4 = new Point(150+300, 150+0);
+  var p5 = new Point(150+350, 150+200);
+  var p6 = new Point(150+550, 150+200);
+  var p7 = new Point(150+600, 150+0);
+  startPositions.push(p1);
+  startPositions.push(p2);
+  startPositions.push(p3);
+  startPositions.push(p4);
+  startPositions.push(p5);
+  startPositions.push(p6);
+  startPositions.push(p7);
+
+  var tl = new TimelineMax();
+  var circles = createConstellation(startPositions);
+  var varias = createLineConstellation(tl, startPositions);
+  var tll = varias[0];
+  var trails = varias[1];
+  setTimeout(function(){
+    for(var i = 0; i < 7; i++){
+      trails[i].path.remove();
+      circles[i].remove();
+    }}, tll.duration()*1000);
+}
+
+function rKey()
+{
+  var synth1 = "resources/audio/synth1.mp4";
+  var audio = new Audio(synth1);
+  audio.play();
+
+  var startPoint = new Point(view.size.width * Math.random(),
+      view.size.height);
+  createWormhole(startPoint);
+}
+
+function hKey()
+{
+  var static_3 = "resources/audio/static_3.m4a";
+  var audio = new Audio(static_3);
+  audio.play();
+  var sparksTop = setInterval(createSparksTop, 10);
+  var sparksBottom = setInterval(createSparksBottom, 10);
+
+  setTimeout(function() {clearInterval(sparksTop);}, 3000);
+  setTimeout(function() {clearInterval(sparksBottom);}, 3000);
+}
+
+function tKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var varias;
+  var trails = [];
+  var dur = 100000000;
+  for (var x = 0; x < 5; x++)
+  {
+    varias = createTron();
+    if (dur > varias[0].duration())
+    {
+      dur = varias[0].duration();
+    }
+    trails = trails.concat(varias[1]);
+  }
+  setTimeout(function(){
+      for(var i = 0; i < trails.length; i++){
+          trails[i].path.remove();
+      }}, dur * 1000 + 500);
+}
+
+function jKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var startPoint = new Point(view.size.width*(Math.random()*.75),
+      view.size.height*(Math.random()*.75));
+  createRippleBasic(startPoint);
+}
+
+function kKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var start,
+     possibleSides = [0,3,4],
+     sides = randomIndex(possibleSides),
+     angle = Math.atan2(view.size.height, view.size.width),
+     indexer = 5,
+     modifier = 75,
+     begin = new Point(0, -modifier*5);
+  for (var x = 0; x < indexer; x++)
+  {
+    for (var y = 0; y < indexer-x; y++)
+    {
+      // start = new Point(view.size.width/2 * Math.random()+view.size.width/4, -y*50);
+      start = new Point(-x*modifier - modifier*y*Math.sin(Math.PI/2+angle), -y * modifier - modifier * Math.sin(-Math.PI/4+angle) * x);
+      //start = new Point(-x*modifier, -y * modifier);
+      //console.log(modifier*Math.sin(angle));
+      createWarringShapes(start, angle, sides, false);
+    }
+  }
+
+  var index = possibleSides.indexOf(sides);
+  possibleSides.splice(index,1);
+  sides = randomIndex(possibleSides);
+  for (var x = 0; x < indexer; x++)
+  {
+    for (var y = 0; y < indexer-x; y++)
+    {
+      //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
+      start = new Point(view.size.width + x*modifier+modifier*y*Math.sin(angle), view.size.height + y*modifier-modifier * Math.sin(angle) * x);
+      createWarringShapes(start, angle, sides, true);
+    }
+  }
+}
+
+function lKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var bouncing = new bouncingBall();
+  bouncing.group.addChild(new Path.Circle([0, 0], [10, 10]));
+  var points = bouncing.points;
+  var length = bouncing.length;
+  var strokeWidth = bouncing.strokeWidth;
+
+  var stringPath = new Path({
+      strokeColor: '#E4141B',
+      strokeWidth: strokeWidth,
+      strokeCap: 'round'
+  });
+  var start = new Point(view.size.width/2, 0);
+  stringPath.add(start);
+  for (var i = 1; i < points - 1; i++)
+  {
+    if (randomIndex([0, 1]) == 0)
+    {
+      var position = start + new Point(i*length, 0);
+      stringPath.add(position);
+    }
+    else
+    {
+      stringPath.add(start);
+    }
+  }
+  stringPath.add(start);
+
+  var floor = new Path({
+    strokeColor: '#E4141B',
+    strokeWidth: strokeWidth * 3,
+    strokeCap: 'round'
+  });
+  var p1 = new Point(view.size.width/8*3, points*length + 20),
+      p2 = new Point(view.size.width/8*5, points*length + 20);
+  floor.add(p1);
+  floor.add(p2);
+
+  bouncing.group.addChild(stringPath);
+  bouncing.group.addChild(floor);
+  bouncing.group.firstChild.position = [view.size.width/2, 0];
+  bouncing.group.firstChild.strokeColor = 'blue';
+  bouncing.group.firstChild.fillColor = 'black';
+  bouncing.initTime = performance.now();
+  Objects.push(bouncing);
+}
+
+function pKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var plane = new loopingPlane();
+  var color = getRandomColor();
+  var planePath = createPlane(color, 200, 500);
+
+  plane.group.addChild(planePath);
+  plane.initTime = performance.now();
+  Objects.push(plane);
+}
+
+function nKey()
+{
+  var xylophone2 = "resources/audio/xylophone2.mp4";
+  var audio = new Audio(xylophone2);
+  audio.play();
+
+  var startPoint = new Point(view.size.width/8,
+      view.size.height/4*3);
+  createCar(startPoint);
+}
+
+////////////
 ////////////
 // UPDATE
 ////////////
@@ -745,8 +1187,86 @@ function onFrame(event) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
             }
-        } else {
-            if (child.updateTime - child.initTime >= 1000) {
+        }
+        else if (child.key == 'l') {
+            if (child.group.hasChildren()) {
+                var ball = child.group.firstChild;
+                var points = child.points;
+                var length = child.length;
+
+                var path = child.group.children[1];
+                var fPoint = new Point(ball.position.x, ball.position.y);
+                path.firstSegment.point = fPoint;
+
+                for (var i = 0; i < points - 1; i++) {
+                  var segment = path.segments[i];
+                  var nextSegment = segment.next;
+
+                  if (nextSegment != path.lastSegment)
+                  {
+                    var vector = segment.point - nextSegment.point;
+                    vector.length = length;
+                    nextSegment.point = segment.point - vector;
+                  }
+                }
+                path.smooth({ type: 'continuous' });
+                if (ball.position.y <= (points) * length)
+                {
+                  child.speed += child.g;
+                  ball.position.y += child.speed;
+                }
+                else
+                {
+                  child.backSpeed = child.force * child.speed;
+                  child.speed -= child.backSpeed;
+                  ball.position.y += child.speed * 1.75;
+                }
+            }
+            if (child.updateTime - child.initTime >= 4000) {
+                child.group.removeChildren(0, 3);
+                Objects.splice(ix, 1);
+            }
+        }
+        else if (child.key == 'p') {
+            if (child.group.hasChildren()) {
+            var diff = child.updateTime - child.initTime;
+              if (diff >= 500)
+              {
+                if (diff <= 1000 )
+                {
+                  child.speedY -= 0.30;
+                  child.speedX -= 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 1500)
+                {
+                  child.speedY += 0.30;
+                  child.speedX -= 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 2000)
+                {
+                  child.speedY += 0.30;
+                  child.speedX += 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+                else if (diff <= 2500)
+                {
+                  child.speedY -= 0.30;
+                  child.speedX += 0.30;
+                  child.group.firstChild.rotate(-3.0);
+                }
+              }
+              child.group.firstChild.position.y += child.speedY;
+              child.group.firstChild.position.x += child.speedX;
+            }
+            if (child.updateTime - child.initTime >= 3500) {
+                child.group.removeChildren(0, 1);
+                Objects.splice(ix, 1);
+            }
+        }
+        else {
+            if (child.updateTime - child.initTime >= 1500) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
             } else if (child.group.hasChildren()) {
@@ -767,8 +1287,31 @@ function onFrame(event) {
       text.remove();
       bombs = [];
     }
+    if (doShowcase)
+    {
+      showcase();
+    }
 }
 
+function showcase()
+{
+  if (timer == 100)
+  {
+    nKey();
+  }
+  if (timer == 190)
+  {
+    pKey();
+  }
+  if (timer == 200)
+      fKey();
+  /*
+  if (timer == 100)
+  {
+  }
+  */
+  timer++;
+}
 
 function onKeyDown(event) {
 	// When a key is released, set the content of the text item:
@@ -777,28 +1320,42 @@ function onKeyDown(event) {
 	keyPressed = true;
 
 	if (event.key == 'a') {
-      var cannonUrl = "resources/audio/cannon.wav";
-	  var audio = new Audio(cannonUrl);
-	  audio.play();
-
-      var rotate_rect = new rect_rotate();
-      rotate_rect.group.addChild(new Path.Rectangle([30, 30], [90, 40]));
-      rotate_rect.group.firstChild.strokeColor = 'red';
-      rotate_rect.initTime = performance.now();
-      Objects.push(rotate_rect);
-    }
-	if (event.key == 'd') {
-      var cannonBig = "resources/audio/cannonBig.wav";
-	  var audio = new Audio(cannonBig);
-	  audio.play();
-
-      var standing_circle = new circle_stationary();
-      standing_circle.group.addChild(new Path.Circle([30, 30], 30));
-      standing_circle.group.firstChild.strokeColor = 'green';
-      standing_circle.initTime = performance.now();
-      Objects.push(standing_circle);
+      aKey();
     }
 	if (event.key == 's') {
+      sKey();
+    }
+	if (event.key == 'd') {
+      dKey();
+    }
+	if (event.key == 'f') {
+	  fKey();
+    }
+	if (event.key == 'r') {
+	  rKey();
+    }
+	if (event.key == 'g') {
+      gKey();
+    }
+	if (event.key == 'h') {
+      hKey();
+    }
+	if (event.key == 'j') {
+      jKey();
+    }
+    if (event.key == 'k') {
+      kKey();
+
+    }
+    if (event.key == 't') {
+      tKey();
+	}
+
+    if (event.key == 'l') {
+      lKey();
+	}
+	/*
+    if (event.key == 's') {
       var drums1 = "resources/audio/drums1.mp4";
 	  var audio = new Audio(drums1);
 	  audio.play();
@@ -811,130 +1368,20 @@ function onKeyDown(event) {
       falling.initTime = performance.now();
       Objects.push(falling);
     }
-	if (event.key == 'f') {
-      var strings1 = "resources/audio/strings1.mp4";
-	  var audio = new Audio(strings1);
-	  audio.play();
-	  createFireworkBasic();
+	*/
+	if (event.key == 'p') {
+      pKey();
     }
-	if (event.key == 'r') {
-      var synth1 = "resources/audio/synth1.mp4";
-	  var audio = new Audio(synth1);
-	  audio.play();
-	  createWormhole();
+    if (event.key == 'n') {
+      nKey();
     }
-	if (event.key == 'g') {
-      var strings2Url = "resources/audio/strings2.mp4";
-	  var audio = new Audio(strings2Url);
-	  audio.play();
-	  var startPositions = [];
-      var p1 = new Point(150, 150);
-      var p2 = new Point(150+100, 150-50);
-      var p3 = new Point(150+200, 150+0);
-      var p4 = new Point(150+300, 150+0);
-      var p5 = new Point(150+350, 150+200);
-      var p6 = new Point(150+550, 150+200);
-      var p7 = new Point(150+600, 150+0);
-      startPositions.push(p1);
-      startPositions.push(p2);
-      startPositions.push(p3);
-      startPositions.push(p4);
-      startPositions.push(p5);
-      startPositions.push(p6);
-      startPositions.push(p7);
 
-      var tl = new TimelineMax();
-      var circles = createConstellation(startPositions);
-      var varias = createLineConstellation(tl, startPositions);
-      var tll = varias[0];
-      var trails = varias[1];
-      setTimeout(function(){
-        for(var i = 0; i < 7; i++){
-          trails[i].path.remove();
-          circles[i].remove();
-        }}, tll.duration()*1000);
-    }
-	if (event.key == 'h') {
-      var static_3 = "resources/audio/static_3.m4a";
-	  var audio = new Audio(static_3);
-      audio.play();
-      var sparksTop = setInterval(createSparksTop, 10);
-      var sparksBottom = setInterval(createSparksBottom, 10);
-
-      setTimeout(function() {clearInterval(sparksTop);}, 3000);
-      setTimeout(function() {clearInterval(sparksBottom);}, 3000);
-
-    }
-	if (event.key == 'j') {
-      var xylophone2 = "resources/audio/xylophone2.mp4";
-	  var audio = new Audio(xylophone2);
-	  audio.play();
-	  createRippleBasic();
-    }
-    if (event.key == 'k') {
-      var xylophone2 = "resources/audio/xylophone2.mp4";
-	  var audio = new Audio(xylophone2);
-	  audio.play();
-
-      var start,
-        possibleSides = [0,3,4],
-        sides = randomIndex(possibleSides),
-        angle = Math.atan2(view.size.height, view.size.width),
-        indexer = 5,
-        modifier = 75,
-        begin = new Point(0, -modifier*5);
-      for (var x = 0; x < indexer; x++)
+    if (event.key == 'q') {
+      if (!doShowcase)
       {
-        for (var y = 0; y < indexer-x; y++)
-        {
-          // start = new Point(view.size.width/2 * Math.random()+view.size.width/4, -y*50);
-          start = new Point(-x*modifier - modifier*y*Math.sin(Math.PI/2+angle), -y * modifier - modifier * Math.sin(-Math.PI/4+angle) * x);
-          //start = new Point(-x*modifier, -y * modifier);
-          //console.log(modifier*Math.sin(angle));
-          createWarringShapes(start, angle, sides, false);
-        }
+        doShowcase = true;
+        showStart = performance.now();
       }
-
-      var index = possibleSides.indexOf(sides);
-      possibleSides.splice(index,1);
-      sides = randomIndex(possibleSides);
-      for (var x = 0; x < indexer; x++)
-      {
-        for (var y = 0; y < indexer-x; y++)
-        {
-          //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
-          start = new Point(view.size.width + x*modifier+modifier*y*Math.sin(angle), view.size.height + y*modifier-modifier * Math.sin(angle) * x);
-          createWarringShapes(start, angle, sides, true);
-        }
-      }
-    }
-    if (event.key == 't') {
-      var xylophone2 = "resources/audio/xylophone2.mp4";
-	  var audio = new Audio(xylophone2);
-	  audio.play();
-
-      var varias;
-      var trails = [];
-      var dur = 100000000;
-      for (var x = 0; x < 5; x++)
-	  {
-	    varias = createTron();
-	    if (dur > varias[0].duration())
-	    {
-	      dur = varias[0].duration();
-	    }
-	    trails = trails.concat(varias[1]);
-	  }
-        setTimeout(function(){
-            for(var i = 0; i < trails.length; i++){
-                trails[i].path.remove();
-            }}, dur * 1000 + 500);
-	}
-	if (event.key == 'c') {
-      var xylophone2 = "resources/audio/xylophone2.mp4";
-	  var audio = new Audio(xylophone2);
-	  audio.play();
-	  createCar();
     }
     if (event.key == 'space') {
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -968,14 +1415,10 @@ function randomRange(min, max, floor) {
     floor = floor || false;
     return floor ? (v | 0) : v;
 }
-
 </script>
-
 </head>
 <body id= test" style="height:100%;margin:0;overflow:hidden;">
-  <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
-  <div id = "test">
-    <canvas id="canvas" resize="true" style="width:200px;height:50px;"></canvas>
-  </div>
+<canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
+
 </body>
 </html>

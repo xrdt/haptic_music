@@ -5,8 +5,10 @@
 <script type="text/javascript" src="js/vis/vis.min.js"></script>
 <link rel="stylesheet" type="text/css" href="vis/vis.min.css"/>
 -->
+<!--
 <script src="js/vis/vis.min.js"></script>
 <link href="js/vis/vis.min.css" rel="stylesheet" type="text/css" />
+-->
 <link rel="stylesheet" type="text/css" href="css/general.css"/>
 <script type="text/javascript" src="js/dist/paper-full.js"></script>
 <!--
@@ -1317,55 +1319,9 @@ function randomRange(min, max, floor) {
     floor = floor || false;
     return floor ? (v | 0) : v;
 }
-
-  // DOM element where the Timeline will be attached
-  var container = document.getElementById('visualization');
-  var dates = [];
-  var keys = [
-      'a',
-      's',
-      'd',
-      'f',
-      'g',
-      'h',
-      'j',
-      'k',
-      'm',
-      'p',
-      't'
-  ];
-
-  for (var x = 0; x < 12; x++)
-  {
-    var date = new Date(2018, x, 22);
-    dates.push(date);
-  }
-  var data = [];
-  for (x = 0; x < dates.length-1; x++)
-  {
-    data.push({id: x, content: keys[x], start: dates[x],
-        end: dates[x+1]});
-  }
-
-  // Create a DataSet (allows two way data-binding)
-  var items = new vis.DataSet(data);
-
-  // Configuration for the Timeline
-  var options = {};
-
-  // Create a Timeline
-  var timeline = new vis.Timeline(container, items, options);
-
-  timeline.on('select', function onSelect (properties){
-    if (properties.items[0] == 3)
-    {
-      createFireworkBasic();
-    }
-  });
 </script>
 </head>
 <body id= test" style="height:100%;margin:0;overflow:hidden;">
-<div id = "visualization"></div>
 <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
 
 </body>
