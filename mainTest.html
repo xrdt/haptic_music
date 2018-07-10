@@ -932,13 +932,14 @@ function dKey()
   Objects.push(standing_circle);
 }
 
-function fKey(startPoint = new Point(view.size.width * Math.random(), view.size.height))
+function fKey()
 {
   var strings1 = "resources/audio/strings1.mp4";
   var audio = new Audio(strings1);
   audio.play();
 
-
+  var startPoint = new Point(view.size.width * Math.random(),
+      view.size.height);
   createFireworkBasic(startPoint);
 }
 
