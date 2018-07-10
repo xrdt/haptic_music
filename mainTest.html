@@ -539,7 +539,7 @@ function createFireworkBasic(startPoint) {
     var ease = Cubic;
     var trail = new Line(startPoint, 0, angle, length, color,
                          250, false, null, null, 1, 0, 1, false, false),
-        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1, 3);
+        hex = new Polygon(startPoint, 0, size, color, [8, 10, 12], .5, 24, 0, 125, 1, 1, 1, 3);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -548,7 +548,7 @@ function createFireworkBasic(startPoint) {
         var point = hex.polygon.segments[i].point,
             localPoint = point - hex.polygon.position;
 
-        var spark = new Line(trail.end, 0, localPoint.angle, size * 1.5, color, 250, false, null, null, 1, 0, 1, false, false);
+        var spark = new Line(startPoint, 0, localPoint.angle, size * 1.5, color, 250, false, null, null, 1, 0, 1, false, false);
 
         tl.add(spark.animate(), 'trailDone');
     }
@@ -586,7 +586,7 @@ function createWormhole(startPoint) {
 
     var ease = Cubic;
     var trail = new Line(startPoint, 0, angle, length, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 50/100, true, false),
-        hex = new Polygon(trail.end, 0, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0, 3);
+        hex = new Polygon(startPoint, 0, size, color, [8, 10, 12], .7, 24, 64, 200, 3, .5, 0, 3);
 
     tl.add(hex.animate(), 'trailDone');
 
@@ -595,7 +595,7 @@ function createWormhole(startPoint) {
         var point = hex.polygon.segments[i].point,
             localPoint = point - hex.polygon.position;
 
-        var spark = new Line(trail.end, 0, localPoint.angle, size * 2, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 0.5, true, false);
+        var spark = new Line(startPoint, 0, localPoint.angle, size * 2, color, 500, true, ease.easeInOut, ease.easeOut, 3, .25, 0.5, true, false);
 
         tl.add(spark.animate(), 'trailDone');
     }
@@ -932,14 +932,15 @@ function dKey()
   Objects.push(standing_circle);
 }
 
-function fKey()
+function fKey(startPoint)
 {
   var strings1 = "resources/audio/strings1.mp4";
   var audio = new Audio(strings1);
   audio.play();
 
-  var startPoint = new Point(view.size.width * Math.random(),
-      view.size.height);
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width * Math.random(),
+      view.size.height / 2);
   createFireworkBasic(startPoint);
 }
 
@@ -976,14 +977,15 @@ function gKey()
     }}, tll.duration()*1000);
 }
 
-function rKey()
+function rKey(startPoint)
 {
   var synth1 = "resources/audio/synth1.mp4";
   var audio = new Audio(synth1);
   audio.play();
 
-  var startPoint = new Point(view.size.width * Math.random(),
-      view.size.height);
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width * Math.random(),
+      view.size.height / 2);
   createWormhole(startPoint);
 }
 
@@ -1023,14 +1025,15 @@ function tKey()
       }}, dur * 1000 + 500);
 }
 
-function jKey()
+function jKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
   audio.play();
 
-  var startPoint = new Point(view.size.width*(Math.random()*.75),
-      view.size.height*(Math.random()*.75));
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width * Math.random() * 3 / 4,
+      view.size.height * Math.random() / 4 * 3);
   createRippleBasic(startPoint);
 }
 
@@ -1133,7 +1136,7 @@ function pKey()
 
   var plane = new loopingPlane();
   var color = getRandomColor();
-  var planePath = createPlane(color, 200, 500);
+  var planePath = createPlane(color, 200, view.size.height/2);
 
   plane.group.addChild(planePath);
   plane.initTime = performance.now();
@@ -1296,16 +1299,53 @@ function onFrame(event) {
 
 function showcase()
 {
-  if (timer == 100)
+  if (timer == 10)
   {
     nKey();
   }
-  if (timer == 190)
+  if (timer == 100)
   {
     pKey();
   }
+  if (timer == 150)
+      fKey(new Point(view.size.width/2 - 300,
+          view.size.height/2 - 150));
   if (timer == 200)
-      fKey();
+      fKey(new Point(view.size.width/2 - 300,
+          view.size.height/2 - 150));
+  if (timer == 210)
+      jKey(new Point(view.size.width/8 + 1100,
+          view.size.height/4*3 + 50));
+  var beginT = 310;
+  if (timer >= beginT && timer <= beginT + 50)
+  {
+    if ((timer - beginT) % 2 == 0)
+      fKey(new Point(view.size.width/8 + 1100,
+          view.size.height/2));
+  }
+  if (timer == 380)
+      rKey(new Point(view.size.width/8 + 1100,
+          view.size.height/2));
+  if (timer == 430)
+      hKey();
+  if (timer == 570)
+      tKey();
+  if (timer == 700)
+      kKey();
+  if (timer == 850)
+      lKey();
+  beginT = 1100;
+  if (timer >= beginT && timer <= beginT + 100)
+  {
+    if ((timer - beginT) % 2 == 0)
+      fKey(new Point(view.size.width * Math.random(),
+          view.size.height * Math.random()));
+    if ((timer - beginT) % 5 == 0)
+      jKey(new Point(view.size.width * Math.random(),
+          view.size.height * Math.random()));
+  if (timer == 1200)
+      gKey();
+  }
   /*
   if (timer == 100)
   {
