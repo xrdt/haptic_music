@@ -13,6 +13,7 @@ var keyPressed = false;
 var bombs = [];
 var doShowcase = false;
 var showStart;
+var startLaser;
 
 var doMonsters = false;
 var timer = 0;
@@ -90,11 +91,19 @@ Raster.prototype.rescale = function(width, height) {
 };
 
 function Gun(xPos, yPos) {
-  var curve1 = new Path(new Point(xPos, yPos), new Point(xPos, yPos + 50));
-  var curve2 = new Path(new Point(xPos - 20, yPos + 10), new Point(xPos - 20, yPos + 40));
-  var curve3 = new Path(new Point(xPos - 40, yPos + 20), new Point(xPos - 40, yPos + 30));
-  var body = new Path.Ellipse(new Rectangle(new Point(xPos + 20, yPos - 10), new Size(100, 70)));
-  var handle = new Path(new Point(body.bounds.bottomCenter) + new Point(20, 0), new Point(body.bounds.bottomRight) + new Point(-20, 40));
+  var mod = 0.5;
+  var curve1 = new Path(new Point(xPos, yPos),
+      new Point(0, 50) * mod + new Point(xPos, yPos));
+  var curve2 = new Path(new Point(-20, 10) * mod + new Point(xPos, yPos),
+      new Point(-20, 40) * mod + new Point(xPos, yPos));
+  var curve3 = new Path(new Point(-40, 20) * mod + new Point(xPos, yPos),
+      new Point(-40, 30) * mod + new Point(xPos, yPos));
+  var body = new Path.Ellipse(
+      new Rectangle(new Point(20, -10) * mod + new Point(xPos, yPos),
+      new Size(100, 70) * mod));
+  var handle = new Path(new Point(body.bounds.bottomCenter) +
+      new Point(20, 0) * mod, new Point(body.bounds.bottomRight) +
+      new Point(-20, 40) * mod);
 
   this.path = new CompoundPath({
     children: [curve1, curve2, curve3, body, handle],
@@ -1491,9 +1500,9 @@ function monsters()
         view.size.height / 4*3);
     var xPos = startPoint.x,
         yPos = startPoint.y;
-    var start = createGun(xPos, yPos);
+    startLaser = createGun(xPos, yPos);
   }
-  if (monsterTimer == 20)
+  if (monsterTimer == 18)
   {
     /*
      * createMonster(startPosition, endPosition,
@@ -1501,11 +1510,11 @@ function monsters()
      */
     createMonster(new Point(0, view.size.height/8*3),
         new Point(view.size.width/8, view.size.height/8*3), 1, 10);
-    createLaser(new Point(view.size.width/8*7 - 50, view.size.height/2 + 100));
+    createLaser(new Point(startLaser.x, view.size.height/2 + 100));
   }
   if (monsterTimer == 50)
   {
-    createLaser(new Point(view.size.width/8*7 - 50, view.size.height/2 - 150));
+    createLaser(new Point(startLaser.x, view.size.height/2 - 150));
     doMonsters = false;
     monsterTimer = -1;
   }
