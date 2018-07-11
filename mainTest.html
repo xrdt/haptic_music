@@ -85,6 +85,10 @@ function risingShapes() {
   this.updateTime = null;
 }
 
+Raster.prototype.rescale = function(width, height) {
+    this.scale(width / this.width, height / this.height);
+};
+
 function Gun(xPos, yPos) {
   var curve1 = new Path(new Point(xPos, yPos), new Point(xPos, yPos + 50));
   var curve2 = new Path(new Point(xPos - 20, yPos + 10), new Point(xPos - 20, yPos + 40));
@@ -155,6 +159,42 @@ Laser.prototype = {
 
      return tl;
    }
+}
+
+function Monster(start, end, duration, type) {
+  this.end = end;
+  this.duration = duration;
+  if (type == 1)
+      this.rasterMonster = new Raster('monster1');
+  else if (type == 2)
+      this.rasterMonster = new Raster('monster2');
+  else if (type == 3)
+      this.rasterMonster = new Raster('monster3');
+  else if (type == 9)
+      this.rasterMonster = new Raster('monster9');
+  else if (type == 10)
+      this.rasterMonster = new Raster('monster10');
+
+  this.rasterMonster.rescale(this.rasterMonster.width/4,
+      this.rasterMonster.height/4);
+  this.rasterMonster.position = start;
+}
+
+Monster.prototype = {
+  animate:function() {
+    var tl = new TimelineMax({
+      onComplete: function() {
+        this.rasterMonster.remove();
+      },
+      onCompleteScope: this
+    });
+
+    var offset = 0;
+    var from = this.rasterMonster.position,
+    to = this.end;
+    tl.to(from, this.duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
+    return tl;
+  }
 }
 
 // Car class
@@ -1008,6 +1048,15 @@ function createLaser(start) {
   return tl;
 }
 
+function createMonster(startPos, endPos, duration, type) {
+  var tl = new TimelineMax();
+
+  var monster = new Monster(startPos, endPos, duration, type);
+  tl.add(monster.animate(), 'trailDone');
+
+  return tl;
+}
+
 function aKey()
 {
   var cannonUrl = "resources/audio/cannon.wav";
@@ -1446,6 +1495,12 @@ function monsters()
   }
   if (monsterTimer == 20)
   {
+    /*
+     * createMonster(startPosition, endPosition,
+     * durationOfAnimation, typeOfMonster);
+     */
+    createMonster(new Point(0, view.size.height/8*3),
+        new Point(view.size.width/8, view.size.height/8*3), 1, 10);
     createLaser(new Point(view.size.width/8*7 - 50, view.size.height/2 + 100));
   }
   if (monsterTimer == 50)
@@ -1633,6 +1688,11 @@ function randomRange(min, max, floor) {
 </script>
 </head>
 <body id= test" style="height:100%;margin:0;overflow:hidden;">
+<img id="monster1" class="visuallyHidden" src="resources/images/Monster1.png" width="416" height="286">
+<img id="monster2" class="visuallyHidden" src="resources/images/Monster2.png" width="352" height="320">
+<img id="monster3" class="visuallyHidden" src="resources/images/Monster3.png" width="256" height="288">
+<img id="monster9" class="visuallyHidden" src="resources/images/Monster9.png" width="224" height="224">
+<img id="monster10" class="visuallyHidden" src="resources/images/Monster10.png" width="480" height="224">
 <canvas id="myCanvas" resize="true" style="width:100%;height:100%;"></canvas>
 
 </body>
