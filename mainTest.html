@@ -866,7 +866,7 @@ function createCar(startPoint) {
 
   var startPoint = startPoint,
       size = 15,
-      color = getRandomColor();
+      color = getRandomCarColor();
 
   var car = new Car(startPoint, size, color);
 
@@ -1061,19 +1061,26 @@ function fKey(startPoint)
   createFireworkBasic(startPoint);
 }
 
-function gKey()
+function gKey(startPoint)
 {
   var strings2Url = "resources/audio/strings2.mp4";
   var audio = new Audio(strings2Url);
   audio.play();
+
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width/4,
+      view.size.height / 4);
+  var xPos = startPoint.x,
+      yPos = startPoint.y;
+
   var startPositions = [];
-  var p1 = new Point(150, 150);
-  var p2 = new Point(150+100, 150-50);
-  var p3 = new Point(150+200, 150+0);
-  var p4 = new Point(150+300, 150+0);
-  var p5 = new Point(150+350, 150+200);
-  var p6 = new Point(150+550, 150+200);
-  var p7 = new Point(150+600, 150+0);
+  var p1 = new Point(xPos, yPos);
+  var p2 = new Point(xPos+100, yPos-50);
+  var p3 = new Point(xPos+200, yPos+0);
+  var p4 = new Point(xPos+300, yPos+0);
+  var p5 = new Point(xPos+350, yPos+200);
+  var p6 = new Point(xPos+550, yPos+200);
+  var p7 = new Point(xPos+600, yPos+0);
   startPositions.push(p1);
   startPositions.push(p2);
   startPositions.push(p3);
@@ -1593,6 +1600,14 @@ function onKeyDown(event) {
 function getRandomColor() {
     return new Color({
         hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function getRandomCarColor() {
+    return new Color({
+        hue:randomRange(10, 15),
         saturation:0.75,
         lightness:0.5
     })
