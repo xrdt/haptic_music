@@ -883,9 +883,13 @@ function createPlane(color, x, y) {
       startPositionsE1 = new Path();
 
   var beginX = x,
-      beginY = y;
-  var p1 = new Point(beginX+10, beginY),
-      p2 = new Point(beginX+115, beginY),
+      beginY = y,
+      modifier = 0.5;
+
+  var p1 = new Point(10, 0) * modifier +
+      new Point(beginX, beginY),
+      p2 = new Point(115, 0) * modifier +
+      new Point(beginX, beginY),
       p3, p4, p5, p6, p7, p8, p9,
       p10,
       p11,
@@ -893,15 +897,24 @@ function createPlane(color, x, y) {
   startPositionsB1.add(p1);
   startPositionsB1.add(p2);
 
-  p1 = new Point(beginX+140, beginY),
-      p2 = new Point(beginX+190, beginY),
-      p3 = new Point(beginX+220, beginY-10),
-      p4 = new Point(beginX+195, beginY-25),
-      p5 = new Point(beginX+30, beginY-25),
-      p6 = new Point(beginX+10, beginY-50),
-      p7 = new Point(beginX, beginY-50),
-      p8 = new Point(beginX, beginY-10),
-      p9 = new Point(beginX+10, beginY),
+  p1 = new Point(140, 0) * modifier +
+      new Point(beginX, beginY),
+      p2 = new Point(190, 0) * modifier +
+      new Point(beginX, beginY),
+      p3 = new Point(220, -10) * modifier +
+      new Point(beginX, beginY),
+      p4 = new Point(195, -25) * modifier +
+      new Point(beginX, beginY),
+      p5 = new Point(30, -25) * modifier +
+      new Point(beginX, beginY),
+      p6 = new Point(10, -50) * modifier +
+      new Point(beginX, beginY),
+      p7 = new Point(0, -50) * modifier +
+      new Point(beginX, beginY),
+      p8 = new Point(0, -10) * modifier +
+      new Point(beginX, beginY),
+      p9 = new Point(10, 0) * modifier +
+      new Point(beginX, beginY),
       p10,
       p11,
       p12, p13, p14;
@@ -915,32 +928,45 @@ function createPlane(color, x, y) {
   startPositionsB2.add(p8);
   startPositionsB2.add(p9);
 
-  beginX += 115;
-  p1 = new Point(beginX+10, beginY-17),
-      p2 = new Point(beginX-15, beginY+30),
-      p3 = new Point(beginX-5, beginY+30),
-      p4 = new Point(beginX+40, beginY-17);
+  beginX += 115 * modifier;
+  p1 = new Point(10, -17) * modifier +
+      new Point(beginX, beginY),
+      p2 = new Point(-15, 30) * modifier +
+      new Point(beginX, beginY),
+      p3 = new Point(-5, 30) * modifier +
+      new Point(beginX, beginY),
+      p4 = new Point(40, -17) * modifier +
+      new Point(beginX, beginY);
   startPositionsW1.add(p1);
   startPositionsW1.add(p2);
   startPositionsW1.add(p3);
   startPositionsW1.add(p4);
   startPositionsW1.closed = 'true';
 
-  p1 = new Point(beginX+10, beginY-25),
-      p2 = new Point(beginX-25, beginY-40),
-      p3 = new Point(beginX-15, beginY-40),
-      p4 = new Point(beginX+40, beginY-25);
+  p1 = new Point(10, -25) * modifier +
+      new Point(beginX, beginY),
+      p2 = new Point(-25, -40) * modifier +
+      new Point(beginX, beginY),
+      p3 = new Point(-15, -40) * modifier +
+      new Point(beginX, beginY),
+      p4 = new Point(40, -25) * modifier +
+      new Point(beginX, beginY);
   startPositionsW2.add(p1);
   startPositionsW2.add(p2);
   startPositionsW2.add(p3);
   startPositionsW2.add(p4);
   startPositionsW2.closed = 'true';
 
-  beginX -= 115;
-  p1 = new Point(beginX+15, beginY-15),
-      p2 = new Point(beginX+5, beginY-3),
-      p3 = new Point(beginX+15, beginY-3),
-      p4 = new Point(beginX+30, beginY-15);
+  beginX -= 115 * modifier;
+  p1 = new Point(15, -15) * modifier +
+      new Point(beginX, beginY),
+      p2 = new Point(5, -3) * modifier +
+      new Point(beginX, beginY),
+      p3 = new Point(15, -3) * modifier +
+      new Point(beginX, beginY),
+      p4 = new Point(30, -15) * modifier +
+      new Point(beginX, beginY);
+
   startPositionsE1.add(p1);
   startPositionsE1.add(p2);
   startPositionsE1.add(p3);
@@ -1219,28 +1245,35 @@ function lKey()
   Objects.push(bouncing);
 }
 
-function pKey()
+function pKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
   audio.play();
 
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width/16*2,
+      view.size.height/2);
+  var xPos = startPoint.x,
+      yPos = startPoint.y;
+
   var plane = new loopingPlane();
   var color = getRandomColor();
-  var planePath = createPlane(color, 200, view.size.height/2);
+  var planePath = createPlane(color, xPos, yPos);
 
   plane.group.addChild(planePath);
   plane.initTime = performance.now();
   Objects.push(plane);
 }
 
-function nKey()
+function nKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
   audio.play();
 
-  var startPoint = new Point(view.size.width/8,
+  startPoint = typeof startPoint !== 'undefined' ?
+      startPoint : new Point(view.size.width/8,
       view.size.height/4*3);
   createCar(startPoint);
 }
@@ -1427,34 +1460,34 @@ function showcase()
   {
     pKey();
   }
+  /*
   if (timer == 150)
-      fKey(new Point(view.size.width/2 - 300,
-          view.size.height/2 - 150));
+      fKey(new Point(view.size.width/8*3,
+          view.size.height/8*3));
   if (timer == 200)
-      fKey(new Point(view.size.width/2 - 300,
-          view.size.height/2 - 150));
+      fKey(new Point(view.size.width/8*3,
+          view.size.height/8*3));
+  */
   if (timer == 210)
-      jKey(new Point(view.size.width/8 + 1100,
-          view.size.height/4*3 + 50));
+      jKey(new Point(view.size.width/16*11,
+          view.size.height/16*13));
   var beginT = 310;
   if (timer >= beginT && timer <= beginT + 50)
   {
     if ((timer - beginT) % 5 == 0)
-      fKey(new Point(view.size.width/8 + 1100,
+      fKey(new Point(view.size.width/16*11,
           view.size.height/2));
   }
   if (timer == 380)
-      rKey(new Point(view.size.width/8 + 1100,
+      rKey(new Point(view.size.width/16*11,
           view.size.height/2));
   if (timer == 430)
-      hKey();
-  if (timer == 570)
-      tKey();
-  if (timer == 700)
-      kKey();
-  if (timer == 850)
-      lKey();
-  beginT = 1100;
+  {
+    var color = '#000000';
+    var canvasLayer = document.getElementById("myCanvas");
+    canvasLayer.style.background = color;
+  }
+  beginT = 450;
   if (timer >= beginT && timer <= beginT + 100)
   {
     if ((timer - beginT) % 5 == 0)
@@ -1463,9 +1496,9 @@ function showcase()
     if ((timer - beginT) % 8 == 0)
       jKey(new Point(view.size.width * Math.random(),
           view.size.height * Math.random()));
-  if (timer == 1200)
-      gKey();
   }
+  if (timer == 600)
+      gKey();
   /*
   if (timer == 100)
   {
