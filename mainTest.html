@@ -13,7 +13,10 @@ var keyPressed = false;
 var bombs = [];
 var doShowcase = false;
 var showStart;
+
+var doMonsters = false;
 var timer = 0;
+var monsterTimer = 0;
 
 function loopingPlane() {
   this.group = new Group();
@@ -82,6 +85,77 @@ function risingShapes() {
   this.updateTime = null;
 }
 
+function Gun(xPos, yPos) {
+  var curve1 = new Path(new Point(xPos, yPos), new Point(xPos, yPos + 50));
+  var curve2 = new Path(new Point(xPos - 20, yPos + 10), new Point(xPos - 20, yPos + 40));
+  var curve3 = new Path(new Point(xPos - 40, yPos + 20), new Point(xPos - 40, yPos + 30));
+  var body = new Path.Ellipse(new Rectangle(new Point(xPos + 20, yPos - 10), new Size(100, 70)));
+  var handle = new Path(new Point(body.bounds.bottomCenter) + new Point(20, 0), new Point(body.bounds.bottomRight) + new Point(-20, 40));
+
+  this.path = new CompoundPath({
+    children: [curve1, curve2, curve3, body, handle],
+    strokeColor: 'red', shadowBlur: 64,
+    shadowColor: 'red', strokeWidth: 5});
+  this.start = curve3.bounds.leftCenter;
+}
+
+Gun.prototype = {
+  animate:function() {
+    var tl = new TimelineMax({
+      onComplete: function() {
+        this.path.remove();
+      },
+      onCompleteScope: this
+    });
+
+    var offset = 0;
+    var duration = 1;
+    for (var x = 0; x < this.path.children.length; x++)
+    {
+      var path = this.path.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+        to = path.segments[y].point +
+            new Point(0, -view.size.height/2);
+        tl.to(from, duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
+      }
+    }
+    return tl;
+  }
+}
+
+function Laser(start, length) {
+    this.path = new Path(start, start + new Point(-length, 0));
+    this.path.strokeColor = 'white';
+    this.path.shadowBlur = 64;
+    this.path.shadowColor = 'white';
+    this.path.strokeWidth = 10;
+}
+
+Laser.prototype = {
+   animate:function() {
+     var tl = new TimelineMax({
+       onComplete: function() {this.path.remove();
+     },
+     onCompleteScope: this});
+
+     var start = this.path.segments[0].point;
+     var end = this.path.segments[1].point;
+
+     ///*
+     tl.to(end, 1.5, {x:-100, y: end.y});
+     tl.to(start, 1.5, {x:-50, y: start.y}, '-=1.25');
+     //*/
+
+     /*
+     tl.to(end, 1.5, {x:-100, y: end.y}, '+=1.25');
+     tl.to(start, 1.5, {x:-50, y: start.y});
+     //*/
+
+     return tl;
+   }
+}
 
 // Car class
 function Car(position, targetRadius, color) {
@@ -891,6 +965,23 @@ function createPlane(color, x, y) {
   return path;
 }
 
+function createGun(xPos, yPos){
+  var tl = new TimelineMax();
+  var gun = new Gun(xPos, yPos);
+
+  tl.add(gun.animate(), 'trailDone');
+  return gun.start;
+}
+
+function createLaser(start) {
+  var tl = new TimelineMax();
+
+  var laser = new Laser(start, 50);
+  tl.add(laser.animate(), 'trailDone');
+
+  return tl;
+}
+
 function aKey()
 {
   var cannonUrl = "resources/audio/cannon.wav";
@@ -1154,6 +1245,7 @@ function nKey()
   createCar(startPoint);
 }
 
+
 ////////////
 ////////////
 // UPDATE
@@ -1295,6 +1387,34 @@ function onFrame(event) {
     {
       showcase();
     }
+    if (doMonsters)
+    {
+      monsters();
+    }
+}
+
+function monsters()
+{
+  if (monsterTimer == 0)
+  {
+    startPoint = typeof startPoint !== 'undefined' ?
+        startPoint : new Point(view.size.width/8*7,
+        view.size.height / 4*3);
+    var xPos = startPoint.x,
+        yPos = startPoint.y;
+    var start = createGun(xPos, yPos);
+  }
+  if (monsterTimer == 20)
+  {
+    createLaser(new Point(view.size.width/8*7 - 50, view.size.height/2 + 100));
+  }
+  if (monsterTimer == 50)
+  {
+    createLaser(new Point(view.size.width/8*7 - 50, view.size.height/2 - 150));
+    doMonsters = false;
+    monsterTimer = -1;
+  }
+  monsterTimer++;
 }
 
 function showcase()
@@ -1319,7 +1439,7 @@ function showcase()
   var beginT = 310;
   if (timer >= beginT && timer <= beginT + 50)
   {
-    if ((timer - beginT) % 2 == 0)
+    if ((timer - beginT) % 5 == 0)
       fKey(new Point(view.size.width/8 + 1100,
           view.size.height/2));
   }
@@ -1337,10 +1457,10 @@ function showcase()
   beginT = 1100;
   if (timer >= beginT && timer <= beginT + 100)
   {
-    if ((timer - beginT) % 2 == 0)
+    if ((timer - beginT) % 5 == 0)
       fKey(new Point(view.size.width * Math.random(),
           view.size.height * Math.random()));
-    if ((timer - beginT) % 5 == 0)
+    if ((timer - beginT) % 8 == 0)
       jKey(new Point(view.size.width * Math.random(),
           view.size.height * Math.random()));
   if (timer == 1200)
@@ -1415,6 +1535,12 @@ function onKeyDown(event) {
     }
     if (event.key == 'n') {
       nKey();
+    }
+    if (event.key == 'z') {
+      if (!doMonsters)
+      {
+        doMonsters = true;
+      }
     }
 
     if (event.key == 'q') {
