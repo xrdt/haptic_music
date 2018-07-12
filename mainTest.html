@@ -1147,13 +1147,14 @@ function gKey(startPoint)
       yPos = startPoint.y;
 
   var startPositions = [];
+  var mod = 0.5;
   var p1 = new Point(xPos, yPos);
-  var p2 = new Point(xPos+100, yPos-50);
-  var p3 = new Point(xPos+200, yPos+0);
-  var p4 = new Point(xPos+300, yPos+0);
-  var p5 = new Point(xPos+350, yPos+200);
-  var p6 = new Point(xPos+550, yPos+200);
-  var p7 = new Point(xPos+600, yPos+0);
+  var p2 = new Point(100, -50) * mod + new Point(xPos, yPos);
+  var p3 = new Point(200, 0) * mod + new Point(xPos, yPos);
+  var p4 = new Point(300, 0) * mod + new Point(xPos, yPos);
+  var p5 = new Point(350, 200) * mod + new Point(xPos, yPos);
+  var p6 = new Point(550, 200) * mod + new Point(xPos, yPos);
+  var p7 = new Point(600, 0) * mod + new Point(xPos, yPos);
   startPositions.push(p1);
   startPositions.push(p2);
   startPositions.push(p3);
