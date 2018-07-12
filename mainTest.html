@@ -1604,7 +1604,7 @@ function showcase()
     canvasLayer.style.background = color;
   }
   beginT = 450;
-  if (timer >= beginT && timer <= beginT + 100)
+  if (timer >= beginT && timer <= beginT + 190)
   {
     if ((timer - beginT) % 5 == 0)
       fKey(new Point(view.size.width * Math.random(),
@@ -1613,8 +1613,9 @@ function showcase()
       jKey(new Point(view.size.width * Math.random(),
           view.size.height * Math.random()));
   }
-  if (timer == 600)
-      gKey();
+  if (timer == 450)
+      gKey(new Point(view.size.width/8,
+          view.size.height/16*3));
   /*
   if (timer == 100)
   {
