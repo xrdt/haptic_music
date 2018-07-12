@@ -134,6 +134,21 @@ Gun.prototype = {
         tl.to(from, duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
       }
     }
+    /*
+    this.path.translate(new Point(0, -view.size.height/2));
+    offset += duration;
+    for (var x = 0; x < this.path.children.length; x++)
+    {
+      var path = this.path.children[x];
+      for (var y = 0; y < path.segments.length; y++)
+      {
+        var from = path.segments[y].point,
+        to = path.segments[y].point +
+            new Point(0, view.size.height/4);
+        tl.to(from, duration/2, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
+      }
+    }
+    */
     return tl;
   }
 }
@@ -1111,7 +1126,7 @@ function fKey(startPoint)
 {
   var strings1 = "resources/audio/strings1.mp4";
   var audio = new Audio(strings1);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width * Math.random(),
@@ -1123,7 +1138,7 @@ function gKey(startPoint)
 {
   var strings2Url = "resources/audio/strings2.mp4";
   var audio = new Audio(strings2Url);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width/4,
@@ -1163,7 +1178,7 @@ function rKey(startPoint)
 {
   var synth1 = "resources/audio/synth1.mp4";
   var audio = new Audio(synth1);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width * Math.random(),
@@ -1175,7 +1190,8 @@ function hKey()
 {
   var static_3 = "resources/audio/static_3.m4a";
   var audio = new Audio(static_3);
-  audio.play();
+  //audio.play();
+
   var sparksTop = setInterval(createSparksTop, 10);
   var sparksBottom = setInterval(createSparksBottom, 10);
 
@@ -1187,7 +1203,7 @@ function tKey()
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   var varias;
   var trails = [];
@@ -1211,7 +1227,7 @@ function jKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width * Math.random() * 3 / 4,
@@ -1223,7 +1239,7 @@ function kKey()
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   var start,
      possibleSides = [0,3,4],
@@ -1262,7 +1278,7 @@ function lKey()
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   var bouncing = new bouncingBall();
   bouncing.group.addChild(new Path.Circle([0, 0], [10, 10]));
@@ -1314,7 +1330,7 @@ function pKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width/16*2,
@@ -1335,7 +1351,7 @@ function nKey(startPoint)
 {
   var xylophone2 = "resources/audio/xylophone2.mp4";
   var audio = new Audio(xylophone2);
-  audio.play();
+  //audio.play();
 
   startPoint = typeof startPoint !== 'undefined' ?
       startPoint : new Point(view.size.width/8,
@@ -1501,6 +1517,13 @@ function monsters()
     var xPos = startPoint.x,
         yPos = startPoint.y;
     startLaser = createGun(xPos, yPos);
+    createMonster(new Point(0, view.size.height/8*5),
+        new Point(view.size.width/16*3, view.size.height/4*3), 1, 1);
+  }
+  if (monsterTimer == 10)
+  {
+    createMonster(new Point(0, view.size.height/8*7),
+        new Point(view.size.width/16*8, view.size.height/4*2), 0.75, 1);
   }
   if (monsterTimer == 18)
   {
@@ -1509,12 +1532,31 @@ function monsters()
      * durationOfAnimation, typeOfMonster);
      */
     createMonster(new Point(0, view.size.height/8*3),
-        new Point(view.size.width/8, view.size.height/8*3), 1, 10);
-    createLaser(new Point(startLaser.x, view.size.height/2 + 100));
+        new Point(view.size.width/16*5, view.size.height/8*3), 1, 10);
+    createLaser(new Point(startLaser.x, view.size.height/4*3));
   }
-  if (monsterTimer == 50)
+  if (monsterTimer == 40)
   {
-    createLaser(new Point(startLaser.x, view.size.height/2 - 150));
+    createLaser(new Point(startLaser.x, view.size.height/8*4));
+  }
+  if (monsterTimer == 45)
+  {
+    createLaser(new Point(startLaser.x, view.size.height/8*3));
+  }
+  if (monsterTimer == 55)
+  {
+    fKey(new Point(view.size.width/16*8,
+        view.size.height/4*2));
+  }
+  if (monsterTimer == 60)
+  {
+    fKey(new Point(view.size.width/16*3,
+        view.size.height/4*3));
+  }
+  if (monsterTimer == 77)
+  {
+    fKey(new Point(view.size.width/16*5,
+        view.size.height/8*3));
     doMonsters = false;
     monsterTimer = -1;
   }
@@ -1525,11 +1567,13 @@ function showcase()
 {
   if (timer == 10)
   {
-    nKey();
+    nKey(new Point(view.size.width/8,
+        view.size.height/8*7));
   }
   if (timer == 100)
   {
-    pKey();
+    pKey(new Point(view.size.width/16*2,
+        view.size.height/16*7));
   }
   /*
   if (timer == 150)
@@ -1541,17 +1585,17 @@ function showcase()
   */
   if (timer == 210)
       jKey(new Point(view.size.width/16*11,
-          view.size.height/16*13));
+          view.size.height/16*15));
   var beginT = 310;
   if (timer >= beginT && timer <= beginT + 50)
   {
     if ((timer - beginT) % 5 == 0)
       fKey(new Point(view.size.width/16*11,
-          view.size.height/2));
+          view.size.height/16*7));
   }
   if (timer == 380)
       rKey(new Point(view.size.width/16*11,
-          view.size.height/2));
+          view.size.height/16*7));
   if (timer == 430)
   {
     var color = '#000000';
