@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="892d2e95-25e6-4cf8-ae05-e846817fea76" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/js/railgun.js" afterPath="$PROJECT_DIR$/js/railgun.js" />
       <change beforePath="$PROJECT_DIR$/mainTest.html" afterPath="$PROJECT_DIR$/mainTest.html" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,8 +29,8 @@
           <file leaf-file-name="mainTest.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/mainTest.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="522">
-                  <caret line="150" column="5" lean-forward="false" selection-start-line="150" selection-start-column="5" selection-end-line="150" selection-end-column="5" />
+                <state relative-caret-position="314">
+                  <caret line="950" column="19" lean-forward="false" selection-start-line="950" selection-start-column="19" selection-end-line="950" selection-end-column="19" />
                   <folding />
                 </state>
               </provider>
@@ -415,7 +413,7 @@
       <workItem from="1531102535242" duration="1509000" />
       <workItem from="1531193691103" duration="6289000" />
       <workItem from="1531273155302" duration="10446000" />
-      <workItem from="1531357510909" duration="3300000" />
+      <workItem from="1531357510909" duration="3809000" />
     </task>
     <task id="LOCAL-00001" summary="push to synchronize (added fireworks object and javascript zips)">
       <created>1526170658885</created>
@@ -428,7 +426,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143857000" />
+    <option name="totallyTimeSpent" value="144366000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
@@ -860,8 +858,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14454">
-          <caret line="803" column="45" lean-forward="false" selection-start-line="803" selection-start-column="45" selection-end-line="803" selection-end-column="45" />
+        <state relative-caret-position="23778">
+          <caret line="1321" column="9" lean-forward="false" selection-start-line="1321" selection-start-column="9" selection-end-line="1321" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -892,8 +890,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainTest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="1545" column="23" lean-forward="false" selection-start-line="1545" selection-start-column="23" selection-end-line="1545" selection-end-column="23" />
+        <state relative-caret-position="314">
+          <caret line="950" column="19" lean-forward="false" selection-start-line="950" selection-start-column="19" selection-end-line="950" selection-end-column="19" />
           <folding />
         </state>
       </provider>
