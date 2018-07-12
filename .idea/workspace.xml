@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="892d2e95-25e6-4cf8-ae05-e846817fea76" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/mainTest.html" afterPath="$PROJECT_DIR$/mainTest.html" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -64,8 +63,8 @@
           <file leaf-file-name="mainTest.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/mainTest.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="288">
-                  <caret line="1587" column="41" lean-forward="false" selection-start-line="1587" selection-start-column="41" selection-end-line="1587" selection-end-column="41" />
+                <state relative-caret-position="270">
+                  <caret line="1586" column="17" lean-forward="false" selection-start-line="1586" selection-start-column="17" selection-end-line="1586" selection-end-column="17" />
                   <folding />
                 </state>
               </provider>
@@ -414,7 +413,7 @@
       <workItem from="1531102535242" duration="1509000" />
       <workItem from="1531193691103" duration="6289000" />
       <workItem from="1531273155302" duration="10446000" />
-      <workItem from="1531357510909" duration="5168000" />
+      <workItem from="1531357510909" duration="5262000" />
     </task>
     <task id="LOCAL-00001" summary="push to synchronize (added fireworks object and javascript zips)">
       <created>1526170658885</created>
@@ -427,7 +426,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="145725000" />
+    <option name="totallyTimeSpent" value="145819000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
@@ -891,8 +890,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mainTest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="1587" column="41" lean-forward="false" selection-start-line="1587" selection-start-column="41" selection-end-line="1587" selection-end-column="41" />
+        <state relative-caret-position="270">
+          <caret line="1586" column="17" lean-forward="false" selection-start-line="1586" selection-start-column="17" selection-end-line="1586" selection-end-column="17" />
           <folding />
         </state>
       </provider>
