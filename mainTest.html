@@ -105,10 +105,45 @@ function Gun(xPos, yPos) {
       new Point(20, 0) * mod, new Point(body.bounds.bottomRight) +
       new Point(-20, 40) * mod);
 
+  this.paths1 = [
+      curve1,
+      curve2,
+      curve3,
+      body,
+      handle
+  ];
+
+  this.paths2 = [
+      curve1,
+      curve2,
+      curve3,
+      body,
+      handle
+  ];
+
+  this.paths3 = [
+      curve1,
+      curve2,
+      curve3,
+      body,
+      handle
+  ];
+
   this.path = new CompoundPath({
-    children: [curve1, curve2, curve3, body, handle],
+    children: this.paths1,
     strokeColor: 'red', shadowBlur: 64,
     shadowColor: 'red', strokeWidth: 5});
+
+  this.path2 = new CompoundPath({
+    children: this.paths1,
+    strokeColor: 'red', shadowBlur: 64,
+    shadowColor: 'red', strokeWidth: 5});
+
+  this.path3 = new CompoundPath({
+    children: this.paths1,
+    strokeColor: 'red', shadowBlur: 64,
+    shadowColor: 'red', strokeWidth: 5});
+
   this.start = curve3.bounds.leftCenter;
 }
 
@@ -134,12 +169,12 @@ Gun.prototype = {
         tl.to(from, duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
       }
     }
-    /*
-    this.path.translate(new Point(0, -view.size.height/2));
+
+    this.path2.translate(new Point(0, -view.size.height/2));
     offset += duration;
-    for (var x = 0; x < this.path.children.length; x++)
+    for (var x = 0; x < this.path2.children.length; x++)
     {
-      var path = this.path.children[x];
+      var path = this.path2.children[x];
       for (var y = 0; y < path.segments.length; y++)
       {
         var from = path.segments[y].point,
@@ -148,7 +183,7 @@ Gun.prototype = {
         tl.to(from, duration/2, {x:to.x, y:to.y, ease:Power0.easeOut}, offset);
       }
     }
-    */
+
     return tl;
   }
 }
@@ -226,29 +261,30 @@ function Car(position, targetRadius, color) {
   var subs = 1;
 
   this.radius = targetRadius;
+  var mod = 0.5;
   this.wheelLeft = new Path.Circle({
       center:position,
       radius:targetRadius,
       closed:true
   });
   this.wheelRight = new Path.Circle({
-      center:position + new Point(100, 0),
+      center:position + new Point(100, 0) * mod,
       radius:targetRadius,
       closed:true
   });
   this.body = [];
   var angle = 0 * Math.PI/180;
 
-  var p1 = position + new Point(-50, 0),
-      p2 = position + new Point(150, 0),
-      p3 = position + new Point(150, -20),
-      p4 = position + new Point(100, -30),
-      p5 = position + new Point(70, -45),
-      p6 = position + new Point(30, -45),
-      p7 = position + new Point(0, -30),
-      p8 = position + new Point(-50, -20),
-      p9 = position + new Point(-15, 0),
-      p10 = position + new Point(85, 0),
+  var p1 = position + new Point(-50, 0) * mod,
+      p2 = position + new Point(150, 0) * mod,
+      p3 = position + new Point(150, -20) * mod,
+      p4 = position + new Point(100, -30) * mod,
+      p5 = position + new Point(70, -45) * mod,
+      p6 = position + new Point(30, -45) * mod,
+      p7 = position + new Point(0, -30) * mod,
+      p8 = position + new Point(-50, -20) * mod,
+      p9 = position + new Point(-15, 0) * mod,
+      p10 = position + new Point(85, 0) * mod,
       centerOfMass = position + new Point(50, 0);
 
   this.centerOfMass = centerOfMass;
@@ -263,7 +299,7 @@ function Car(position, targetRadius, color) {
       new Path.Line(p8, p1),
       new Path.Circle(position, targetRadius),
       new Path.Line(p9, p10),
-      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Circle(position + new Point(100, 0) * mod, targetRadius),
       new Path.Line(p10, p1)];
 
   this.paths2 = [new Path.Line(p1, p2),
@@ -276,15 +312,15 @@ function Car(position, targetRadius, color) {
       new Path.Line(p8, p1),
       new Path.Circle(position, targetRadius),
       new Path.Line(p9, p10),
-      new Path.Circle(position + new Point(100, 0), targetRadius),
+      new Path.Circle(position + new Point(100, 0) * mod, targetRadius),
       new Path.Line(p10, p1)];
 
-  var p1 = position + new Point(150, -25),
-      p2 = position + new Point(10, 50),
-      p3 = position + new Point(-30, 50),
-      p4 = position + new Point(-50, 15),
-      p5 = position + new Point(-30, -20),
-      p6 = position + new Point(110, -100);
+  var p1 = position + new Point(150, -25) * mod,
+      p2 = position + new Point(10, 50) * mod,
+      p3 = position + new Point(-30, 50) * mod,
+      p4 = position + new Point(-50, 15) * mod,
+      p5 = position + new Point(-30, -20) * mod,
+      p6 = position + new Point(110, -100) * mod;
 
   this.paths3 = new Path();
   this.paths3.add(p1);
@@ -300,19 +336,19 @@ function Car(position, targetRadius, color) {
   this.path2 = new CompoundPath({children: this.paths2, strokeColor:color, strokeCap:'round', strokeWidth: 0, shadowBlur: 64, shadowColor: color});
   this.path3 = new CompoundPath({children: this.paths3, strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color});
   this.path4 = new Path({
-    segments:[[position.x + 200, position.y - 195],
-             [position.x + 800, position.y - 195]],
+    segments:[[position.x + 200 * mod, position.y - 255 * mod],
+             [position.x + 800 * mod, position.y - 255 * mod]],
              strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
   });
   this.path5 = new Path({
-    segments:[[position.x - 100, position.y + 50],
-             [position.x + 1100, position.y + 50]],
+    segments:[[position.x - 100 * mod, position.y + 50 * mod],
+             [position.x + 1100 * mod, position.y + 50 * mod]],
              strokeColor:color, strokeCap:'round', strokeWidth: 5, shadowBlur: 64, shadowColor: color
   });
-  p1 = new Point(position.x - 30, position.y + 30),
-    p2 = new Point(position.x - 50, position.y + 30),
-    p3 = new Point(position.x - 70, position.y + 20),
-    p4 = new Point(position.x - 70, position.y + 10);
+  p1 = new Point(position.x - 30 * mod, position.y + 30 * mod),
+    p2 = new Point(position.x - 50 * mod, position.y + 30 * mod),
+    p3 = new Point(position.x - 70 * mod, position.y + 20 * mod),
+    p4 = new Point(position.x - 70 * mod, position.y + 10 * mod);
   this.paths6 = [new Path.Line(p4, p3),
     new Path.Line(p3, p2),
     new Path.Line(p2, p1)];
@@ -350,7 +386,8 @@ Car.prototype = {
     var duration = this.radius / this.speed,
         offset = 0,
         ease = Power0,
-        sparkOffset = 0.5;
+        sparkOffset = 0.5,
+        mod = 0.5;
 
     for (var x = 0; x < this.paths6.length; x++)
     {
@@ -370,12 +407,12 @@ Car.prototype = {
       for (var y = 0; y < path.segments.length; y++)
       {
         var from = path.segments[y].point,
-          to = path.segments[y].point + new Point(520, -63);
+          to = path.segments[y].point + new Point(520 * mod, -63);
         tl.to(from, duration*4, {x:to.x, y:to.y, ease:ease.easeOut}, offset);
       }
     }
 
-    this.path2.translate(new Point(500, -150));
+    this.path2.translate(new Point(500 * mod, -105));
     tl.to(this.path2, 0, {strokeWidth:5, ease:null}, duration*4 + offset);
     tl.to(this.path2, duration*4, {rotation:30, ease:ease.easeOut}, duration*4 + offset);
 
@@ -385,7 +422,7 @@ Car.prototype = {
       for (var y = 0; y < path.segments.length; y++)
       {
         var from = path.segments[y].point,
-          to1 = path.segments[y].point + new Point(500, 23);
+          to1 = path.segments[y].point + new Point(500 * mod, 30);
         tl.to(from, duration*4, {x:to1.x, y:to1.y, ease:ease.easeOut}, duration*4 + offset);
       }
     }
@@ -929,7 +966,7 @@ function createCar(startPoint) {
   var tl = new TimelineMax();
 
   var startPoint = startPoint,
-      size = 15,
+      size = 10,
       color = getRandomCarColor();
 
   var car = new Car(startPoint, size, color);
@@ -1471,7 +1508,7 @@ function onFrame(event) {
               child.group.firstChild.position.y += child.speedY;
               child.group.firstChild.position.x += child.speedX;
             }
-            if (child.updateTime - child.initTime >= 3500) {
+            if (child.updateTime - child.initTime >= 2900) {
                 child.group.removeChildren(0, 1);
                 Objects.splice(ix, 1);
             }
@@ -1578,32 +1615,32 @@ function showcase()
   }
   /*
   if (timer == 150)
-      fKey(new Point(view.size.width/8*3,
-          view.size.height/8*3));
+      fKey(new Point(view.size.width/16*2,
+          view.size.height/16*3));
   if (timer == 200)
-      fKey(new Point(view.size.width/8*3,
-          view.size.height/8*3));
+      fKey(new Point(view.size.width/16*2,
+          view.size.height/16*7));
   */
-  if (timer == 216)
-      jKey(new Point(view.size.width/32*23,
-          view.size.height/32*29));
-  var beginT = 310;
+  if (timer == 181)
+      jKey(new Point(view.size.width/8 + 550,
+          view.size.height/8*7 + 30));
+  var beginT = 270;
   if (timer >= beginT && timer <= beginT + 50)
   {
     if ((timer - beginT) % 5 == 0)
-      fKey(new Point(view.size.width/16*11,
+      fKey(new Point(view.size.width/16*2 + 700,
           view.size.height/16*7));
   }
-  if (timer == 380)
-      rKey(new Point(view.size.width/16*11,
+  if (timer == 350)
+      rKey(new Point(view.size.width/16*2 + 700,
           view.size.height/16*7));
-  if (timer == 430)
+  if (timer == 420)
   {
     var color = '#000000';
     var canvasLayer = document.getElementById("myCanvas");
     canvasLayer.style.background = color;
   }
-  beginT = 450;
+  beginT = 440;
   if (timer >= beginT && timer <= beginT + 190)
   {
     if ((timer - beginT) % 5 == 0)
@@ -1613,7 +1650,7 @@ function showcase()
       jKey(new Point(view.size.width * Math.random(),
           view.size.height * Math.random()));
   }
-  if (timer == 450)
+  if (timer == 440)
       gKey(new Point(view.size.width/8,
           view.size.height/16*3));
   /*
