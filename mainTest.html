@@ -155,6 +155,27 @@ function Gun(xPos, yPos) {
       handle
   ];
 
+  var curve1 = new Path(new Point(xPos, yPos),
+      new Point(0, 50) * mod + new Point(xPos, yPos));
+  var curve2 = new Path(new Point(-20, 10) * mod + new Point(xPos, yPos),
+      new Point(-20, 40) * mod + new Point(xPos, yPos));
+  var curve3 = new Path(new Point(-40, 20) * mod + new Point(xPos, yPos),
+      new Point(-40, 30) * mod + new Point(xPos, yPos));
+  var body = new Path.Ellipse(
+      new Rectangle(new Point(20, -10) * mod + new Point(xPos, yPos),
+      new Size(100, 70) * mod));
+  var handle = new Path(new Point(body.bounds.bottomCenter) +
+      new Point(20, 0) * mod, new Point(body.bounds.bottomRight) +
+      new Point(-20, 40) * mod);
+
+  this.paths4 = [
+      curve1,
+      curve2,
+      curve3,
+      body,
+      handle
+  ];
+
   this.path = new CompoundPath({
     children: this.paths1,
     strokeColor: 'red',
@@ -179,6 +200,14 @@ function Gun(xPos, yPos) {
     shadowColor: 'red'
   });
 
+  this.path4 = new CompoundPath({
+    children: this.paths4,
+    strokeColor: 'red',
+    strokeWidth: 0,
+    shadowBlur: 64,
+    shadowColor: 'red'
+  });
+
   this.start = curve3.bounds.leftCenter;
 }
 
@@ -189,6 +218,7 @@ Gun.prototype = {
         this.path.remove();
         this.path2.remove();
         this.path3.remove();
+        this.path4.remove();
       },
       onCompleteScope: this
     });
@@ -230,6 +260,7 @@ Gun.prototype = {
 
     this.path3.translate(new Point(0, -view.size.height/8 * 3));
 
+    duration *= 1.15;
     for (var x = 0; x < this.path3.children.length; x++)
     {
       var path = this.path3.children[x];
@@ -238,10 +269,18 @@ Gun.prototype = {
         var from = path.segments[y].point,
         to = path.segments[y].point +
             new Point(0, -view.size.height/8*1);
-        tl.to(from, duration/2, {x:to.x, y:to.y, ease:Power0.easeOut}, offset + 0.2);
+        tl.to(from, duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset + 0.2);
       }
     }
     tl.to(this.path3, 0, {strokeWidth:5, ease:null}, offset);
+
+    offset += duration;
+    tl.to(this.path3, 0, {strokeWidth:0, ease:null}, offset);
+
+    this.path4.translate(new Point(0, -view.size.height/8 * 4));
+
+    tl.to(this.path4, 0, {strokeWidth:5, ease:null}, offset);
+    tl.to(this.path4, 0, {strokeWidth:0, ease:null}, offset + 0.2);
 
     return tl;
   }
@@ -1636,7 +1675,7 @@ function monsters()
      * durationOfAnimation, typeOfMonster);
      */
     createMonster(new Point(0, view.size.height/8*3),
-        new Point(view.size.width/16*5, view.size.height/8*3), 1, 10);
+        new Point(view.size.width/16*6, view.size.height/8*3), 1, 10);
     createLaser(new Point(startLaser.x, view.size.height/4*3 + 10));
   }
   if (monsterTimer == 40)
@@ -1657,9 +1696,9 @@ function monsters()
     fKey(new Point(view.size.width/16*3,
         view.size.height/4*3));
   }
-  if (monsterTimer == 85)
+  if (monsterTimer == 75)
   {
-    fKey(new Point(view.size.width/16*5,
+    fKey(new Point(view.size.width/16*6,
         view.size.height/8*3));
     doMonsters = false;
     monsterTimer = -1;
