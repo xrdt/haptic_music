@@ -1,0 +1,53 @@
+0000000000000000000000000000000000000000 a89a5457b279341292477ed7924af7be511e22ff Max <mwang@rexchange.com> 1525587458 -0700	commit (initial): Got sound files to play on keyboard press, audio plays asynchronously
+a89a5457b279341292477ed7924af7be511e22ff cbf655030ab97b24a01980928e0943fc643f3cd8 Max <mwang@rexchange.com> 1525653300 -0700	pull: Fast-forward
+cbf655030ab97b24a01980928e0943fc643f3cd8 bffaee50110d9192b61659a46767f60472605f9c Max <mwang@rexchange.com> 1526170658 -0700	commit: push to synchronize (added fireworks object and javascript zips)
+bffaee50110d9192b61659a46767f60472605f9c 21bdb28222b39b9abd3ed58783f7e0ddf140cc4a Max <mwang@rexchange.com> 1526170797 -0700	commit: added fireworks.js/demo-only/.DS_Store
+21bdb28222b39b9abd3ed58783f7e0ddf140cc4a fd240c333adf14ed16a63d61a5e2bb1e1a9a238b Max <mwang@rexchange.com> 1527357358 -0700	pull: Fast-forward
+fd240c333adf14ed16a63d61a5e2bb1e1a9a238b 840cc5d0735afd41b37066f6f6c869800c954915 Max <mwang@rexchange.com> 1527372754 -0700	commit: added basic firework, ripple, and wormhole
+840cc5d0735afd41b37066f6f6c869800c954915 e6e4ee1a57a3e477d1aef9662e6a3995afcca388 Max <mwang@rexchange.com> 1527401124 -0700	pull: Fast-forward
+e6e4ee1a57a3e477d1aef9662e6a3995afcca388 ca4dc9b9d07157ce8c309ad496dd96abf9936cde Max <mwang@rexchange.com> 1527535035 -0700	pull: Fast-forward
+ca4dc9b9d07157ce8c309ad496dd96abf9936cde f25127b349b01269edec809a05e07ee6373fa740 Max <mwang@rexchange.com> 1527535072 -0700	commit: added constellation file base
+f25127b349b01269edec809a05e07ee6373fa740 b633d886a7d4e5380c782e3be401634c75afb0bd Max <mwang@rexchange.com> 1528078983 -0700	commit: finished constellation
+b633d886a7d4e5380c782e3be401634c75afb0bd 2fbcb43abad6b298dcb890d1ac54990df9c6f2ba Max <mwang@rexchange.com> 1528394551 -0700	pull: Fast-forward
+2fbcb43abad6b298dcb890d1ac54990df9c6f2ba 0d18c37bb9d6a92004ecc4a8f968d94830c4736a Max <mwang@rexchange.com> 1528433246 -0700	pull: Fast-forward
+0d18c37bb9d6a92004ecc4a8f968d94830c4736a e2aacb329d80d01f8f13e671fa77a8a28c6bfb8b Max <mwang@rexchange.com> 1528434894 -0700	pull: Fast-forward
+e2aacb329d80d01f8f13e671fa77a8a28c6bfb8b 8fe0f8f811867b1ab6552c4d977e8ecf16002bb6 Max <mwang@rexchange.com> 1528440062 -0700	pull: Fast-forward
+8fe0f8f811867b1ab6552c4d977e8ecf16002bb6 39a8c5c838f343f01f93504991063a0cebf3eddf Max <mwang@rexchange.com> 1528440077 -0700	commit: added tron (pipes)
+39a8c5c838f343f01f93504991063a0cebf3eddf b4ea945661b0f34a1fd2a2c6f49816cfd8179510 Max <mwang@rexchange.com> 1528503109 -0700	commit: warring shapes 1st iter finished
+b4ea945661b0f34a1fd2a2c6f49816cfd8179510 eb234fb4373717e3258d117a5ed03709a3e7987f Max <mwang@rexchange.com> 1528531682 -0700	pull: Fast-forward
+eb234fb4373717e3258d117a5ed03709a3e7987f 74862b56c84f1a66b9cd092c7e3692b65646e37e Max <mwang@rexchange.com> 1528579832 -0700	pull: Fast-forward
+74862b56c84f1a66b9cd092c7e3692b65646e37e 0e5e56d5a0ce64a6626372cc31f2c132206a4f2d Max <mwang@rexchange.com> 1528579976 -0700	commit: main.html implemented warringShapes
+0e5e56d5a0ce64a6626372cc31f2c132206a4f2d a72581c9ad016fcd1422d3fbee3c96cc53546d4a Max <mwang@rexchange.com> 1528583052 -0700	pull: Fast-forward
+a72581c9ad016fcd1422d3fbee3c96cc53546d4a 720957a38e49b22383df2bfa2c7ce63743052f1c Max <mwang@rexchange.com> 1528583064 -0700	commit: added bomb2
+720957a38e49b22383df2bfa2c7ce63743052f1c e6459052ac5331a6265d0fc29960c9eb3d15a1a4 Max <mwang@rexchange.com> 1528585615 -0700	commit: main.html added tron path
+e6459052ac5331a6265d0fc29960c9eb3d15a1a4 417fb1e2ac41070be54a5711137388ddc2388935 Max <mwang@rexchange.com> 1528607155 -0700	pull: Fast-forward
+417fb1e2ac41070be54a5711137388ddc2388935 9dfcd6e6a6a5899122a5780f0fc5446447bddc29 Max <mwang@rexchange.com> 1528607702 -0700	commit: added car, finished bomb2 screensaver
+9dfcd6e6a6a5899122a5780f0fc5446447bddc29 4302d407a2724a4977c12ac7b21985ab5b9f69dc Max <mwang@rexchange.com> 1528670412 -0700	commit: modified car
+4302d407a2724a4977c12ac7b21985ab5b9f69dc 72d86f61d1a59733065ac9eabd84d1dce52d2835 Max <mwang@rexchange.com> 1528670425 -0700	pull: Merge made by the 'recursive' strategy.
+72d86f61d1a59733065ac9eabd84d1dce52d2835 9bc9ec8201850aed6b144864f7986cc987901efa Max <mwang@rexchange.com> 1528701792 -0700	commit: car mostly finished (angle problems)
+9bc9ec8201850aed6b144864f7986cc987901efa 9a37ff70419e1f28960c341cf3ea85ebaf82495b Max <mwang@rexchange.com> 1528962354 -0700	commit: new implementation of car
+9a37ff70419e1f28960c341cf3ea85ebaf82495b bf9e825af7588814d5f21ca4e4968ed7989d5046 Max <mwang@rexchange.com> 1529033206 -0700	pull: Fast-forward
+bf9e825af7588814d5f21ca4e4968ed7989d5046 c7ccef9c20355db8b27518933e7b3c9dec6d917a Max <mwang@rexchange.com> 1529036099 -0700	pull: Fast-forward
+c7ccef9c20355db8b27518933e7b3c9dec6d917a 9e1f89d36e963c0ab9344b167b94adbb55eb335b Max <mwang@rexchange.com> 1529045187 -0700	commit: potentially final version of car (may add sparks to fuse)
+9e1f89d36e963c0ab9344b167b94adbb55eb335b bfff25e66a9621718659826f1952bf22a20edcc3 Max <mwang@rexchange.com> 1529195594 -0700	pull: Fast-forward
+bfff25e66a9621718659826f1952bf22a20edcc3 eea8fe238d321983ffe14c9f2f165bb1864b2713 Max <mwang@rexchange.com> 1529218067 -0700	commit: m key binds to bouncing ball (finished)
+eea8fe238d321983ffe14c9f2f165bb1864b2713 f1cc554574e46c10979e2ebefeb592904dc8f38b Max <mwang@rexchange.com> 1529476648 -0700	commit: new version of sign
+f1cc554574e46c10979e2ebefeb592904dc8f38b 0e9de075f727ba9a34fd6fca0160a8a5499d6460 Max <mwang@rexchange.com> 1529555239 -0700	commit: looping plane finished
+0e9de075f727ba9a34fd6fca0160a8a5499d6460 b4532e07d96b72b2c24ae90a2993dd4be9e298b8 Max <mwang@rexchange.com> 1529898094 -0700	commit: n key creates car cannon, still buggy though
+b4532e07d96b72b2c24ae90a2993dd4be9e298b8 e5eb481e966f09f87fedf2753a0ae63fd27a3f08 Max <mwang@rexchange.com> 1529899188 -0700	commit: fixed bug of car cannon
+e5eb481e966f09f87fedf2753a0ae63fd27a3f08 4388db7fe02a2ee7268f2cba5d37db27b3cc45e6 Max <mwang@rexchange.com> 1530930354 -0700	commit: added basic timeline implementation
+4388db7fe02a2ee7268f2cba5d37db27b3cc45e6 3d08cb00b71bd30e286f85dd555b43e2da44ad71 Max <mwang@rexchange.com> 1531195122 -0700	commit: added partial animation showcase
+3d08cb00b71bd30e286f85dd555b43e2da44ad71 f0c261033aa0ec68ff982e6029dd190e2e4ec389 Max <mwang@rexchange.com> 1531195251 -0700	commit: working partial showcase
+f0c261033aa0ec68ff982e6029dd190e2e4ec389 b89185d93bf518b937c4cf459c2dca9a53f00fa3 Max <mwang@rexchange.com> 1531205976 -0700	commit: current showcase
+b89185d93bf518b937c4cf459c2dca9a53f00fa3 fe0ffe6fad9702ca8e9ed2cf1f78efd2acd8e712 Max <mwang@rexchange.com> 1531278230 -0700	commit: Added monster animation and changed firework param
+fe0ffe6fad9702ca8e9ed2cf1f78efd2acd8e712 06d081bba35a02a5918940dd1b345492d078fdbc Max <mwang@rexchange.com> 1531283156 -0700	commit: new showcase version
+06d081bba35a02a5918940dd1b345492d078fdbc 21aca091cee97fdccef59324dbf555b189988f6f Max <mwang@rexchange.com> 1531283873 -0700	commit: new version position and color change
+21aca091cee97fdccef59324dbf555b189988f6f d55a0a9205bc2e6537506169494017e2d9b3b0f0 Max <mwang@rexchange.com> 1531289839 -0700	commit: added partial monster animation
+d55a0a9205bc2e6537506169494017e2d9b3b0f0 d6105226ce39d4fcec9f28c1474e89c16a3e1809 Max <mwang@rexchange.com> 1531291046 -0700	commit: modified monster function and related stuff
+d6105226ce39d4fcec9f28c1474e89c16a3e1809 afcbd8532049a2de315a32951c6ca01bbc6a74e8 Max <mwang@rexchange.com> 1531364070 -0700	commit: Changed showcase more and finished monsters
+afcbd8532049a2de315a32951c6ca01bbc6a74e8 af502899561043688b8f19d965f2e787457129d3 Max <mwang@rexchange.com> 1531364569 -0700	commit: plane size reduced by 2
+af502899561043688b8f19d965f2e787457129d3 67b8c1b6c7850a2c44741781d5bda44ccfef5959 Max <mwang@rexchange.com> 1531364913 -0700	commit: constellation size reduced by 2
+67b8c1b6c7850a2c44741781d5bda44ccfef5959 d9d4dd6eccab27638aadeac2c79f2990c9284afe Max <mwang@rexchange.com> 1531367047 -0700	commit: constellation and fireworks start and end at same time
+d9d4dd6eccab27638aadeac2c79f2990c9284afe 19545183f113f9353ccf0764fee707dfac1591a2 Max <mwang@rexchange.com> 1531367186 -0700	commit: recentered ripple
+19545183f113f9353ccf0764fee707dfac1591a2 a3d13b9b92689297ce0c4a6315a88a09cde282e2 Max <mwang@rexchange.com> 1531367279 -0700	commit: ripple time changed from 215 to 216
+                                                                                                                                                                                      
