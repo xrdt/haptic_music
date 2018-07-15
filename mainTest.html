@@ -242,6 +242,8 @@ Gun.prototype = {
 
     this.path2.translate(new Point(0, -view.size.height/8));
 
+    duration *= 0.8;
+
     for (var x = 0; x < this.path2.children.length; x++)
     {
       var path = this.path2.children[x];
@@ -250,17 +252,17 @@ Gun.prototype = {
         var from = path.segments[y].point,
         to = path.segments[y].point +
             new Point(0, -view.size.height/8*2);
-        tl.to(from, duration*1, {x:to.x, y:to.y, ease:Power0.easeOut}, offset + 0.2);
+        tl.to(from, duration, {x:to.x, y:to.y, ease:Power0.easeOut}, offset + 0.2);
       }
     }
     tl.to(this.path2, 0, {strokeWidth:5, ease:null}, offset);
 
-    offset += duration;
+    offset += (duration + 0.2);
     tl.to(this.path2, 0, {strokeWidth:0, ease:null}, offset);
 
     this.path3.translate(new Point(0, -view.size.height/8 * 3));
 
-    duration *= 1.15;
+    duration *= .80;
     for (var x = 0; x < this.path3.children.length; x++)
     {
       var path = this.path3.children[x];
@@ -274,7 +276,7 @@ Gun.prototype = {
     }
     tl.to(this.path3, 0, {strokeWidth:5, ease:null}, offset);
 
-    offset += duration;
+    offset += (duration + 0.2);
     tl.to(this.path3, 0, {strokeWidth:0, ease:null}, offset);
 
     this.path4.translate(new Point(0, -view.size.height/8 * 4));
@@ -304,9 +306,10 @@ Laser.prototype = {
      var start = this.path.segments[0].point;
      var end = this.path.segments[1].point;
 
+     endX = -view.size.width/20;
      ///*
-     tl.to(end, 1.5, {x:-100, y: end.y});
-     tl.to(start, 1.5, {x:-50, y: start.y}, '-=1.25');
+     tl.to(end, 1.5, {x:endX, y: end.y});
+     tl.to(start, 1.5, {x:endX/2, y: start.y}, '-=1.25');
      //*/
 
      /*
@@ -1666,7 +1669,7 @@ function monsters()
   if (monsterTimer == 10)
   {
     createMonster(new Point(0, view.size.height/8*7),
-        new Point(view.size.width/16*8, view.size.height/4*2), 0.75, 1);
+        new Point(view.size.width/16*8, view.size.height/4*2), 0.9, 1);
   }
   if (monsterTimer == 18)
   {
@@ -1675,28 +1678,28 @@ function monsters()
      * durationOfAnimation, typeOfMonster);
      */
     createMonster(new Point(0, view.size.height/8*3),
-        new Point(view.size.width/16*6, view.size.height/8*3), 1, 10);
+        new Point(view.size.width/16*6, view.size.height/8*3), 1.25, 10);
     createLaser(new Point(startLaser.x, view.size.height/4*3 + 10));
   }
-  if (monsterTimer == 40)
+  if (monsterTimer == 45)
   {
     createLaser(new Point(startLaser.x, view.size.height/8*4 + 10));
   }
-  if (monsterTimer == 55)
+  if (monsterTimer == 70)
   {
     createLaser(new Point(startLaser.x, view.size.height/8*3 + 10));
-  }
-  if (monsterTimer == 55)
-  {
-    fKey(new Point(view.size.width/16*8,
-        view.size.height/4*2));
   }
   if (monsterTimer == 60)
   {
     fKey(new Point(view.size.width/16*3,
         view.size.height/4*3));
   }
-  if (monsterTimer == 75)
+  if (monsterTimer == 65)
+  {
+    fKey(new Point(view.size.width/16*8,
+        view.size.height/4*2));
+  }
+  if (monsterTimer == 95)
   {
     fKey(new Point(view.size.width/16*6,
         view.size.height/8*3));
