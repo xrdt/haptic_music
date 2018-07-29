@@ -1,0 +1,47 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
+    <script src="js/jQuery/jquery-3.3.1.min.js"></script>
+    <script>
+    document.onkeydown = function(e) {
+      // 39 for right arrow key
+      if (e.which == 39) {
+        $('.overall')
+        .removeClass('slidein-from-right')
+        .addClass('slidein-from-right');
+
+        $('#2nd').removeClass('second');
+
+        var start = document.getElementById('1st');
+        start.remove();
+      }
+    };
+
+    document.onkeypress = function(e) {
+      if (!document.getElementById('1st')) {
+        if (e.which == 32) {
+          window.location.href="timeline.html";
+        }
+      }
+    }
+    </script>
+</head>
+<body>
+<div class='overall'>
+<div id ='placeholder'>
+</div>
+<div id='1st' class='start'>
+  <h1>
+    This is a site showcasing XDRT's and Max's work with paper.js, jquery, and Greensock.
+  </h1>
+  <div id='arrow'></div>
+</div>
+
+<div id='2nd' class='second'>
+  <h1>We hope you enjoy this exhibition.</h1>
+  <h2 class='space'>(Press space bar to continue.)</h2>
+</div>
+</div>
+</div>
+</body>
+</html>

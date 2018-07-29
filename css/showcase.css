@@ -1,0 +1,107 @@
+body {
+    background-color: #000000;
+    margin: 0;
+}
+
+#placeholder {
+  /* Is there a way to make this not-fixed*/
+  height: 100px;
+  visibility: hidden;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  position: relative;
+  left: 25%;
+  height: 50%;
+  width: 50%;
+  -webkit-animation: fadein 2s;
+  font-family: helvetica;
+  display: inline-block;
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#arrow {
+  border: solid white;
+  border-width: 0 7px 7px 0;
+  -webkit-transform: rotate(-45deg);
+  margin: 60px 30px 0 0;
+  padding: 7px;
+  float: right;
+}
+
+h2 {
+  color: #828282;
+  text-align: center;
+  position: relative;
+  vertical-align: middle;
+  left: 25%;
+  height: 50%;
+  width: 50%;
+  -webkit-animation: fadein 2s;
+  font-family: helvetica;
+}
+
+.second {
+  visibility: hidden;
+}
+
+.exhibit {
+  visibility: hidden;
+}
+
+.slidein-transition {
+    -webkit-animation: fadein 2500ms ease;
+    animation: fadein 2500ms ease;
+}
+
+.slidein-from-right {
+    -webkit-animation: slidein-from-right2 2500ms;
+    animation: slidein-from-right2 2500ms;
+}
+
+@keyframes slidein-from-right2 {
+    from {
+        transform:translateX(100%);
+    }
+    to {
+        transform:translateX(0%);
+    }
+}
+
+@-webkit-keyframes slidein-from-right2 {
+    from {
+        -webkit-transform:translateX(100%);
+    }
+    to {
+        -webkit-transform:translateX(0%);
+    }
+}
+
+.slidein-from-top {
+    -webkit-animation: slidein-from-top2 2500ms;
+    animation: slidein-from-top2 2500ms;
+}
+
+@keyframes slidein-from-top2 {
+    from {
+        transform:translateY(100%);
+    }
+    to {
+        transform:translateY(0%);
+    }
+}
+
+@-webkit-keyframes slidein-from-top2 {
+    from {
+        -webkit-transform:translateY(100%);
+    }
+    to {
+        -webkit-transform:translateY(0%);
+    }
+}
