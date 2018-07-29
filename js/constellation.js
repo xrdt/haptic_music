@@ -117,13 +117,16 @@ function createLineConstellation(tl1, startPositions){
 function onFrame(e) {
     if (e.count % (240) === 0) {
         var startPositions = [];
-    var p1 = new Point(150, 150);
-    var p2 = new Point(150+100, 150-50);
-    var p3 = new Point(150+200, 150+0);
-    var p4 = new Point(150+300, 150+0);
-    var p5 = new Point(150+350, 150+200);
-    var p6 = new Point(150+550, 150+200);
-    var p7 = new Point(150+600, 150+0);
+
+
+
+    var p1 = new Point(5, view.size.height/4 + view.size.height/6);
+    var p2 = new Point(view.size.width/6, view.size.height/4);
+    var p3 = new Point(view.size.width/3, view.size.height/4 + view.size.height/6);
+    var p4 = new Point(view.size.width/2, view.size.height/4 + view.size.height/6);
+    var p5 = new Point(view.size.width*35/60, view.size.height * 3/4);
+    var p6 = new Point(view.size.width*55/60 - 5, view.size.height * 3/4);
+    var p7 = new Point(view.size.width-5, view.size.height/4 + view.size.height/6);
     startPositions.push(p1);
     startPositions.push(p2);
     startPositions.push(p3);

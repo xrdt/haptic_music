@@ -1,0 +1,517 @@
+body {
+    background-color: #000000;
+    margin: 0;
+    width: 100%;
+}
+
+#timeline {
+  position: absolute;
+  top: 90%;
+  left: 5%;
+  width: 90%;
+  height: 10%;
+  border-top: #828282 3px solid;
+}
+
+#node1 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    left: 2%;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node1:hover {
+  cursor: pointer;
+}
+
+#date1 {
+  position: absolute;
+  top: -35px;
+  left: 2%;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node2 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node2:hover {
+  cursor: pointer;
+}
+
+#date2 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node3 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node3:hover {
+  cursor: pointer;
+}
+
+#date3 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node4 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node4:hover {
+  cursor: pointer;
+}
+
+#date4 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node5 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node5:hover {
+  cursor: pointer;
+}
+
+#date5 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node6 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node6:hover {
+  cursor: pointer;
+}
+
+#date6 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node7 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node7:hover {
+  cursor: pointer;
+}
+
+#date7 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node8 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node8:hover {
+  cursor: pointer;
+}
+
+#date8 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node9 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node9:hover {
+  cursor: pointer;
+}
+
+#date9 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node10 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node10:hover {
+  cursor: pointer;
+}
+
+#date10 {
+  position: absolute;
+  top: -35px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node11 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+#node11:hover {
+  cursor: pointer;
+}
+
+#date11 {
+  position: absolute;
+  top: -50px;
+  background: #ccc;
+  visibility: hidden;
+}
+
+#node12 {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -7.5px;
+    left: 98%;
+    border-radius: 50%;
+    z-index: 0;
+    background: #ccc;
+}
+
+#node12:hover {
+  cursor: pointer;
+}
+
+#date12 {
+  position: absolute;
+  top: -65px;
+  background: #ccc;
+  left: 98%;
+  z-index: 1;
+  visibility: hidden;
+}
+
+.blink {
+  -webkit-animation: blinker 1s linear infinte;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: .3;
+  }
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    opacity: .3;
+  }
+}
+
+#exhibition {
+  width: 50%;
+  height: 80%;
+  left: 25%;
+  position: absolute;
+  overflow-x: scroll;
+  top: 5%;
+}
+
+#card1 {
+  width: 80%;
+  height: 90%;
+  position: absolute;
+  top: 5%;
+  left: 10%
+}
+
+#card2 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 110%;
+  top: 5%;
+}
+
+#card3 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 210%;
+  top: 5%;
+}
+
+#card4 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 310%;
+  top: 5%;
+}
+
+#card5 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 410%;
+  top: 5%;
+}
+
+#card6 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 510%;
+  top: 5%;
+}
+
+#card7 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 610%;
+  top: 5%;
+}
+
+#card8 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 710%;
+  top: 5%;
+}
+
+#card9 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 810%;
+  top: 5%;
+}
+
+#card10 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 910%;
+  top: 5%;
+}
+
+#card11 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 1010%;
+  top: 5%;
+}
+
+#card12 {
+  width: 80%;
+  position: absolute;
+  height: 90%;
+  left: 1110%;
+  top: 5%;
+}
+
+#card0 {
+  position: absolute;
+  width: 10%;
+  left: 1190%;
+  border: 3px black solid;
+}
+
+#canvas1 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas2 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas3 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas4 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas5 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas6 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas7 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas8 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas9 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas10 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas11 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+#canvas12 {
+    position: absolute;
+    width: 55%;
+    height: 90%;
+    top: 5%;
+    border: #828282 3px solid;
+}
+
+.description {
+  text-align: center;
+  position: absolute;
+  font-family: helvetica;
+  left: 60%;
+  top: 1%;
+  width: 40%;
+}
+
+h1 {
+  color: white;
+  text-align: left;
+  position: relative;
+  font-family: helvetica;
+}
+
+p {
+  color: white;
+  text-align: left;
+  position: relative;
+  font-family: helvetica;
+}
+
+#code {
+  color: #828282;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}

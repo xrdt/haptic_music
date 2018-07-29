@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/timeline.css"/>
+<script type="text/javascript" src="js/dist/paper-full.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenLite.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/plugins/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TimelineMax.min.js"></script>
+<script type="text/javascript" src="js/greensock-js/src/minified/TweenMax.min.js"></script>
+<script src="js/jQuery/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+var date1 = new Date($('#date1').text());
+var date2 = new Date($('#date2').text());
+var date3 = new Date($('#date3').text());
+var date4 = new Date($('#date4').text());
+var date5 = new Date($('#date5').text());
+var date6 = new Date($('#date6').text());
+var date7 = new Date($('#date7').text());
+var date8 = new Date($('#date8').text());
+var date9 = new Date($('#date9').text());
+var date10 = new Date($('#date10').text());
+var date11 = new Date($('#date11').text());
+var date12 = new Date($('#date12').text());
+var end = date12;
+
+// Adjust node positioning to be proportional to distance between dates
+$('#node2').css('left', ((date2 - date1) / (end - date1)*100) + 1 + '%');
+$('#date2').css('left', ((date2 - date1) / (end - date1)*100) + 1 + '%');
+$('#node3').css('left', ((date3 - date1) / (end - date1)*100) + 1 + '%');
+$('#date3').css('left', ((date3 - date1) / (end - date1)*100) + 1 + '%');
+$('#node4').css('left', ((date4 - date1) / (end - date1)*100) + 1 + '%');
+$('#date4').css('left', ((date4 - date1) / (end - date1)*100) + 1 + '%');
+$('#node5').css('left', ((date5 - date1) / (end - date1)*100) + 1 + '%');
+$('#date5').css('left', ((date5 - date1) / (end - date1)*100) + 1 + '%');
+$('#node6').css('left', ((date6 - date1) / (end - date1)*100) + 1 + '%');
+$('#date6').css('left', ((date6 - date1) / (end - date1)*100) + 1 + '%');
+$('#node7').css('left', ((date7 - date1) / (end - date1)*100) + 1 + '%');
+$('#date7').css('left', ((date7 - date1) / (end - date1)*100) + 1 + '%');
+$('#node8').css('left', ((date8 - date1) / (end - date1)*100) + 1 + '%');
+$('#date8').css('left', ((date8 - date1) / (end - date1)*100) + 1 + '%');
+$('#node9').css('left', ((date9 - date1) / (end - date1)*100) + 1 + '%');
+$('#date9').css('left', ((date9 - date1) / (end - date1)*100) + 1 + '%');
+$('#node10').css('left', ((date10 - date1) / (end - date1)*100) + 1 + '%');
+$('#date10').css('left', ((date10 - date1) / (end - date1)*100) + 1 + '%');
+$('#node11').css('left', ((date11 - date1) / (end - date1)*100) + 1 + '%');
+$('#date11').css('left', ((date11 - date1) / (end - date1)*100) + 1 + '%');
+
+$('[id^="node"]').removeClass('blink');
+
+var active = 0;
+
+// Node behaviors
+function datehide(node) {
+  $('#date' + node.data).css('visibility', 'hidden');
+}
+
+function datehideO(node) {
+  $('#date' + node).css('visibility', 'hidden');
+}
+
+$('#node1').on('mouseenter', function(e) {
+  $('#date1').css('visibility', 'visible');
+  $('#date1').css('top', '-36px');
+  $('#date1').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date1').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node1').on('mouseleave', function(e) {
+  $('#date1').css('visibility', 'hidden');
+});
+
+$('#node1').on('click', function(e) {
+  var first_card = document.getElementById('card1');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node1').off('mouseleave');
+
+  $('#date1').css('visibility', 'visible');
+
+  if (active != 1) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 1;
+  $('#exhibition').animate({scrollLeft: 0}, 1000);
+});
+
+$('#node2').on('mouseenter', function(e) {
+  $('#date2').css('visibility', 'visible');
+  $('#date2').css('top', '-36px');
+  $('#date2').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date2').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node2').bind('mouseleave', 2, datehide);
+
+var left2 = $('#card2').position().left;
+$('#node2').on('click', function(e) {
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node2').off('mouseleave');
+
+  $('#date2').css('visibility', 'visible');
+
+  if (active != 2) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 2;
+  $('#exhibition').animate({scrollLeft: left2}, 1000);
+});
+
+var left3 = $('#card3').position().left;
+$('#node3').on('mouseenter', function(e) {
+  $('#date3').css('visibility', 'visible');
+  $('#date3').css('top', '-36px');
+  $('#date3').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date3').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node3').on('mouseleave', function(e) {
+  $('#date3').css('visibility', 'hidden');
+});
+
+$('#node3').on('click', function(e) {
+  var first_card = document.getElementById('card3');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node3').off('mouseleave');
+
+  $('#date3').css('visibility', 'visible');
+
+  if (active != 3) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 3;
+  $('#exhibition').animate({scrollLeft: left3}, 1000);
+});
+
+var left4 = $('#card4').position().left;
+$('#node4').on('mouseenter', function(e) {
+  $('#date4').css('visibility', 'visible');
+  $('#date4').css('top', '-36px');
+  $('#date4').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date4').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node4').on('mouseleave', function(e) {
+  $('#date4').css('visibility', 'hidden');
+});
+
+$('#node4').on('click', function(e) {
+  var first_card = document.getElementById('card4');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node4').off('mouseleave');
+
+  $('#date4').css('visibility', 'visible');
+
+  if (active != 4) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 4;
+  $('#exhibition').animate({scrollLeft: left4}, 1000);
+});
+
+var left5 = $('#card5').position().left;
+$('#node5').on('mouseenter', function(e) {
+  $('#date5').css('visibility', 'visible');
+  $('#date5').css('top', '-36px');
+  $('#date5').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date5').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node5').on('mouseleave', function(e) {
+  $('#date5').css('visibility', 'hidden');
+});
+
+$('#node5').on('click', function(e) {
+  var first_card = document.getElementById('card5');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node5').off('mouseleave');
+
+  $('#date5').css('visibility', 'visible');
+
+  if (active != 5) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 5;
+  $('#exhibition').animate({scrollLeft: left5}, 1000);
+});
+
+var left6 = $('#card6').position().left;
+$('#node6').on('mouseenter', function(e) {
+  $('#date6').css('visibility', 'visible');
+  $('#date6').css('top', '-36px');
+  $('#date6').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date6').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node6').on('mouseleave', function(e) {
+  $('#date6').css('visibility', 'hidden');
+});
+
+$('#node6').on('click', function(e) {
+  var first_card = document.getElementById('card6');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node6').off('mouseleave');
+
+  $('#date6').css('visibility', 'visible');
+
+  if (active != 6) {
+    datehideO(active);
+    $('#node'+active).on('mouseleave', active, datehide);
+  }
+
+  active = 6;
+  $('#exhibition').animate({scrollLeft: left6}, 1000);
+});
+
+var left7 = $('#card7').position().left;
+$('#node7').on('mouseenter', function(e) {
+  $('#date7').css('visibility', 'visible');
+  $('#date7').css('top', '-36px');
+  $('#date7').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date7').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node7').on('mouseleave', function(e) {
+  $('#date7').css('visibility', 'hidden');
+});
+
+$('#node7').on('click', function(e) {
+  var first_card = document.getElementById('card7');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node7').off('mouseleave');
+
+  $('#date7').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 7;
+  $('#exhibition').animate({scrollLeft: left7}, 1000);
+});
+
+var left8 = $('#card8').position().left;
+$('#node8').on('mouseenter', function(e) {
+  $('#date8').css('visibility', 'visible');
+  $('#date8').css('top', '-36px');
+  $('#date8').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date8').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node8').on('mouseleave', function(e) {
+  $('#date8').css('visibility', 'hidden');
+});
+
+$('#node8').on('click', function(e) {
+  var first_card = document.getElementById('card8');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node8').off('mouseleave');
+
+  $('#date8').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 8;
+  $('#exhibition').animate({scrollLeft: left8}, 1000);
+});
+
+var left9 = $('#card9').position().left;
+$('#node9').on('mouseenter', function(e) {
+  $('#date9').css('visibility', 'visible');
+  $('#date9').css('top', '-36px');
+  $('#date9').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date9').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node9').on('mouseleave', function(e) {
+  $('#date9').css('visibility', 'hidden');
+});
+
+$('#node9').on('click', function(e) {
+  var first_card = document.getElementById('card9');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node9').off('mouseleave');
+
+  $('#date9').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 9;
+  $('#exhibition').animate({scrollLeft: left9}, 1000);
+});
+
+var left10 = $('#card10').position().left;
+$('#node10').on('mouseenter', function(e) {
+  $('#date10').css('visibility', 'visible');
+  $('#date10').css('top', '-36px');
+  $('#date10').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date10').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node10').on('mouseleave', function(e) {
+  $('#date10').css('visibility', 'hidden');
+});
+
+$('#node10').on('click', function(e) {
+  var first_card = document.getElementById('card10');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node10').off('mouseleave');
+
+  $('#date10').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 10;
+  $('#exhibition').animate({scrollLeft: left10}, 1000);
+});
+
+var left11 = $('#card11').position().left;
+$('#node11').on('mouseenter', function(e) {
+  $('#date11').css('visibility', 'visible');
+  $('#date11').css('top', '-50px');
+  $('#date11').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date11').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node11').on('mouseleave', function(e) {
+  $('#date11').css('visibility', 'hidden');
+});
+
+$('#node11').on('click', function(e) {
+  var first_card = document.getElementById('card11');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node11').off('mouseleave');
+
+  $('#date11').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 11;
+  $('#exhibition').animate({scrollLeft: left11}, 1000);
+});
+
+var left12 = $('#card12').position().left;
+$('#node12').on('mouseenter', function(e) {
+  $('#date12').css('visibility', 'visible');
+  $('#date12').css('top', '-65px');
+  $('#date12').css('border', '1px solid white');
+  if (active != 0) {
+    $('#date12').css('z-index', 10)
+    $('#date'+active).css('z-index', 0)
+  }
+});
+
+$('#node12').on('mouseleave', function(e) {
+  $('#date12').css('visibility', 'hidden');
+});
+
+$('#node12').on('click', function(e) {
+  var first_card = document.getElementById('card12');
+  $('#node' + active).removeClass('blink');
+  $(this).addClass('blink');
+
+  $('#node12').off('mouseleave');
+
+  $('#date12').css('visibility', 'visible');
+
+  datehideO(active);
+  $('#node'+active).on('mouseleave', active, datehide);
+
+  active = 12;
+  $('#exhibition').animate({scrollLeft: left12}, 1000);
+});
+
+});
+</script>
+
+</head>
+
+<body>
+<div id='timeline'>
+  <div id='date1'>May 12, 2018</div>
+  <div id="node1" class="blink">
+  </div>
+  <div id='date2'>May 14, 2018</div>
+  <div id="node2" class="blink">
+  </div>
+  <div id='date3'>May 26, 2018</div>
+  <div id="node3" class="blink">
+  </div>
+  <div id='date4'>May 28, 2018</div>
+  <div id="node4" class="blink">
+  </div>
+  <div id='date5'>June 3, 2018</div>
+  <div id="node5" class="blink">
+  </div>
+  <div id='date6'>June 7, 2018</div>
+  <div id="node6" class="blink">
+  </div>
+  <div id='date7'>June 9, 2018</div>
+  <div id="node7" class="blink">
+  </div>
+  <div id='date8'>June 10, 2018</div>
+  <div id="node8" class="blink">
+  </div>
+  <div id='date9'>June 11, 2018</div>
+  <div id="node9" class="blink">
+  </div>
+  <div id='date10'>June 14, 2018</div>
+  <div id="node10" class="blink">
+  </div>
+  <div id='date11'>June 16, 2018</div>
+  <div id="node11" class="blink">
+  </div>
+  <div id='date12'>June 18, 2018</div>
+  <div id="node12" class="blink">
+  </div>
+</div>
+
+<div id='exhibition'>
+<div id='card1'>
+<div class='demo'>
+<canvas id="canvas1"></canvas>
+<script type="text/paperscript" canvas="canvas1">
+  function Hex(position, targetRadius, color) {
+      var subs = 3;
+
+      this.radius = targetRadius;
+      this.sides = randomIndex([8, 10, 12]);
+      this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+      this.paths = [];
+
+      for (var i = 0; i < subs; i++) {
+          var h = new Path.RegularPolygon(position, this.sides, 1);
+
+          if (i === 0) {
+              h.strokeColor = color;
+          }
+          else {
+              h.strokeColor = new Color({
+                  hue:color.hue,
+                  saturation:color.saturation,
+                  lightness:randomRange(0.4, 0.6),
+                  alpha:1
+              });
+          }
+
+          h.strokeWidth = 24;
+          h.shadowBlur = 0;
+          h.shadowColor = h.strokeColor;
+
+          this.paths.push(h);
+      }
+
+      this.color = this.paths[subs - 1].strokeColor;
+
+      this.speed = 125;
+  }
+  Hex.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onComplete:function() {
+                  this.paths.forEach(function(p) {
+                      p.remove();
+                  });
+              },
+              onCompleteScope:this
+          });
+
+          var duration = this.radius / this.speed,
+              offset = 0,
+              ease = Cubic.easeOut;
+
+          this.paths.forEach(function(h) {
+              var from, to;
+
+              for (var i = 0; i < h.segments.length; i++) {
+                  from = h.segments[i].point;
+                  to = this.targetHex.segments[i].point;
+
+                  tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
+                  tl.to(h, duration, {strokeWidth:0, ease:ease}, offset);
+              }
+
+              offset += 0.2;
+
+          }, this);
+
+          return tl;
+      }
+  };
+
+  function Line(start, angle, length, color) {
+      this.start = start;
+      this.end = new Point();
+
+      this.end.setAngle(angle);
+      this.end.setLength(length);
+      this.end += this.start;
+
+      this.path = new Path();
+      this.path.add(this.start, this.end);
+      this.color = this.path.strokeColor = color;
+      this.path.visible = false;
+      this.path.strokeWidth = 2;
+      this.path.strokeCap = 'round';
+      this.path.shadowBlur = 32;
+      this.path.shadowColor = this.color;
+
+      this.speed = 250;
+  }
+  Line.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onStart:function() {
+                  this.path.visible = true;
+              },
+              onStartScope:this,
+              onComplete:function() {
+                  this.path.remove();
+              },
+              onCompleteScope:this
+          });
+
+          var start = this.path.segments[0].point,
+              end = this.path.segments[1].point;
+
+          var duration = this.path.length / this.speed,
+              ease = Cubic;
+
+          // tl.from(end, duration, {x:start.x, y:start.y, ease:ease.easeIn});
+          tl.to(start, duration, {x:end.x, y:end.y}, '-=0.5');
+
+          return tl;
+      }
+  };
+
+  function createFireworkBasic() {
+      var tl = new TimelineMax();
+
+      var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+          angle = 270,
+          length = view.size.height * 0.5,
+          size = view.size.height * .2,
+          color = getRandomColor();
+
+      var trail = new Line(startPoint, angle, length, color),
+          hex = new Hex(trail.end, size, color);
+
+      tl.add(hex.animate(), 'trailDone');
+
+      for (var i = 0; i < hex.sides; i++) {
+
+          var point = hex.targetHex.segments[i].point,
+              localPoint = point - hex.targetHex.position;
+
+          var spark = new Line(trail.end, localPoint.angle, size * 1.5, color);
+
+          tl.add(spark.animate(), 'trailDone');
+      }
+
+      return tl;
+  }
+
+  function onFrame(e) {
+      if (e.count % 60 == 0) {
+        createFireworkBasic();
+      }
+  }
+
+  function getRandomColor() {
+      return new Color({
+          hue:randomRange(0, 100),
+          saturation:0.75,
+          lightness:0.5
+      })
+  }
+
+  function randomIndex(arr) {
+      return arr[randomRange(0, arr.length, true)];
+  }
+
+  function randomRange(min, max, floor) {
+      var v = min + Math.random() * (max - min);
+      floor = floor || false;
+      return floor ? (v | 0) : v;
+  }
+</script>
+</div>
+  <div class='description'>
+  <h1>Firework</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+
+<div id='card2'>
+<canvas id='canvas2'></canvas>
+<div class='demo'>
+<script type="text/paperscript" canvas="canvas2">
+  function Hex(position, targetRadius, color) {
+      var subs = 3;
+
+      this.radius = targetRadius;
+      this.sides = randomIndex([4, 6, 8]);
+      this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+      this.paths = [];
+
+      for (var i = 0; i < subs; i++) {
+          var h = new Path.RegularPolygon(position, this.sides, 0);
+
+          if (i === 0) {
+              h.strokeColor = color;
+          }
+          else {
+              h.strokeColor = new Color({
+                  hue:color.hue,
+                  saturation:color.saturation,
+                  lightness:.2,
+                  alpha:1
+              });
+          }
+
+          h.strokeWidth = 36;
+          h.shadowBlur = 32;
+          h.shadowColor = h.strokeColor;
+
+          this.paths.push(h);
+      }
+
+      this.color = this.paths[subs - 1].strokeColor;
+
+      this.speed = 200;
+  }
+  Hex.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onComplete:function() {
+                  this.paths.forEach(function(p) {
+                      p.remove();
+                  });
+              },
+              onCompleteScope:this
+          });
+
+          var duration = this.radius / this.speed,
+              offset = 0,
+              ease = Cubic.easeOut;
+
+          this.paths.forEach(function(h) {
+              var from, to;
+
+              for (var i = 0; i < h.segments.length; i++) {
+                  from = h.segments[i].point;
+                  to = this.targetHex.segments[i].point;
+
+                  tl.to(from, duration, {x:to.x, y:to.y, ease:ease}, offset);
+                  tl.to(h, duration, {strokeWidth:0, ease:ease}, offset);
+              }
+
+              offset += 0.2;
+
+          }, this);
+
+          return tl;
+      }
+  };
+
+  function createRippleBasic() {
+      var tl = new TimelineMax();
+
+      var startPoint = new Point(view.size.width*(Math.random()*.75), view.size.height*(Math.random()*.75)),
+          size = view.size.height*.20,
+          color = getRandomColor();
+
+      var hex = new Hex(startPoint, size, color);
+
+      tl.add(hex.animate(), 'trailDone');
+
+      for (var i = 0; i < hex.sides; i++) {
+          var point = hex.targetHex.segments[i].point,
+              localPoint = point - hex.targetHex.position;
+      }
+
+      return tl;
+  }
+
+  ////////////
+  // UPDATE
+  ////////////
+
+  function onFrame(e) {
+    if (e.count % 60 == 0) {
+      createRippleBasic();
+    }
+  }
+
+  ////////////
+  // utils
+  ////////////
+
+  function getRandomColor() {
+      return new Color({
+          hue:randomRange(0, 360),
+          saturation:0.75,
+          lightness:0.6
+      })
+  }
+
+  function randomIndex(arr) {
+      return arr[randomRange(0, arr.length, true)];
+  }
+
+  function randomRange(min, max, floor) {
+      var v = min + Math.random() * (max - min);
+      floor = floor || false;
+      return floor ? (v | 0) : v;
+  }
+</script>
+  </div>
+  <div class='description'>
+  <h1>Ripple</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+
+<div id='card3'>
+<div class='demo'>
+<canvas id="canvas3"></canvas>
+<script type="text/paperscript" canvas="canvas3">
+function HexWormhole(position, targetRadius, color) {
+      var subs = 3;
+
+      this.radius = targetRadius;
+      //this.sides = randomIndex([4, 6, 8, 10, 12]);
+      this.sides = randomIndex([8, 10, 12]);
+
+    this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+      this.paths = [];
+
+      for (var i = 0; i < subs; i++) {
+          var h = new Path.RegularPolygon(position, this.sides, 0);
+
+          if (i === 0) {
+              h.strokeColor = color;
+          }
+          else {
+              h.strokeColor = new Color({
+                  hue:color.hue,
+                  saturation:color.saturation,
+                  lightness:randomRange(0.6, 0.8),
+                  alpha:1
+              });
+          }
+
+          h.strokeWidth = 24;
+          h.shadowBlur = 64;
+          h.shadowColor = h.strokeColor;
+
+          this.paths.push(h);
+      }
+
+      this.color = this.paths[subs - 1].strokeColor;
+
+      this.speed = 200;
+  }
+  HexWormhole.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onComplete:function() {
+                  this.paths.forEach(function(p) {
+                      p.remove();
+                  });
+              },
+              onCompleteScope:this
+          });
+
+          var duration = this.radius / this.speed,
+              offset = 0,
+              ease = Cubic.easeOut;
+
+          this.paths.forEach(function(h) {
+              var from, to;
+
+              for (var i = 0; i < h.segments.length; i++) {
+                  from = h.segments[i].point;
+                  to = this.targetHex.segments[i].point*50/100;
+
+                  tl.to(from, duration*3, {x:to.x, y:to.y, ease:ease}, offset);
+                  tl.to(h, duration*3, {strokeWidth:0, ease:ease}, offset);
+              }
+
+              offset += 0.2;
+
+          }, this);
+
+          return tl;
+      }
+  };
+
+  function LineWormhole(start, angle, length, color) {
+      this.start = start;
+      this.end = new Point();
+
+      this.end.setAngle(angle);
+      this.end.setLength(length);
+      this.end += this.start;
+
+      this.path = new Path();
+      this.path.add(this.start, this.end);
+      this.color = this.path.strokeColor = color;
+      this.path.visible = false;
+      this.path.strokeWidth = 2;
+      this.path.strokeCap = 'round';
+      this.path.shadowBlur = 32;
+      this.path.shadowColor = this.color;
+
+      this.speed = 500;
+  }
+  LineWormhole.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onStart:function() {
+                  this.path.visible = true;
+              },
+              onStartScope:this,
+              onComplete:function() {
+                  this.path.remove();
+              },
+              onCompleteScope:this
+          });
+
+          var start = this.path.segments[0].point,
+              end = this.path.segments[1].point*50/100;
+
+          var duration = this.path.length / this.speed,
+              ease = Cubic;
+
+          tl.from(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
+          tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+          return tl;
+      }
+  };
+
+  function createWormhole() {
+      var tl = new TimelineMax();
+
+      var startPoint = new Point(view.size.width * Math.random(), view.size.height),
+          angle = 270,
+          length = view.size.height * 0.5,
+          size = randomRange(32, 64),
+          color = getRandomColor();
+
+      var trail = new LineWormhole(startPoint, angle, length, color),
+          hex = new HexWormhole(trail.end, size, color);
+
+      //tl.add(trail.animate());
+      //tl.add('trailDone');
+
+      tl.add(hex.animate(), 'trailDone');
+
+      for (var i = 0; i < hex.sides; i++) {
+
+          var point = hex.targetHex.segments[i].point,
+              localPoint = point - hex.targetHex.position;
+
+          var spark = new LineWormhole(trail.end, localPoint.angle, size * 2, color);
+
+          tl.add(spark.animate(), 'trailDone');
+      }
+
+      return tl;
+  }
+
+  ////////////
+  // UPDATE
+  ////////////
+
+  function onFrame(e) {
+      if (e.count % 60 === 0) {
+          createWormhole();
+      }
+  }
+
+  ////////////
+  // utils
+  ////////////
+
+  function getRandomColor() {
+      return new Color({
+          hue:randomRange(0, 100),
+          saturation:0.75,
+          lightness:0.5
+      })
+  }
+
+  function randomIndex(arr) {
+      return arr[randomRange(0, arr.length, true)];
+  }
+
+  function randomRange(min, max, floor) {
+      var v = min + Math.random() * (max - min);
+      floor = floor || false;
+      return floor ? (v | 0) : v;
+  }
+</script>
+</div>
+  <div class='description'>
+  <h1>Wormhole</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card4'>
+<div class='demo'>
+<canvas id="canvas4"></canvas>
+<script type="text/paperscript" canvas="canvas4">
+
+  function Line(start, angle, length, color) {
+      this.start = start;
+      this.end = new Point();
+
+      this.end.setAngle(angle);
+      this.end.setLength(length);
+      this.end += this.start;
+
+      this.path = new Path();
+      this.path.add(this.start, this.end);
+      this.color = this.path.strokeColor = color;
+      this.path.visible = false;
+      this.path.strokeWidth = 2;
+      this.path.strokeCap = 'round';
+      this.path.shadowBlur = 32;
+      this.path.shadowColor = this.color;
+
+      this.speed = 250;
+  }
+  Line.prototype = {
+      animate:function() {
+          var tl = new TimelineMax({
+              onStart:function() {
+                  this.path.visible = true;
+              },
+              onStartScope:this,
+              onComplete:function() {
+                  this.path.remove();
+              },
+              onCompleteScope:this
+          });
+
+          var start = this.path.segments[0].point,
+              end = this.path.segments[1].point;
+
+          var duration = this.path.length / this.speed,
+              ease = Cubic;
+
+          tl.from(end, duration*0.05, {x:start.x, y:start.y, ease:ease.easeInOut});
+          tl.to(start, duration*0.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+
+          return tl;
+      }
+  };
+
+function createSparksBottom() {
+  var tl = new TimelineMax();
+
+  var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
+    angle = 180,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
+
+  var trail1 = new Line(startPoint, angle, length, color);
+
+  tl.add(trail1.animate());
+  tl.add('trailDone');
+
+  return tl;
+}
+
+function createSparksTop() {
+  var tl = new TimelineMax();
+
+  var startPoint = new Point(-1, view.size.height * Math.random() * .5),
+    angle = 0,
+    length = view.size.width + 1.5,
+    color = getRandomColor();
+
+  var trail2 = new Line(startPoint, angle, length, color);
+
+  tl.add(trail2.animate());
+  tl.add('trailDone');
+
+  return tl;
+}
+
+  ////////////
+  // UPDATE
+  ////////////
+
+  function onFrame(e) {
+    createSparksBottom();
+    createSparksTop();
+  }
+
+  ////////////
+  // utils
+  ////////////
+
+  function getRandomColor() {
+      return new Color({
+          hue:randomRange(0, 100),
+          saturation:0.75,
+          lightness:0.5
+      })
+  }
+
+  function randomIndex(arr) {
+      return arr[randomRange(0, arr.length, true)];
+  }
+
+  function randomRange(min, max, floor) {
+      var v = min + Math.random() * (max - min);
+      floor = floor || false;
+      return floor ? (v | 0) : v;
+  }
+</script>
+</div>
+  <div class='description'>
+  <h1>Lines Across Screen</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card5'>
+<div class='demo'>
+<canvas id="canvas5"></canvas>
+<script type="text/paperscript" canvas="canvas5">
+function Line(start, end, color, waitingTime) {
+    this.start = start;
+    this.end = end;
+    this.waitingTime = waitingTime;
+
+    this.path = new Path();
+    this.path.add(this.start, this.end);
+    this.color = this.path.strokeColor = color;
+    this.path.visible = false;
+    this.path.strokeWidth = 2;
+    this.path.strokeCap = 'round';
+    this.path.shadowBlur = 32;
+    this.path.shadowColor = this.color;
+
+    this.speed = 250;
+}
+Line.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        tl.from(end, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeInOut});
+        tl.to(start, duration * 0.5, {x:start.x, y:start.y, ease:ease.easeOut}, '-=0.5');
+
+        return tl;
+    }
+};
+
+function createConstellation(startPositions) {
+    for(var j = 0; j < 7; j++){
+      var circle = new Path.Circle(startPositions[j], 5);
+      circle.fillColor = getRandomColor();
+    }
+}
+function createLineConstellation(tl1, startPositions){
+  var tl = tl1;
+  var trails = [];
+
+  var color = getRandomColor();
+  var waitingTime = 0;
+  for(var i = 0; i < 7; i++)
+  {
+    var startPoint = startPositions[i];
+    if (i<6)
+    {
+      var endPoint = startPositions[i+1];
+    }
+    else
+    {
+      var endPoint = startPositions[3];
+    }
+
+    var path = new Path();
+    path.add(startPoint, endPoint);
+
+    var duration = path.length / 250;
+    waitingTime += duration;
+  }
+
+  for(var i = 0; i< 7;i++){
+    var startPoint = startPositions[i];
+    if (i<6)
+    {
+      var endPoint = startPositions[i+1];
+    }
+    else
+    {
+      var endPoint = startPositions[3];
+    }
+
+    var path = new Path();
+    path.add(startPoint, endPoint);
+    if (i != 0)
+    {
+      var duration = path.length / 250;
+      waitingTime -= duration;
+    }
+
+    var trail = new Line(startPoint, endPoint, color, waitingTime);
+    trails.push(trail);
+  }
+
+  for(var j = 0; j < 7; j++){
+      tl.add(trails[j].animate());
+      tl.add('trailDone');
+  }
+  return [tl, trails];
+}
+
+////////////
+// UPDATE
+////////////
+
+function onFrame(e) {
+    if (e.count % (240) === 0) {
+        var startPositions = [];
+
+    var p1 = new Point(5, view.size.height/4 + view.size.height/6);
+    var p2 = new Point(view.size.width/6, view.size.height/4);
+    var p3 = new Point(view.size.width/3, view.size.height/4 + view.size.height/6);
+    var p4 = new Point(view.size.width/2, view.size.height/4 + view.size.height/6);
+    var p5 = new Point(view.size.width*35/60, view.size.height * 3/4);
+    var p6 = new Point(view.size.width*55/60 - 5, view.size.height * 3/4);
+    var p7 = new Point(view.size.width-5, view.size.height/4 + view.size.height/6);
+    startPositions.push(p1);
+    startPositions.push(p2);
+    startPositions.push(p3);
+    startPositions.push(p4);
+    startPositions.push(p5);
+    startPositions.push(p6);
+    startPositions.push(p7);
+
+        var tl = new TimelineMax();
+        createConstellation(startPositions);
+        var varias = createLineConstellation(tl, startPositions);
+        var tll = varias[0];
+        var trails = varias[1];
+        setTimeout(function(){
+          for(var i = 0; i < 7; i++){
+            trails[i].path.remove();
+          }}, tll.duration()*1000);
+    }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>Constellation</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+
+<div id='card6'>
+<div class='demo'>
+<canvas id="canvas6"></canvas>
+<script type="text/paperscript" canvas="canvas6">
+    function Line(start, end, color, waitingTime) {
+        this.start = start;
+        this.end = end;
+
+        this.path = new Path();
+        this.path.add(this.start, this.end);
+        this.color = this.path.strokeColor = color;
+        this.path.visible = false;
+        this.path.strokeWidth = 2;
+        this.path.strokeCap = 'round';
+        this.path.shadowBlur = 32;
+        this.path.shadowColor = this.color;
+
+        this.speed = 125;
+    }
+
+Line.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onStart:function() {
+                this.path.visible = true;
+            },
+            onStartScope:this,
+            onComplete:function() {
+            },
+            onCompleteScope:this
+        });
+
+        var start = this.path.segments[0].point,
+            end = this.path.segments[1].point;
+
+        var duration = this.path.length / this.speed,
+            ease = Cubic;
+
+        tl.from(end, duration * 0.125, {x:start.x, y:start.y, ease:ease.easeInOut});
+        tl.to(start, duration * 0.125, {x:start.x, y:start.y, ease:ease.easeOut}, '-=0.125');
+
+        return tl;
+    }
+};
+
+function createTron(){
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, view.size.height/2),
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        waitingTime = 0;
+
+    var path = [];
+    var trails = [];
+    path.push(startPoint);
+    path = tronPath(startPoint, angle, path, 0);
+
+    for (var x = path.length-1; x > 0; x--)
+    {
+        var trail = new Line(path[x], path[x-1], color, waitingTime);
+        trails.push(trail);
+        tl.add(trail.animate());
+        tl.add('trailDone');
+    }
+
+    return [tl, trails];
+}
+
+function tronPath(start, angleOld, path, counter)
+{
+    var startPoint = start,
+        angle = randomIndex([0, 90, 180, 270]),
+        length = view.size.height * 0.125,
+        color = getRandomColor(),
+        end = new Point(),
+        path = path,
+        count = counter,
+        waitingTime = 0;
+
+    while (Math.abs(angle - angleOld) == 180)
+    {
+        angle = randomIndex([0, 90, 180, 270]);
+    }
+
+    end.setAngle(angle);
+    end.setLength(length);
+    end += startPoint;
+    path.push(end);
+
+    if (!(end.x > view.size.width - 1 || end.y > view.size.height - 1 || end.x < 1 || end.y < 1) && count < 100)
+    {
+        path.push.apply(tronPath(end, angle, path, count + 1));
+    }
+
+    return path;
+
+}
+
+////////////
+// UPDATE
+////////////
+
+function onFrame(e) {
+    if (e.count % 30 === 0) {
+        var varias = createTron();
+        var tll = varias[0];
+        var trails = varias[1];
+        setTimeout(function(){
+            for(var i = 0; i < trails.length; i++){
+                trails[i].path.remove();
+            }}, 5000);
+    }
+
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>Tron Lines</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card7'>
+<div class='demo'>
+<canvas id="canvas7"></canvas>
+<script type="text/paperscript" canvas="canvas7">
+function Hex(start, end, angle, targetRadius, sides, color) {
+        var subs = 1;
+        this.end = end;
+        this.start = start;
+        //this.angle = angle;
+
+        this.radius = targetRadius;
+        this.sides = sides;
+        this.paths = [];
+
+        for (var i = 0; i < subs; i++) {
+            if (this.sides > 0)
+            {
+                var h = new Path.RegularPolygon(start, this.sides, targetRadius);
+            }
+            else
+            {
+                var h = new Path.Circle(start, targetRadius);
+            }
+
+            if (i === 0) {
+                h.strokeColor = color;
+            }
+            else {
+                h.strokeColor = new Color({
+                    hue:color.hue,
+                    saturation:color.saturation,
+                    lightness:randomRange(0.4, 0.6),
+                    alpha:1
+                });
+            }
+
+            h.strokeWidth = 16;
+            h.shadowBlur = 64;
+            h.shadowColor = h.strokeColor;
+
+            this.paths.push(h);
+        }
+
+        this.color = this.paths[subs - 1].strokeColor;
+
+        this.speed = 30;
+    }
+Hex.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Power4.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            for (var i = 0; i < h.segments.length; i++) {
+                from = h.segments[i].point;
+                to = h.segments[i].point+this.end;
+
+                tl.to(from, duration*16, {x:to.x, y:to.y, ease:null}, offset);
+                tl.to(h, duration*16, {strokeWidth:16, ease:null}, offset);
+            }
+            offset += 0.2;
+
+        }, this);
+
+        return tl;
+    }
+};
+
+function createWarringShapes(start, angle, sides, up) {
+    var tl = new TimelineMax();
+
+    var startPoint = start,
+        angle = angle,
+        length = view.size.height * 0.5,
+        size = 2,
+        color = getRandomColor();
+    if (up)
+    {
+        var end = new Point(-view.size.width/4*3,-view.size.height);
+    }
+    else
+    {
+        var end = new Point(view.size.width/4*3,view.size.height);
+    }
+
+    var hex = new Hex(startPoint, end, angle, size, sides, color);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    return tl;
+}
+
+////////////
+// UPDATE
+////////////
+
+function onFrame(e) {
+    if (e.count % 200 === 0) {
+        var start,
+            possibleSides = [0,3,4],
+            sides = randomIndex(possibleSides),
+            angle = Math.atan2(view.size.height, view.size.width),
+            indexer = 5,
+            modifier = 25,
+            begin = new Point(0, -modifier*5);
+        for (var x = 0; x < indexer; x++)
+        {
+            for (var y = 0; y < indexer-x; y++)
+            {
+                start = new Point(-x*modifier - modifier*y*Math.sin(Math.PI/2+angle), -y * modifier - modifier * Math.sin(-Math.PI/4+angle) * x);
+                createWarringShapes(start, angle, sides, false);
+            }
+        }
+
+        var index = possibleSides.indexOf(sides);
+        possibleSides.splice(index,1);
+        sides = randomIndex(possibleSides);
+        for (var x = 0; x < indexer; x++)
+        {
+            for (var y = 0; y < indexer-x; y++)
+            {
+                //start = new Point(view.size.width/2 * Math.random()+view.size.width/4, view.size.height + y*50);
+                start = new Point(view.size.width + x*modifier+modifier*y*Math.sin(angle), view.size.height + y*modifier-modifier * Math.sin(angle) * x);
+                createWarringShapes(start, angle, sides, true);
+            }
+        }
+    }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>Warring Shapes</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card8'>
+<div class='demo'>
+<canvas id="canvas8"></canvas>
+<script type="text/paperscript" canvas="canvas8">
+    function Hex(start, end, targetRadius, color) {
+        var subs = 1;
+        this.end = end;
+
+        this.radius = targetRadius;
+        this.paths = [];
+
+        var h = new Shape.Circle(start, targetRadius);
+
+        h.strokeColor = color;
+
+        h.strokeWidth = 16;
+        h.shadowBlur = 64;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+
+    	  this.color = this.paths[subs - 1].strokeColor;
+
+        this.speed = 62.5;
+    }
+
+Hex.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths[0].remove();
+            },
+            onCompleteScope:this
+        });
+
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Power4.easeOut;
+
+        var to = this.paths[0].position + this.end;
+
+        tl.to(this.paths[0].position, duration*8, {x:to.x, y:to.y, ease:null}, 0);
+        tl.to(this.paths[0], duration*8, {strokeWidth:16, ease:null}, 0);
+
+        tl.to(this.paths[0], 10, {radius: Math.max(view.size.height/2, view.size.width/2), ease: Cubic.easeInOut}, '+=.5');
+        tl.to(this.paths[0], 8, {radius: 0, ease: Cubic.easeInOut, strokeWidth: 0}, '+=.6');
+
+        return tl;
+    }
+};
+
+function createBomb(start) {
+    var tl = new TimelineMax();
+
+    var startPoint = start,
+        angle = 270,
+        length = view.size.height * .5,
+        size = 8,
+        color = getRandomColor();
+
+    var end = new Point(0, view.size.height / 2);
+
+    var hex = new Hex(startPoint, end, size, color);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    return [tl, start+end];
+}
+
+////////////
+// UPDATE
+////////////
+
+function createRippleBomb(position, color) {
+    var startPoint = position;
+
+    var ripple = new Shape.Circle(startPoint, 8);
+    ripple.strokeColor = color;
+    ripple.strokeWidth = 16;
+    ripple.shadowColor = color;
+    ripple.shadowBlur = 100;
+
+    var tl = new TimelineMax();
+    tl.to(ripple, 10, {radius: Math.max(view.size.height/2, view.size.width/2), ease: Cubic.easeInOut}, 0);
+    tl.to(ripple, 8, {radius: 0, ease: Cubic.easeInOut, strokeWidth: 0}, '-=2')
+    return [tl, ripple];
+}
+
+function onFrame(e) {
+    if (e.count % 120 === 0) {
+      var start;
+      start = new Point(view.size.width / 2, 0);
+      createBomb(start);
+    }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 360),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>BombV1</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card9'>
+<div class='demo'>
+<canvas id="canvas9"></canvas>
+<script type="text/paperscript" canvas="canvas9">
+    function Hex(position, targetRadius, color) {
+        var subs = 1;
+
+        this.radius = targetRadius;
+        this.sides = randomIndex([4, 6, 8]);
+        this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
+        this.paths = [];
+
+        for (var i = 0; i < subs; i++) {
+            var h = new Shape.Circle(position, this.radius*0.25);
+
+            if (i === 0) {
+                h.strokeColor = color;
+            }
+            else {
+                h.strokeColor = new Color({
+                    hue:color.hue,
+                    saturation:color.saturation,
+                    lightness:.2,
+                    alpha:1
+                });
+            }
+
+            //h.strokeWidth = 36;
+            h.strokeWidth = 8;
+            h.shadowBlur = 64;
+            h.shadowColor = h.strokeColor;
+
+            this.paths.push(h);
+        }
+
+        this.color = this.paths[subs - 1].strokeColor;
+
+        this.speed = 200;
+    }
+Hex.prototype = {
+    animate:function() {
+        var tl = new TimelineMax({
+            onComplete:function() {
+                this.paths.forEach(function(p) {
+                    p.remove();
+                });
+            },
+            onCompleteScope:this
+        });
+
+        var duration = this.radius / this.speed,
+            offset = 0,
+            ease = Cubic.easeOut;
+
+        this.paths.forEach(function(h) {
+            var from, to;
+
+            var to = new Point(0, view.size.height/2);
+            h.position+=to;
+
+            tl.to(h, duration*8, {radius:this.radius, ease:ease}, offset);
+            //tl.to(h.position, duration*8, {y:to.y, ease:ease}, 0);
+            tl.to(h, duration*8, {strokeWidth:0, ease:ease}, offset);
+            offset += 0.2;
+            var off = tl.duration()-offset*2;
+            tl.to(h, duration*8, {strokeWidth:15, ease:ease}, off);
+            tl.to(h, duration*32, {radius:this.radius * 5, ease:ease}, off);
+            var offs = tl.duration()-offset*2;
+            tl.to(h, duration*32, {radius:0, ease:ease}, offs);
+        }, this);
+
+        return tl;
+    }
+};
+
+function createBomb2() {
+    var tl = new TimelineMax();
+
+    var startPoint = new Point(view.size.width/2, 0),
+        size = view.size.height*.10,
+        color = getRandomColor();
+
+    var hex = new Hex(startPoint, size, color);
+
+    tl.add(hex.animate(), 'trailDone');
+
+    for (var i = 0; i < hex.sides; i++) {
+        var point = hex.targetHex.segments[i].point,
+            localPoint = point - hex.targetHex.position;
+    }
+
+    return tl;
+}
+
+////////////
+// UPDATE
+////////////
+
+function onFrame(e) {
+    if (e.count % 60 === 0) {
+        createBomb2();
+    }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 360),
+        saturation:0.75,
+        lightness:0.6
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>BombV2</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card10'>
+<div class='demo'>
+<canvas id="canvas10"></canvas>
+<script type="text/paperscript" canvas="canvas10">
+    function growSpiral(path, ix, position) {
+      var vector = new Point({
+        // This vector is always initialized relative to the origin:
+        // (upper left corner)
+        angle: (ix % 20) * 18,
+        length: ix / 2
+      });
+
+      path.add(position + vector);
+      return position + vector
+    }
+
+function onFrame(e) {
+    if (e.count % 12000 === 0) {
+      var spiral = new Path({closed: false});
+      var iterations = 100;
+      var position = view.center;
+
+      position = new Point(view.center.x, view.center.y);
+      spiral.add(position);
+      for (var i = 0; i < iterations; i++) {
+        position = growSpiral(spiral, i, position);
+      }
+      spiral.smooth();
+
+      var outline = new Path.Circle(view.center, Math.sqrt(Math.pow(position.x - view.center.x, 2) + Math.pow(position.y - view.center.y, 2)));
+
+      var fullSpiral = new CompoundPath({children: [spiral, outline], strokeColor: 'red'});
+
+      var tl = new TimelineMax();
+      tl.to(fullSpiral, .5, {rotation: -360, repeat:-1, ease: Linear.easeNone});
+    }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>Spiral</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card11'>
+<div class='demo'>
+<canvas id="canvas11"></canvas>
+<script type="text/paperscript" canvas="canvas11">
+var Objects = [];
+function bouncingBall() {
+  this.group = new Group();
+  this.key = 'l';
+  this.initTime = null;
+  this.updateTime = null;
+  this.strokeWidth = 10;
+  // The amount of points in the path:
+  this.points = 8;
+  // The distance between the points:
+  this.length = view.size.height/10;
+  this.bounced = false;
+  this.g = 0.5;
+  this.mass = 1;
+  this.speed = 0;
+  this.force = this.g * this.mass * 3.5;
+  this.backSpeed = this.force * this.speed;
+}
+
+function ballAnimation() {
+  var bouncing = new bouncingBall();
+  bouncing.group.addChild(new Path.Circle([0, 0], [10, 10]));
+  var points = bouncing.points;
+  var length = bouncing.length;
+  var strokeWidth = bouncing.strokeWidth;
+  var stringPath = new Path({
+      strokeColor: '#E4141B',
+      strokeWidth: strokeWidth,
+      strokeCap: 'round'
+  });
+  var start = new Point(view.size.width/2, 0);
+  stringPath.add(start);
+  for (var i = 1; i < points - 1; i++)
+  {
+    if (randomIndex([0, 1]) == 0)
+    {
+      var position = start + new Point(i*length, 0);
+      stringPath.add(position);
+    }
+    else
+    {
+      stringPath.add(start);
+    }
+  }
+  stringPath.add(start);
+  var floor = new Path({
+    strokeColor: '#E4141B',
+    strokeWidth: strokeWidth * 3,
+    strokeCap: 'round'
+  });
+  var p1 = new Point(view.size.width/8*3, points*length + 20),
+      p2 = new Point(view.size.width/8*5, points*length + 20);
+  floor.add(p1);
+  floor.add(p2);
+  bouncing.group.addChild(stringPath);
+  bouncing.group.addChild(floor);
+  bouncing.group.firstChild.position = [view.size.width/2, 0];
+  bouncing.group.firstChild.strokeColor = 'blue';
+  bouncing.group.firstChild.fillColor = 'black';
+  bouncing.initTime = performance.now();
+  Objects.push(bouncing);
+}
+
+
+  ////////////
+  // UPDATE
+  ////////////
+
+  function onFrame(e) {
+    if (e.count % 350 === 0) {
+      bouncingBall();
+      ballAnimation();
+    }
+
+    for (var ix = 0; ix < Objects.length; ix++) {
+        var child = Objects[ix];
+        child.updateTime = performance.now();
+        if (child.group.hasChildren()) {
+          var ball = child.group.firstChild;
+          var points = child.points;
+          var length = child.length;
+          var path = child.group.children[1];
+          var fPoint = new Point(ball.position.x, ball.position.y);
+          path.firstSegment.point = fPoint;
+          for (var i = 0; i < points - 1; i++) {
+            var segment = path.segments[i];
+            var nextSegment = segment.next;
+            if (nextSegment != path.lastSegment)
+            {
+              var vector = segment.point - nextSegment.point;
+              vector.length = length;
+              nextSegment.point = segment.point - vector;
+            }
+          }
+          path.smooth({ type: 'continuous' });
+          if (ball.position.y <= (points) * length)
+          {
+            child.speed += child.g;
+            ball.position.y += child.speed;
+          }
+          else
+          {
+            child.backSpeed = child.force * child.speed;
+            child.speed -= child.backSpeed;
+            ball.position.y += child.speed * 1.75;
+          }
+          if (child.updateTime - child.initTime >= 6000) {
+                child.group.removeChildren(0, 3);
+                Objects.splice(ix, 1);
+            }
+        }
+      }
+  }
+
+  ////////////
+  // utils
+  ////////////
+
+  function getRandomColor() {
+      return new Color({
+          hue:randomRange(0, 100),
+          saturation:0.75,
+          lightness:0.5
+      })
+  }
+
+  function randomIndex(arr) {
+      return arr[randomRange(0, arr.length, true)];
+  }
+
+  function randomRange(min, max, floor) {
+      var v = min + Math.random() * (max - min);
+      floor = floor || false;
+      return floor ? (v | 0) : v;
+  }
+</script>
+</div>
+  <div class='description'>
+    <h1>Bouncing Ball on String</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card12'>
+<div class='demo'>
+<canvas id="canvas12"></canvas>
+<script type="text/paperscript" canvas="canvas12">
+    function gun() {
+        var curve1 = new Path(new Point(view.size.width/2, view.size.height/2), new Point(view.size.width/2, view.size.height/2 + 50));
+        var curve2 = new Path(new Point(view.size.width/2 - 20, view.size.height/2 + 10), new Point(view.size.width/2 - 20, view.size.height/2 + 40));
+        var curve3 = new Path(new Point(view.size.width/2 - 40, view.size.height/2 + 20), new Point(view.size.width/2 - 40, view.size.height/2 + 30));
+        var body = new Path.Ellipse(new Rectangle(new Point(view.size.width/2 + 20, view.size.height/2 - 10), new Size(100, 70)));
+        var handle = new Path(new Point(body.bounds.bottomCenter) + new Point(20, 0), new Point(body.bounds.bottomRight) + new Point(-20, 40));
+        var outline = new CompoundPath({children: [curve1, curve2, curve3, body, handle], strokeColor: 'red', strokeWidth: 10});
+        var label = new PointText(new Point(body.bounds.center) - new Point(20, -10));
+        label.fillColor = 'white';
+        label.strokeColor = 'red';
+        label.content = 'RG';
+        label.fontSize = 25;
+        return curve3.bounds.leftCenter;
+    }
+
+    function Laser(start, length) {
+        this.path = new Path(start, start + new Point(-length, 0));
+        // this.path = new Path();
+        this.path.strokeColor = 'white';
+        this.path.strokeWidth = 10;
+    }
+
+    Laser.prototype = {
+       animate:function() {
+         var tl = new TimelineMax({onComplete: function() {this.path.remove();},
+                                   onCompleteScope: this});
+
+         var start = this.path.segments[0].point;
+         var end = this.path.segments[1].point;
+
+         tl.to(end, 1.5, {x: -50, y: end.y});
+         tl.to(start, 2, {x:-50, y: start.y}, '-=1.25');
+
+         return tl;
+       }
+    }
+
+function createlaser(start) {
+  var tl = new TimelineMax();
+
+  var laser = new Laser(start, 50);
+
+  tl.add(laser.animate());
+  tl.add('trailDone');
+
+  return tl;
+}
+
+var start = gun();
+function onFrame(e) {
+  if (e.count % 40 == 0) {
+    createlaser(start);
+  }
+}
+
+////////////
+// utils
+////////////
+
+function getRandomColor() {
+    return new Color({
+        hue:randomRange(0, 100),
+        saturation:0.75,
+        lightness:0.5
+    })
+}
+
+function randomIndex(arr) {
+    return arr[randomRange(0, arr.length, true)];
+}
+
+function randomRange(min, max, floor) {
+    var v = min + Math.random() * (max - min);
+    floor = floor || false;
+    return floor ? (v | 0) : v;
+}
+</script>
+</div>
+  <div class='description'>
+  <h1>Railgun</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <br>
+    <p class='code'>View Source Code on Github</p>
+      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
+  </div>
+</div>
+
+<div id='card0'>
+</div>
+</div>
+
+</body>
+</html>

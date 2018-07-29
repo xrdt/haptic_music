@@ -13,29 +13,27 @@
         this.radius = targetRadius;
         this.paths = [];
 
-        for (var i = 0; i < subs; i++) {
-            var h = new Path.Circle(start, targetRadius);
+        var h = new Path.Circle(start, targetRadius);
 
-            if (i === 0) {
-                h.strokeColor = color;
-            }
-            else {
-                h.strokeColor = new Color({
-                    hue:color.hue,
-                    saturation:color.saturation,
-                    lightness:randomRange(0.4, 0.6),
-                    alpha:1
-                });
-            }
-
-            h.strokeWidth = 16;
-            h.shadowBlur = 64;
-            h.shadowColor = h.strokeColor;
-
-            this.paths.push(h);
+        if (i === 0) {
+            h.strokeColor = color;
+        }
+        else {
+            h.strokeColor = new Color({
+                hue:color.hue,
+                saturation:color.saturation,
+                lightness:randomRange(0.4, 0.6),
+                alpha:1
+            });
         }
 
-        this.color = this.paths[subs - 1].strokeColor;
+        h.strokeWidth = 16;
+        h.shadowBlur = 64;
+        h.shadowColor = h.strokeColor;
+
+        this.paths.push(h);
+  
+    	this.color = this.paths[subs - 1].strokeColor;
 
         this.speed = 62.5;
     }
@@ -70,6 +68,12 @@ Hex.prototype = {
 
         }, this);
 
+        this.paths.forEach(function(h) {
+        	var from, to; 
+		    tl.to(ripple, 10, {radius: Math.max(view.size.height/2, view.size.width/2), ease: Cubic.easeInOut}, 0);
+		    tl.to(ripple, 8, {radius: 0, ease: Cubic.easeInOut, strokeWidth: 0}, '-=2')
+        })
+
         return tl;
     }
 };
@@ -89,7 +93,7 @@ function createBomb(start) {
 
     tl.add(hex.animate(), 'trailDone');
 
-    setTimeout(function() {createRippleBomb(start + end, color)}, tl.duration() * 1000);
+    // setTimeout(function() {createRippleBomb(start + end, color)}, tl.duration() * 1000);
 
     return [tl, start+end];
 }
@@ -119,7 +123,7 @@ function onFrame(e) {
       var start, possibleSides, sides;
           possibleSides = [0,3,4],
           sides = randomIndex(possibleSides);
-      start = new Point(view.size.width / 2, 100);
+      start = new Point(view.size.width / 2, view.size.height/2);
       createBomb(start);
     }
 }

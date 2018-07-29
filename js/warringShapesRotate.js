@@ -47,7 +47,7 @@
 
         this.color = this.paths[subs - 1].strokeColor;
 
-        this.speed = 62.5;
+        this.speed = 30;
     }
 Hex.prototype = {
     animate:function() {
@@ -104,7 +104,7 @@ function createWarringShapes(start, angle, sides, up) {
     var startPoint = start,
         angle = angle,
         length = view.size.height * 0.5,
-        size = randomRange(8, 8),
+        size = 2,
         color = getRandomColor();
     if (up)
     {
@@ -127,14 +127,14 @@ function createWarringShapes(start, angle, sides, up) {
 ////////////
 
 function onFrame(e) {
-    if (e.count % 200 === 0) {
+    if (e.count % 160 === 0) {
         //console.log(view.size.width,view.size.height);
         var start,
             possibleSides = [0,3,4],
             sides = randomIndex(possibleSides),
             angle = Math.atan2(view.size.height, view.size.width),
             indexer = 5,
-            modifier = 75,
+            modifier = 5,
             begin = new Point(0, -modifier*5);
         //console.log(angle);
         //console.log(Math.sin(angle));
