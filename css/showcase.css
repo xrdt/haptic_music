@@ -35,6 +35,10 @@ h1 {
   float: right;
 }
 
+#arrow:hover {
+    cursor: pointer;
+}
+
 h2 {
   color: #828282;
   text-align: center;

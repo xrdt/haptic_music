@@ -3,6 +3,21 @@
     <link rel="stylesheet" type="text/css" href="css/showcase.css"/>
     <script src="js/jQuery/jquery-3.3.1.min.js"></script>
     <script>
+        $(document).ready(function() {
+    $('#arrow').on('mouseover', function(e) {
+    });
+
+    $('#arrow').click(function(e) {
+        $('.overall')
+            .removeClass('slidein-from-right')
+            .addClass('slidein-from-right');
+
+        $('#2nd').removeClass('second');
+
+        var start = document.getElementById('1st');
+        start.remove();
+    });
+
     document.onkeydown = function(e) {
       // 39 for right arrow key
       if (e.which == 39) {
@@ -24,6 +39,7 @@
         }
       }
     }
+    });
     </script>
 </head>
 <body>
