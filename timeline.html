@@ -807,7 +807,6 @@ function HexWormhole(position, targetRadius, color) {
       var subs = 3;
 
       this.radius = targetRadius;
-      //this.sides = randomIndex([4, 6, 8, 10, 12]);
       this.sides = randomIndex([8, 10, 12]);
 
     this.targetHex = new Path.RegularPolygon(position, this.sides, targetRadius);
@@ -911,7 +910,7 @@ function HexWormhole(position, targetRadius, color) {
           var duration = this.path.length / this.speed,
               ease = Cubic;
 
-          tl.from(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
+          tl.to(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
           tl.to(start, duration*3, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
           return tl;
@@ -1033,8 +1032,8 @@ function HexWormhole(position, targetRadius, color) {
           var duration = this.path.length / this.speed,
               ease = Cubic;
 
-          tl.from(end, duration*0.05, {x:start.x, y:start.y, ease:ease.easeInOut});
-          tl.to(start, duration*0.1, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
+          tl.from(end, duration*0.25, {x:start.x, y:start.y, ease:ease.easeInOut});
+          tl.to(start, duration*0.25, {x:end.x, y:end.y, ease:ease.easeOut}, '-=0.5');
 
           return tl;
       }
@@ -1045,7 +1044,7 @@ function createSparksBottom() {
 
   var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
     angle = 180,
-    length = view.size.width + 1.5,
+    length = view.size.width + 3.5,
     color = getRandomColor();
 
   var trail1 = new Line(startPoint, angle, length, color);
@@ -1059,9 +1058,9 @@ function createSparksBottom() {
 function createSparksTop() {
   var tl = new TimelineMax();
 
-  var startPoint = new Point(-1, view.size.height * Math.random() * .5),
+  var startPoint = new Point(0, view.size.height * Math.random() * .5),
     angle = 0,
-    length = view.size.width + 1.5,
+    length = view.size.width,
     color = getRandomColor();
 
   var trail2 = new Line(startPoint, angle, length, color);
@@ -1077,8 +1076,49 @@ function createSparksTop() {
   ////////////
 
   function onFrame(e) {
-    createSparksBottom();
-    createSparksTop();
+    if (e.count % 3 == 0) {
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+    } else if (e.count % 2 == 0) {
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+    } else if (e.count % 5 == 0) {
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+    } else if (e.count % 7 == 0) {
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+        createSparksBottom();
+    }
+
+    if (e.count % 60 == 0) {
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+    } else if (e.count % 2 == 0) {
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+    } else if (e.count % 5 == 0) {
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+    } else if (e.count % 7 == 0) {
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+        createSparksTop();
+    }
   }
 
   ////////////
@@ -2176,7 +2216,7 @@ function randomRange(min, max, floor) {
 }
 </script>
 </div>
-  <div class='description'>
+<div class='description'>
   <h1>Railgun</h1>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     <br>
@@ -2185,9 +2225,7 @@ function randomRange(min, max, floor) {
   </div>
 </div>
 
-<div id='card0'>
+<div id='card0'></div>
 </div>
-</div>
-
 </body>
 </html>

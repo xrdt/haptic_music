@@ -1,7 +1,8 @@
 body {
     background-color: #000000;
     margin: 0;
-    width: 100%;
+    overflow: scroll;
+    height: 330px;
 }
 
 #timeline {
@@ -278,11 +279,10 @@ body {
 
 #exhibition {
   width: 50%;
-  height: 80%;
   left: 25%;
+  height: 90%;
   position: absolute;
   overflow-x: scroll;
-  top: 5%;
 }
 
 #card1 {
