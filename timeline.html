@@ -381,7 +381,7 @@ $('#node10').on('click', function(e) {
 var left11 = $('#card11').position().left;
 $('#node11').on('mouseenter', function(e) {
   $('#date11').css('visibility', 'visible');
-  $('#date11').css('top', '-50px');
+  $('#date11').css('top', '-70px');
   $('#date11').css('border', '1px solid white');
   if (active != 0) {
     $('#date11').css('z-index', 10)
@@ -657,12 +657,11 @@ $('#node12').on('click', function(e) {
 </div>
   <div class='description'>
   <h1>Firework</h1>
-  <p>The inspiration for the firework model came from
-    <a href = "https://codepen.io/zadvorsky/pen/FAmuL">Code Pen Firework</a>.
+  <p>The best way to learn is by stealing. We began this project
+     by stealing from Szenia Zadvornykh's <a href = "https://codepen.io/zadvorsky/pen/FAmuL">Digital Fireworks</a>.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -793,12 +792,10 @@ $('#node12').on('click', function(e) {
   </div>
   <div class='description'>
   <h1>Ripple</h1>
-  <p>The ripple was based on the firework, except we took out the inner lines and made the ripples have a
-    variable number of sides.
+  <p>It's rather mesmerizing, the way the lines expand and disappear.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -986,12 +983,11 @@ function HexWormhole(position, targetRadius, color) {
 </div>
   <div class='description'>
   <h1>Wormhole</h1>
-  <p>The wormhole came about by accident.  We were playing around with the endpoints of the firework and tried using
-    fractional values.  This is the result.
+  <p>Accidental discoveries are some of the most exciting. A change of
+     from to to in a Greensock TimelineMax produced this animation.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1048,7 +1044,7 @@ function HexWormhole(position, targetRadius, color) {
 function createSparksBottom() {
   var tl = new TimelineMax();
 
-  var startPoint = new Point(view.size.width + 1, view.size.height * Math.random() * .5 + .5 * view.size.height),
+  var startPoint = new Point(view.size.width + 1, view.size.height * Math.random()),
     angle = 180,
     length = view.size.width + 3.5,
     color = getRandomColor();
@@ -1064,7 +1060,7 @@ function createSparksBottom() {
 function createSparksTop() {
   var tl = new TimelineMax();
 
-  var startPoint = new Point(0, view.size.height * Math.random() * .5),
+  var startPoint = new Point(0, view.size.height * Math.random()),
     angle = 0,
     length = view.size.width,
     color = getRandomColor();
@@ -1152,12 +1148,12 @@ function createSparksTop() {
 </div>
   <div class='description'>
   <h1>Lines Across Screen</h1>
-  <p>Lines across the screen was a result of trying to implement Tron-style light cycle paths, with the exception
-    that they didn't turn.
+  <p>It reminds me of the busyness of everyday life. Everybody is rushing
+     back and forth, back and forth, without the slightest thought as to
+     their true destination.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1327,12 +1323,11 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>Constellation</h1>
-  <p>Constellation was a result of various brainstormed ideas, culminating in displaying the big dipper.  We initially had
-    plans for a larger variety of constellations, but that was based on a design philosophy we ended up not using.
+  <p>This is the
+     <a href="https://en.wikipedia.org/wiki/Big_Dipper">Big Dipper</a>.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1479,12 +1474,11 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>Tron Lines</h1>
-  <p>After trying more tangents to the previous lines across the screen, we ended up with the tron lines, which are
-    name after the trails made by the light cycles in Tron.
+  <p>Each sequence of lines is generated recursively from the center of the
+     viewport then replayed back to the viewer.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1597,7 +1591,7 @@ function createWarringShapes(start, angle, sides, up) {
 ////////////
 
 function onFrame(e) {
-    if (e.count % 200 === 0) {
+    if (e.count % 120 === 0) {
         var start,
             possibleSides = [0,3,4],
             sides = randomIndex(possibleSides),
@@ -1654,12 +1648,10 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>Warring Shapes</h1>
-  <p>Warring shapes rose from a desire to cause random shapes to crash together.  Initially the idea was to make them
-    go past each other almost like two lines of cavalry fighting each other, but we scrapped that idea.
+  <p>It's almost like two faction's armies are swooping past each other.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1785,12 +1777,11 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>BombV1</h1>
-  <p>BombV1 came about from a desire to make an explosion.  We decided the explosion was a bit lame, so we ended up
-    with a hybrid of explosion and ripple: this.
+  <p>The most trippy part about this animation is that split second when the
+     growing ring crosses paths with the shrinking ring.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1923,11 +1914,10 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>BombV2</h1>
-  <p>BombV2 was a product of some color palette changes and removing the initial falling drop.
+  <p>This version is definitely more psychedelic than V1.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -1948,7 +1938,7 @@ function randomRange(min, max, floor) {
     }
 
 function onFrame(e) {
-    if (e.count % 12000 === 0) {
+    if (e.count % 100000000000 === 0) {
       var spiral = new Path({closed: false});
       var iterations = 100;
       var position = view.center;
@@ -1994,11 +1984,11 @@ function randomRange(min, max, floor) {
 </div>
   <div class='description'>
   <h1>Spiral</h1>
-  <p>Spiral came about from...
+  <p>There was a painting application I used as a kid that would show a spiral
+     animation whenever you changed the background of the canvas.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -2145,11 +2135,11 @@ function ballAnimation() {
 </div>
   <div class='description'>
     <h1>Bouncing Ball on String</h1>
-  <p>We made a bouncing ball because ...
+    <p><a href="http://thedogpaddler.com/RandomUploads/Ball/ball.htm">Another
+    digital ball on a string to keep you entertained.</a>
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 
@@ -2237,11 +2227,11 @@ function randomRange(min, max, floor) {
 </div>
 <div class='description'>
   <h1>Railgun</h1>
-  <p>The railgun was made to shoot monsters.  Not shown here.
+  <p>It was time to pay homage to the sci-fi classics which have sustained
+     my interest in technology.
   </p>
     <br>
     <p class='code'>View Source Code on Github</p>
-      <!-- github logo yo <object type='image/svg+xml' data='logo-github.svg'></object></p> -->
   </div>
 </div>
 

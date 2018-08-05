@@ -5,6 +5,14 @@ body {
     height: 330px;
 }
 
+a {
+    color: #f39c12;
+}
+
+object {
+    background: #ccc;
+}
+
 #timeline {
   position: absolute;
   top: 90%;
@@ -231,7 +239,7 @@ body {
 
 #date11 {
   position: absolute;
-  top: -50px;
+  top: -70px;
   background: #ccc;
   visibility: hidden;
 }

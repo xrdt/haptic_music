@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+a {
+    color: #f39c12;
+}
+
 #placeholder {
   /* Is there a way to make this not-fixed*/
   height: 100px;
